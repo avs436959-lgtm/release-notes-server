@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sürüm Notları Yönetim Paneli</title>
+    <title>Changelog Studio | Premium Admin</title>
     <style>
       :root {
         --bg: #fafafa;
@@ -441,7 +441,7 @@
   </head>
   <body>
 
-    <!-- BACK TO ADMIN BUTTON (PORTAL AÇIKKEN GÖZÜKÜR) -->
+    <!-- BACK TO ADMIN BUTTON -->
     <button id="backToAdmin" class="btn btn-secondary back-btn-float" style="display:none;">← Admin Paneline Dön</button>
 
     <!-- ===== MAIN ADMIN WRAPPER ===== -->
@@ -496,7 +496,7 @@
                 </tr>
               </thead>
               <tbody id="releaseTableBody">
-                <!-- Dinamik JavaScript verisi buraya gelecek -->
+                <!-- Dinamik JavaScript verisi -->
               </tbody>
             </table>
           </div>
@@ -545,7 +545,7 @@
       </main>
     </div>
 
-    <!-- ===== CANLI DİNAMİK PORTAL ALANI (Kullanıcı Sayfası) ===== -->
+    <!-- ===== CANLI DİNAMİK PORTAL ALANI ===== -->
     <div id="pn-portal-view">
       <button id="portalTemaToggle" class="btn btn-secondary" style="position:absolute; right:20px; top:20px;">Tema</button>
       <header class="pn-header">
@@ -561,7 +561,7 @@
       </nav>
 
       <div id="pn-feed-dynamic">
-        <!-- Dinamik Yayın Kartları Buraya Akacak -->
+        <!-- Dinamik Yayın Kartları -->
       </div>
     </div>
 
@@ -577,7 +577,7 @@
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
             <div class="form-group">
               <label>Sürüm Numarası (Etiket) *</label>
-              <input type="text" id="modalVersion" class="form-control" placeholder="Örn: v1.0.4 veya 2026-06" required />
+              <input type="text" id="modalVersion" class="form-control" placeholder="Örn: v1.0.4" required />
             </div>
             <div class="form-group">
               <label>Yayın Başlığı *</label>
@@ -621,12 +621,12 @@
 
           <!-- Değişiklik Maddeleri Ekleme -->
           <div class="items-container">
-            <div style="display:flex; justify-content:between; align-items:center; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
               <span style="font-size:13px; font-weight:600; color:var(--text-muted);">Değişiklik Maddeleri (Maddeli Liste)</span>
               <button type="button" id="modalAddItemBtn" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;">+ Madde Ekle</button>
             </div>
             <div id="modalItemsList">
-              <!-- Dinamik maddeler buraya eklenecek -->
+              <!-- Dinamik maddeler -->
             </div>
           </div>
         </div>
@@ -641,13 +641,11 @@
       </form>
     </div>
 
-    <!-- ===== JAVASCRIPT ÇALIŞMA MANTIĞI VE ENTEGRASYON ===== -->
+    <!-- ===== JAVASCRIPT ÇALIŞMA MANTIĞI ===== -->
     <script>
-        // Üst Yapı Değişkenleri ve Konfigürasyonlar
         const useSupabaseSync = false; 
         const serverDatabaseEnabled = false;
 
-        // Global State Yönetimi
         const state = {
           data: {
             releases: [],
@@ -665,7 +663,6 @@
           portalCategory: "all"
         };
 
-        // DOM Elementleri Referans Havuzu
         const els = {
           app: document.getElementById("app-admin-container"),
           portalView: document.getElementById("pn-portal-view"),
@@ -673,8 +670,6 @@
           releaseTable: document.getElementById("releaseTableBody"),
           releaseModal: document.getElementById("releaseModal"),
           releaseForm: document.getElementById("releaseForm"),
-          
-          // Form alanları
           versionInput: document.getElementById("modalVersion"),
           titleInput: document.getElementById("modalTitleInput"),
           dateInput: document.getElementById("modalDate"),
@@ -684,27 +679,20 @@
           itemsList: document.getElementById("modalItemsList"),
           addItemBtn: document.getElementById("modalAddItemBtn"),
           deleteReleaseBtn: document.getElementById("modalDeleteBtn"),
-          
-          // Filtreler
           statusFilter: document.getElementById("statusFilter"),
           typeFilter: document.getElementById("typeFilter"),
           adminSearch: document.getElementById("adminSearch"),
-          
-          // Ayarlar
           portalTitle: document.getElementById("settingPortalTitle"),
           portalSubtitle: document.getElementById("settingPortalSubtitle"),
           basicDomain: document.getElementById("settingBasicDomain"),
           customDomain: document.getElementById("settingCustomDomain"),
           portalEnabled: document.getElementById("settingPortalEnabled"),
           emailEnabled: document.getElementById("settingEmailEnabled"),
-          
-          // Portal metin alanları
           portalTitleText: document.getElementById("portalTitleText"),
           portalSubtitleText: document.getElementById("portalSubtitleText"),
           categoryList: document.getElementById("portalCategoryList")
         };
 
-        // ===== UTILS & FORMATTING =====
         function formatDate(dateStr) {
           if (!dateStr) return "";
           const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -717,7 +705,6 @@
           saveData();
         }
 
-        // ===== DATA PERSISTENCE (LOCALSTORAGE / IDB SIMULATION) =====
         function saveData() {
           localStorage.setItem("changelog_studio_data", JSON.stringify(state.data));
         }
@@ -727,7 +714,6 @@
           if (local) {
             state.data = JSON.parse(local);
           } else {
-            // Varsayılan Mock Veri Oluşturma
             state.data.releases = [
               {
                 id: "mock-1",
@@ -748,16 +734,8 @@
           setTema(state.data.settings.theme || "light");
         }
 
-        async function hydrateFromServerDatabase() { return null; }
-        async function saveReleaseToSupabase(r) { return null; }
-        async function deleteReleaseFromSupabase(id) { return null; }
-        async function saveSettingsToSupabase(s) { return null; }
-        async function loadFromSupabase() { return null; }
-
-        // ===== TABLE RENDERER =====
         function renderTable() {
           els.releaseTable.innerHTML = "";
-          
           const searchVal = els.adminSearch.value.toLowerCase();
           const statusVal = els.statusFilter.value;
           const typeVal = els.typeFilter.value;
@@ -788,7 +766,6 @@
           });
         }
 
-        // ===== MODAL MANTIĞI =====
         function openModal(release = null) {
           els.itemsList.innerHTML = "";
           if (release) {
@@ -830,12 +807,12 @@
           row.className = "item-row";
           row.innerHTML = `
             <select class="item-type">
-              <option ${item.type === "New Feature" || item.type === "ميزة جديدة" ? "selected" : ""}>New Feature</option>
+              <option ${item.type === "New Feature" ? "selected" : ""}>New Feature</option>
               <option ${item.type === "Improvement" ? "selected" : ""}>Improvement</option>
               <option ${item.type === "Fix" ? "selected" : ""}>Fix</option>
             </select>
-            <textarea class="item-text" placeholder="ما الذي تغير في هذا البند...">${item.text || ""}</textarea>
-            <button type="button" class="remove-item" aria-label="حذف">✕</button>
+            <textarea class="item-text" placeholder="Değişiklik maddesini yazın...">${item.text || ""}</textarea>
+            <button type="button" class="remove-item">✕</button>
           `;
           
           row.querySelector(".remove-item").addEventListener("click", () => {
@@ -847,10 +824,8 @@
           els.itemsList.appendChild(row);
         }
 
-        // ===== FORM VE KAYIT İŞLEMLERİ =====
         function handleFormSubmit(e) {
           e.preventDefault();
-          
           const items = [];
           els.itemsList.querySelectorAll(".item-row").forEach(row => {
             const text = row.querySelector(".item-text").value.trim();
@@ -880,10 +855,6 @@
             state.data.releases.push(releaseData);
           }
 
-          if (useSupabaseSync) {
-            saveReleaseToSupabase(releaseData);
-          }
-
           saveData();
           renderTable();
           closeModal();
@@ -893,16 +864,12 @@
           if (!state.editingId) return;
           if (confirm("Bu sürümü silmek istediğinize emin misiniz?")) {
             state.data.releases = state.data.releases.filter(r => r.id !== state.editingId);
-            if (useSupabaseSync) {
-              deleteReleaseFromSupabase(state.editingId);
-            }
             saveData();
             renderTable();
             closeModal();
           }
         }
 
-        // ===== DİNAMİK PORTAL (GÖRÜNTÜLEME) ALANI =====
         function renderPortal() {
           const feed = document.getElementById("pn-feed-dynamic");
           if (!feed) return;
@@ -910,7 +877,7 @@
           feed.innerHTML = "";
           const releases = [...state.data.releases]
             .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .filter(r => r.status === "Published" || r.status === "منشور");
+            .filter(r => r.status === "Published");
 
           if (!releases.length) {
             feed.innerHTML = '<div class="empty-state">Henüz yayınlanmış bir sürüm notu bulunmuyor.</div>';
@@ -956,7 +923,6 @@
           });
         }
 
-        // ===== AYARLAR PANELİ YÖNETİMİ =====
         function initSettings() {
           els.portalTitle.value = state.data.settings.portalTitle;
           els.portalSubtitle.value = state.data.settings.portalSubtitle;
@@ -975,10 +941,6 @@
             
             if (els.portalTitleText) els.portalTitleText.textContent = els.portalTitle.value;
             if (els.portalSubtitleText) els.portalSubtitleText.textContent = els.portalSubtitle.value;
-            
-            if (useSupabaseSync) {
-              saveSettingsToSupabase(state.data.settings);
-            }
             saveData();
           };
 
@@ -990,74 +952,55 @@
           });
         }
 
-        // ===== EDİTÖR ARAÇ ÇUBUĞU KOMUTLARI =====
         function initEditorCommands() {
           document.querySelectorAll("[data-command]").forEach(btn => {
             btn.addEventListener("click", (e) => {
               e.preventDefault();
               const cmd = btn.dataset.command;
-              const val = btn.dataset.value || null;
-              document.execCommand(cmd, false, val);
+              document.execCommand(cmd, false, null);
               els.summaryEditor.focus();
             });
           });
 
-          // Video Ekleme Aksiyonu
-          const videoBtn = document.getElementById("modalInsertVideoBtn");
-          if (videoBtn) {
-            videoBtn.addEventListener("click", (e) => {
-              e.preventDefault();
-              const url = prompt("Lütfen Video URL'si girin (YouTube/Vimeo vb.):");
-              if (url) {
-                const html = `<div class="video-container"><iframe src="${url}" frameborder="0" allowfullscreen style="width:100%;height:315px;border-radius:8px;"></iframe></div><p></p>`;
-                document.execCommand("insertHTML", false, html);
-              }
-            });
-          }
+          document.getElementById("modalInsertVideoBtn").addEventListener("click", (e) => {
+            e.preventDefault();
+            const url = prompt("Video URL'si girin:");
+            if (url) {
+              const html = `<div class="video-container"><iframe src="${url}" frameborder="0" allowfullscreen style="width:100%;height:315px;border-radius:8px;"></iframe></div><p></p>`;
+              document.execCommand("insertHTML", false, html);
+            }
+          });
 
-          // Link Ekleme Aksiyonu
-          const linkBtn = document.getElementById("modalInsertLinkBtn");
-          if (linkBtn) {
-            linkBtn.addEventListener("click", (e) => {
-              e.preventDefault();
-              const url = prompt("Lütfen URL adresi girin:", "https://");
-              if (url) document.execCommand("createLink", false, url);
-            });
-          }
+          document.getElementById("modalInsertLinkBtn").addEventListener("click", (e) => {
+            e.preventDefault();
+            const url = prompt("URL adresi girin:", "https://");
+            if (url) document.execCommand("createLink", false, url);
+          });
 
-          // Tablo Ekleme Aksiyonu
-          const tableBtn = document.getElementById("modalInsertTableBtn");
-          if (tableBtn) {
-            tableBtn.addEventListener("click", (e) => {
-              e.preventDefault();
-              const rows = prompt("Satır sayısı:", "2");
-              const cols = prompt("Sütun sayısı:", "2");
-              if (rows && cols) {
-                let tableHtml = `<table style="width:100%; border-collapse: collapse; margin: 10px 0;">`;
-                for (let i = 0; i < parseInt(rows); i++) {
-                  tableHtml += `<tr>`;
-                  for (let j = 0; j < parseInt(cols); j++) {
-                    tableHtml += `<td style="border: 1px solid var(--line); padding: 8px;">Hücre</td>`;
-                  }
-                  tableHtml += `</tr>`;
+          document.getElementById("modalInsertTableBtn").addEventListener("click", (e) => {
+            e.preventDefault();
+            const rows = prompt("Satır sayısı:", "2");
+            const cols = prompt("Sütun sayısı:", "2");
+            if (rows && cols) {
+              let tableHtml = `<table style="width:100%; border-collapse: collapse; margin: 10px 0;">`;
+              for (let i = 0; i < parseInt(rows); i++) {
+                tableHtml += `<tr>`;
+                for (let j = 0; j < parseInt(cols); j++) {
+                  tableHtml += `<td style="border: 1px solid var(--line); padding: 8px;">Hücre</td>`;
                 }
-                tableHtml += `</table><p></p>`;
-                document.execCommand("insertHTML", false, tableHtml);
+                tableHtml += `</tr>`;
               }
-            });
-          }
+              tableHtml += `</table><p></p>`;
+              document.execCommand("insertHTML", false, tableHtml);
+            }
+          });
 
-          // Yatay Çizgi Ekleme Aksiyonu
-          const hrBtn = document.getElementById("modalInsertHrBtn");
-          if (hrBtn) {
-            hrBtn.addEventListener("click", (e) => {
-              e.preventDefault();
-              document.execCommand("insertHorizontalRule", false, null);
-            });
-          }
+          document.getElementById("modalInsertHrBtn").addEventListener("click", (e) => {
+            e.preventDefault();
+            document.execCommand("insertHorizontalRule", false, null);
+          });
         }
 
-        // ===== GÖRÜNÜM GEÇİŞLERİ (TABS) =====
         function initNavigation() {
           els.navItems.forEach(item => {
             item.addEventListener("click", () => {
@@ -1075,34 +1018,24 @@
             });
           });
 
-          // Portal Görünümünü Açma / Kapatma
-          const openPortalBtn = document.getElementById("openPortal");
-          const backToAdminBtn = document.getElementById("backToAdmin");
+          document.getElementById("openPortal").addEventListener("click", () => {
+            els.app.style.display = "none";
+            els.portalView.classList.add("active");
+            document.getElementById("backToAdmin").style.display = "block";
+            renderPortal();
+          });
 
-          if (openPortalBtn) {
-            openPortalBtn.addEventListener("click", () => {
-              els.app.style.display = "none";
-              els.portalView.classList.add("active");
-              backToAdminBtn.style.display = "block";
-              renderPortal();
-            });
-          }
-
-          if (backToAdminBtn) {
-            backToAdminBtn.addEventListener("click", () => {
-              els.portalView.classList.remove("active");
-              backToAdminBtn.style.display = "none";
-              els.app.style.display = "grid";
-            });
-          }
+          document.getElementById("backToAdmin").addEventListener("click", () => {
+            els.portalView.classList.remove("active");
+            document.getElementById("backToAdmin").style.display = "none";
+            els.app.style.display = "grid";
+          });
         }
 
-        // ===== SEARCH VE FILTERS TETİKLEYİÇİLERİ =====
         function initFilters() {
           [els.statusFilter, els.typeFilter].forEach(el => el.addEventListener("change", renderTable));
           els.adminSearch.addEventListener("input", renderTable);
 
-          // Portal kategori filtreleri
           if (els.categoryList) {
             els.categoryList.querySelectorAll(".pn-cat").forEach(btn => {
               btn.addEventListener("click", () => {
@@ -1115,7 +1048,6 @@
           }
         }
 
-        // ===== TABLO İÇİ EDIT AKSİYONU TETİKLEME =====
         function initTableActions() {
           els.releaseTable.addEventListener("click", (e) => {
             const editBtn = e.target.closest("[data-edit]");
@@ -1125,12 +1057,6 @@
               if (release) openModal(release);
             }
           });
-        }
-
-        // ===== INITIALIZE ALL APPLICATION APIS =====
-        function renderAll() {
-          renderTable();
-          initSettings();
         }
 
         async function initApp() {
@@ -1146,33 +1072,18 @@
           document.getElementById("cancelModal").addEventListener("click", closeModal);
           
           document.getElementById("themeToggle").addEventListener("click", () => {
-            const nextTheme = state.data.settings.theme === "dark" ? "light" : "dark";
-            setTema(nextTheme);
+            setTema(state.data.settings.theme === "dark" ? "light" : "dark");
           });
           
-          const portalThemeToggle = document.getElementById("portalTemaToggle");
-          if (portalThemeToggle) {
-            portalThemeToggle.addEventListener("click", () => {
-              const nextTheme = state.data.settings.theme === "dark" ? "light" : "dark";
-              setTema(nextTheme);
-            });
-          }
+          document.getElementById("portalTemaToggle").addEventListener("click", () => {
+            setTema(state.data.settings.theme === "dark" ? "light" : "dark");
+          });
 
-          // Veritabanı yükleme işlemleri
-          if (serverDatabaseEnabled) {
-            await hydrateFromServerDatabase();
-          } else {
-            await hydrateFromLocalDatabase();
-          }
-          
-          if (useSupabaseSync) {
-            await loadFromSupabase();
-          }
-
-          renderAll();
+          await hydrateFromLocalDatabase();
+          renderTable();
+          initSettings();
         }
 
-        // Uygulamayı Başlat
         document.addEventListener("DOMContentLoaded", initApp);
     </script>
   </body>

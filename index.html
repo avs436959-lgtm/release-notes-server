@@ -3,30 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Changelog Studio | Premium Admin</title>
+    <title>Sürüm Notları Uygulaması | Sürüm Merkezi</title>
     <style>
       :root {
-        --bg: #fafafa;
-        --surface: #ffffff;
-        --text: #111111;
-        --text-muted: #666666;
-        --line: #e5e5e5;
-        --primary: #000000;
-        --primary-invert: #ffffff;
-        --accent: #0066cc;
+        --bg: #070d19;
+        --surface: #0b1329;
+        --surface-card: #0f172a;
+        --line: #1e293b;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --primary: #3b82f6;
+        --primary-hover: #2563eb;
         --radius: 8px;
-        --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      }
-
-      [data-theme="dark"] {
-        --bg: #0b0b0b;
-        --surface: #141414;
-        --text: #eeeeee;
-        --text-muted: #999999;
-        --line: #262626;
-        --primary: #ffffff;
-        --primary-invert: #000000;
-        --accent: #4da6ff;
+        --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
 
       * {
@@ -43,55 +32,126 @@
         overflow-x: hidden;
       }
 
-      /* === ADMIN LAYOUT === */
-      #app-admin-container {
-        display: grid;
-        grid-template-columns: 240px 1fr;
+      /* === MASTER LAYOUT (Görseldeki gibi Sağ Menülü Yapı) === */
+      #app-wrapper {
+        display: flex;
+        flex-direction: column;
         min-height: 100vh;
       }
 
-      aside {
+      /* Üst Bar */
+      header.top-bar {
         background-color: var(--surface);
-        border-right: 1px solid var(--line);
-        padding: 24px 16px;
+        border-bottom: 1px solid var(--line);
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
+        align-items: center;
+        padding: 16px 40px;
+        height: 70px;
       }
 
-      .brand {
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        margin-bottom: 32px;
-        padding-left: 8px;
-      }
-
-      .nav-menu {
-        list-style: none;
+      .top-left-actions {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        background-color: #a3e635;
+        color: #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .btn-top-theme {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 13px;
+        box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+      }
+
+      .status-saved {
+        color: var(--text-muted);
+        font-size: 13px;
+        display: flex;
+        align-items: center;
         gap: 4px;
       }
 
-      .nav-item {
-        padding: 10px 12px;
-        border-radius: var(--radius);
-        cursor: pointer;
+      .top-right-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: right;
+      }
+
+      .brand-text h2 {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+
+      .brand-text p {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .brand-logo-circle {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        border-radius: 50%;
+      }
+
+      /* Ana İçerik Alanı (Sol İçerik, Sağ Menü) */
+      .main-container {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        flex: 1;
+      }
+
+      /* Sağ Panel (Görseldeki Menü Alanı) */
+      aside.right-sidebar {
+        background-color: var(--surface);
+        border-left: 1px solid var(--line);
+        padding: 24px 0;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+      }
+
+      .sidebar-item {
+        padding: 12px 24px;
         font-size: 14px;
         color: var(--text-muted);
-        transition: all 0.2s;
+        cursor: pointer;
         font-weight: 500;
+        transition: all 0.2s;
+        text-align: right;
       }
 
-      .nav-item:hover, .nav-item.active {
-        background-color: var(--bg);
+      .sidebar-item:hover, .sidebar-item.active {
+        background-color: var(--surface-card);
         color: var(--text);
+        border-right: 4px solid var(--primary);
       }
 
-      main {
+      /* Sol İçerik Panel */
+      main.content-area {
         padding: 40px;
-        max-width: 1200px;
+        max-width: 1000px;
         width: 100%;
         margin: 0 auto;
       }
@@ -104,64 +164,83 @@
         display: block;
       }
 
-      /* === HEADER & CONTROLS === */
-      .view-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      /* Başlık Alanı */
+      .content-center-header {
+        text-align: center;
+        margin: 20px 0 40px 0;
+      }
+
+      .content-center-header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        margin-bottom: 8px;
+      }
+
+      .content-center-header p {
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      /* Yeni Yayın Butonu (Sol Üstte Parlayan Model) */
+      .action-top-row {
+        margin-bottom: 24px;
+      }
+
+      .btn-neon {
+        background-color: var(--primary);
+        color: white;
+        padding: 10px 24px;
+        border-radius: var(--radius);
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        transition: all 0.2s;
+      }
+
+      .btn-neon:hover {
+        background-color: var(--primary-hover);
+        box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+      }
+
+      /* === FİLTRELEME VE ARAMA BARBARI === */
+      .filter-grid-bar {
+        display: grid;
+        grid-template-columns: 1fr 180px 180px;
+        gap: 16px;
         margin-bottom: 32px;
       }
 
-      h1 {
-        font-size: 24px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
 
-      .actions-bar {
-        display: flex;
-        gap: 12px;
-        margin-bottom: 24px;
-        align-items: center;
+      .filter-group label {
+        font-size: 12px;
+        color: var(--text-muted);
+        font-weight: 500;
+        text-align: right;
       }
 
       .search-input, .filter-select, .form-control {
         background-color: var(--surface);
         border: 1px solid var(--line);
         color: var(--text);
-        padding: 8px 14px;
+        padding: 10px 14px;
         border-radius: var(--radius);
         font-size: 14px;
         outline: none;
+        width: 100%;
         font-family: inherit;
       }
+      .search-input { text-align: left; }
 
-      .search-input { width: 260px; }
-
-      .btn {
-        background-color: var(--primary);
-        color: var(--primary-invert);
-        padding: 8px 16px;
-        border-radius: var(--radius);
-        font-size: 14px;
-        font-weight: 500;
-        border: none;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: opacity 0.2s;
-      }
-
-      .btn:hover { opacity: 0.9; }
-      .btn-secondary {
-        background-color: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--line);
-      }
-
-      /* === DATA TABLE === */
-      .table-container {
+      /* === VERİ TABLOSU / LİSTE (Görseldeki Stil) === */
+      .table-wrapper {
         background-color: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius);
@@ -176,42 +255,50 @@
       }
 
       th, td {
-        padding: 14px 20px;
+        padding: 16px 20px;
         border-bottom: 1px solid var(--line);
       }
 
       th {
-        background-color: var(--bg);
+        background-color: rgba(15, 23, 42, 0.6);
         font-weight: 600;
-        color: var(--text-muted);
+        color: var(--text);
       }
 
       tr:last-child td { border-bottom: none; }
-      
+      tr:hover td { background-color: rgba(30, 41, 59, 0.3); }
+
       .badge {
         display: inline-flex;
-        padding: 2px 8px;
-        border-radius: 12px;
-        font-size: 12px;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
         font-weight: 500;
       }
-      .badge-published { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; }
-      .badge-draft { background-color: rgba(241, 196, 15, 0.15); color: #f1c40f; }
+      .badge::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .badge-published::before { background-color: #2ecc71; }
+      .badge-draft::before { background-color: #f1c40f; }
 
       .row-action-btn {
         background: none;
         border: none;
-        color: var(--text-muted);
+        color: var(--primary);
         cursor: pointer;
         font-size: 14px;
+        font-weight: 500;
       }
-      .row-action-btn:hover { color: var(--text); }
+      .row-action-btn:hover { text-decoration: underline; }
 
-      /* === SETTINGS FORM === */
-      .settings-grid {
+      /* === AYARLAR KARTLARI === */
+      .settings-layout {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        gap: 32px;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
       }
 
       .settings-card {
@@ -229,34 +316,11 @@
         padding-bottom: 10px;
       }
 
-      .form-group {
-        margin-bottom: 18px;
-      }
-
-      .form-group label {
-        display: block;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--text-muted);
-        margin-bottom: 6px;
-      }
-
-      .form-group .form-control {
-        width: 100%;
-      }
-
-      .form-row-check {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
-      }
-
-      /* === MODAL DIALOG === */
+      /* === DIALOG MODAL === */
       .modal-overlay {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.7);
         display: none;
         align-items: center;
         justify-content: center;
@@ -271,9 +335,7 @@
         border: 1px solid var(--line);
         border-radius: var(--radius);
         width: 100%;
-        max-width: 850px;
-        max-height: 90vh;
-        overflow-y: auto;
+        max-width: 700px;
         display: flex;
         flex-direction: column;
       }
@@ -286,805 +348,469 @@
         align-items: center;
       }
 
-      .modal-body {
-        padding: 24px;
-      }
-
+      .modal-body { padding: 24px; }
       .modal-footer {
         padding: 16px 24px;
         border-top: 1px solid var(--line);
         display: flex;
-        justify-content: space-between;
-        background-color: var(--bg);
-      }
-
-      /* === RICH TEXT EDITOR === */
-      .editor-toolbar {
-        display: flex;
-        gap: 4px;
-        background-color: var(--bg);
-        border: 1px solid var(--line);
-        border-bottom: none;
-        padding: 6px;
-        border-top-left-radius: var(--radius);
-        border-top-right-radius: var(--radius);
-        flex-wrap: wrap;
-      }
-
-      .editor-btn {
-        background: none;
-        border: none;
-        color: var(--text);
-        padding: 4px 8px;
-        font-size: 13px;
-        cursor: pointer;
-        border-radius: 4px;
-      }
-      .editor-btn:hover { background-color: var(--line); }
-
-      .rich-editor {
-        min-height: 120px;
-        border: 1px solid var(--line);
-        border-bottom-left-radius: var(--radius);
-        border-bottom-right-radius: var(--radius);
-        padding: 12px;
-        outline: none;
-        background-color: var(--surface);
-      }
-
-      /* === DYNAMIC ITEMS LIST === */
-      .items-container {
-        margin-top: 20px;
-      }
-      .item-row {
-        display: grid;
-        grid-template-columns: 140px 1fr auto;
+        justify-content: flex-end;
         gap: 12px;
-        margin-bottom: 10px;
-        align-items: start;
-      }
-      .item-text {
-        width: 100%;
-        min-height: 38px;
-        height: 38px;
-        padding: 8px 12px;
-        background-color: var(--surface);
-        border: 1px solid var(--line);
-        color: var(--text);
-        border-radius: var(--radius);
-        font-family: inherit;
-        font-size: 14px;
-        resize: vertical;
-      }
-      .remove-item {
-        background: none;
-        border: none;
-        color: #e74c3c;
-        cursor: pointer;
-        padding: 8px;
-        font-size: 16px;
+        background-color: rgba(7, 13, 25, 0.5);
       }
 
-      /* === PORTAL GÖRÜNÜMÜ === */
-      #pn-portal-view {
+      /* === DYNAMIC PORTAL PUBLIC VIEW === */
+      #public-portal-view {
         display: none;
-        max-width: 760px;
+        max-width: 720px;
         margin: 0 auto;
         padding: 60px 20px;
       }
-      #pn-portal-view.active { display: block; }
+      #public-portal-view.active { display: block; }
 
-      .pn-header {
-        text-align: center;
-        margin-bottom: 48px;
-        position: relative;
-      }
-      .pn-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
-      .pn-subtitle { color: var(--text-muted); font-size: 16px; }
+      .portal-header { margin-bottom: 40px; }
+      .portal-title { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+      .portal-desc { color: var(--text-muted); }
 
-      .pn-nav {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 40px;
+      .portal-item {
         border-bottom: 1px solid var(--line);
-        padding-bottom: 16px;
+        padding-bottom: 32px;
+        margin-bottom: 32px;
       }
-      .pn-cat {
-        background: none;
-        border: none;
-        padding: 6px 16px;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-muted);
-        cursor: pointer;
-        border-radius: 20px;
-      }
-      .pn-cat.active {
-        background-color: var(--primary);
-        color: var(--primary-invert);
-      }
+      .portal-item-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+      .portal-item-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
 
-      .pn-entry {
-        background-color: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 32px;
-        margin-bottom: 24px;
-      }
-      .pn-entry-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-      .pn-entry-date { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
-      .pn-entry-body { margin-bottom: 24px; font-size: 15px; }
-
-      .pn-section { margin-top: 20px; }
-      .pn-section-title {
+      .tag-section { margin-top: 12px; }
+      .tag-lbl {
         display: inline-block;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
         padding: 2px 8px;
         border-radius: 4px;
-        margin-bottom: 10px;
-        background-color: var(--bg);
+        margin-bottom: 6px;
       }
-      .pn-section ul { padding-left: 20px; font-size: 14px; color: var(--text-muted); }
-      .pn-section li { margin-bottom: 6px; }
+      .tag-feature { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+      .tag-improvement { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+      .tag-fix { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
 
-      .back-btn-float {
+      .back-to-panel-btn {
         position: fixed;
         top: 20px;
         left: 20px;
-        z-index: 100;
+        background-color: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--line);
+        padding: 8px 16px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        z-index: 1000;
       }
     </style>
   </head>
   <body>
 
-    <!-- BACK TO ADMIN BUTTON -->
-    <button id="backToAdmin" class="btn btn-secondary back-btn-float" style="display:none;">← Admin Paneline Dön</button>
+    <!-- PORTALDAN GERİ DÖNÜŞ BUTONU -->
+    <button id="backToAdmin" class="back-to-panel-btn" style="display: none;">← Panele Dön</button>
 
-    <!-- ===== MAIN ADMIN WRAPPER ===== -->
-    <div id="app-admin-container">
-      <aside>
-        <div>
-          <div class="brand">Changelog Studio</div>
-          <ul class="nav-menu">
-            <li class="nav-item active" data-view="publications">Yayınlar (Sürümler)</li>
-            <li class="nav-item" data-view="newspage">Portal Ayarları</li>
-          </ul>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <button id="openPortal" class="btn btn-secondary" style="width:100%;">Portalı Görüntüle ↗</button>
-          <button id="themeToggle" class="btn btn-secondary" style="width:100%;">Tema Değiştir</button>
-        </div>
-      </aside>
-
-      <main>
-        <!-- === VIEW: PUBLICATIONS === -->
-        <section id="publicationsView" class="view-panel active">
-          <div class="view-header">
-            <h1>Sürüm Notları</h1>
-            <button id="newReleaseBtn" class="btn">+ Yeni Sürüm Ekle</button>
+    <!-- ===== ANA UYGULAMA KAPSAYICI ===== -->
+    <div id="app-wrapper">
+      
+      <!-- TOP ÜST BAR (Görselin Aynısı) -->
+      <header class="top-bar">
+        <div class="top-left-actions">
+          <div class="user-avatar">A</div>
+          <button class="btn-top-theme">Tema</button>
+          <div class="status-saved">
+            <span>✓ Tem Hazır</span>
           </div>
+        </div>
+        
+        <div class="top-right-brand">
+          <div class="brand-text">
+            <h2>Sürüm Notları Uygulaması</h2>
+            <p>Sürüm Merkezi</p>
+          </div>
+          <div class="brand-logo-circle"></div>
+        </div>
+      </header>
 
-          <div class="actions-bar">
-            <input type="text" id="adminSearch" class="search-input" placeholder="Sürümlerde ara..." />
-            <select id="statusFilter" class="filter-select">
-              <option value="all">Tüm Durumlar</option>
-              <option value="Published">Yayınlanmış</option>
-              <option value="Draft">Taslak</option>
-            </select>
-            <select id="typeFilter" class="filter-select">
-              <option value="all">Tüm Değişiklikler</option>
+      <!-- İÇERİK VE SAĞ MENÜ ALANI -->
+      <div class="main-container">
+        
+        <!-- SOL ANA İÇERİK -->
+        <main class="content-area" id="mainContentPanel">
+          
+          <!-- PENCERE: YAYINLAR -->
+          <section id="publicationsView" class="view-panel active">
+            
+            <div class="action-top-row">
+              <button id="newReleaseBtn" class="btn-neon">Yeni Yayın</button>
+            </div>
+
+            <div class="content-center-header">
+              <h1>Yayınlar</h1>
+              <p>Ürün sürümlerini oluşturun, düzenleyin ve arşivleyin.</p>
+            </div>
+
+            <!-- Filtre Çubuğu (Görseldeki Yapı) -->
+            <div class="filter-grid-bar">
+              <div class="filter-group">
+                <label>Ara</label>
+                <input type="text" id="adminSearch" class="search-input" placeholder="Sürüm veya içerik ara..." />
+              </div>
+              <div class="filter-group">
+                <label>Tür</label>
+                <select id="typeFilter" class="filter-select">
+                  <option value="all">Tüm Türler</option>
+                  <option value="New Feature">New Feature</option>
+                  <option value="Improvement">Improvement</option>
+                  <option value="Fix">Fix</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Durum</label>
+                <select id="statusFilter" class="filter-select">
+                  <option value="all">Tüm Durumlar</option>
+                  <option value="Published">Published</option>
+                  <option value="Draft">Draft</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Liste Tablosu -->
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Bölümler</th>
+                    <th>Katkıcı</th>
+                    <th>Durum</th>
+                    <th>Yayın Zamanı</th>
+                    <th style="text-align: right;">Unvan / Başlık</th>
+                    <th style="width: 80px;"></th>
+                  </tr>
+                </thead>
+                <tbody id="releaseTableBody">
+                  <!-- JS ile dolacak -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- PENCERE: PORTAL AYARLARI -->
+          <section id="newspageView" class="view-panel">
+            <div class="content-center-header">
+              <h1>Portal Ayarları</h1>
+            </div>
+            <div class="settings-layout">
+              <div class="settings-card">
+                <div class="card-title">Genel Ayarlar</div>
+                <div style="margin-bottom:12px;">
+                  <label style="display:block; font-size:12px; margin-bottom:4px;">Başlık</label>
+                  <input type="text" id="setPortalTitle" class="form-control" />
+                </div>
+                <div>
+                  <label style="display:block; font-size:12px; margin-bottom:4px;">Açıklama</label>
+                  <input type="text" id="setPortalDesc" class="form-control" />
+                </div>
+              </div>
+              <div class="settings-card">
+                <div class="card-title">Görünüm</div>
+                <p style="color:var(--text-muted); font-size:14px;">Portal sayfanız genel kullanıma ve müşterilerinize açıktır.</p>
+                <button id="btnViewLive" class="btn-neon" style="margin-top:20px; width:100%;">Canlı Portalı Aç ↗</button>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- SAĞ SIDEBAR PANEL (Görseldeki Sağ Yapı) -->
+        <aside class="right-sidebar">
+          <ul class="sidebar-menu">
+            <li class="sidebar-item active" data-target="publications">Yayınlar</li>
+            <li class="sidebar-item" data-target="newspage">Portal Sayfası</li>
+          </ul>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ===== GENEL CANLI PORTAL BÖLÜMÜ ===== -->
+    <div id="public-portal-view">
+      <header class="portal-header">
+        <h1 class="portal-title" id="pTitle">Sürüm Notları</h1>
+        <p class="portal-desc" id="pDesc">En son güncellemeler ve yenilikler.</p>
+      </header>
+      <div id="portalFeed"></div>
+    </div>
+
+    <!-- ===== YENİ / DÜZENLEME MODAL FORMU ===== -->
+    <div id="releaseModal" class="modal-overlay">
+      <div class="modal-window">
+        <div class="modal-header">
+          <h3 id="modalHeadText">Yayın Oluştur</h3>
+          <button id="closeModal" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+            <div>
+              <label style="font-size:12px;">Sürüm No *</label>
+              <input type="text" id="mVersion" class="form-control" placeholder="v1.0.0" />
+            </div>
+            <div>
+              <label style="font-size:12px;">Başlık *</label>
+              <input type="text" id="mTitle" class="form-control" placeholder="Örn: Yeni Tasarım Arayüzü" />
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+            <div>
+              <label style="font-size:12px;">Tarih</label>
+              <input type="date" id="mDate" class="form-control" />
+            </div>
+            <div>
+              <label style="font-size:12px;">Durum</label>
+              <select id="mStatus" class="form-control">
+                <option value="Published">Published</option>
+                <option value="Draft">Draft</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <label style="font-size:12px;">Tür</label>
+            <select id="mType" class="form-control">
               <option value="New Feature">New Feature</option>
               <option value="Improvement">Improvement</option>
               <option value="Fix">Fix</option>
             </select>
           </div>
-
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Sürüm</th>
-                  <th>Başlık</th>
-                  <th>Tarih</th>
-                  <th>Durum</th>
-                  <th>Yazar</th>
-                  <th style="width:60px;"></th>
-                </tr>
-              </thead>
-              <tbody id="releaseTableBody">
-                <!-- Dinamik JavaScript verisi -->
-              </tbody>
-            </table>
+          <div>
+            <label style="font-size:12px;">Açıklama Notu</label>
+            <textarea id="mText" class="form-control" style="min-height:100px; resize:vertical;" placeholder="Değişikliklerinizi buraya yazın..."></textarea>
           </div>
-        </section>
-
-        <!-- === VIEW: PORTAL & SETTINGS === -->
-        <section id="newspageView" class="view-panel">
-          <div class="view-header">
-            <h1>Portal Ayarları</h1>
-          </div>
-          
-          <div class="settings-grid">
-            <div class="settings-card">
-              <div class="card-title">Genel Görünüm Özelleştirme</div>
-              <div class="form-group">
-                <label>Portal Ana Başlığı</label>
-                <input type="text" id="settingPortalTitle" class="form-control" />
-              </div>
-              <div class="form-group">
-                <label>Alt Açıklama Metni</label>
-                <input type="text" id="settingPortalSubtitle" class="form-control" />
-              </div>
-            </div>
-
-            <div class="settings-card">
-              <div class="card-title">Erişim ve Entegrasyonlar</div>
-              <div class="form-group">
-                <label>Temel Sistem Alt Alan Adı (Subdomain)</label>
-                <input type="text" id="settingBasicDomain" class="form-control" />
-              </div>
-              <div class="form-group">
-                <label>Özel Domain Adresi (Custom Domain)</label>
-                <input type="text" id="settingCustomDomain" class="form-control" placeholder="Örn: changelog.firma.com" />
-              </div>
-              <div class="form-row-check">
-                <input type="checkbox" id="settingPortalEnabled" />
-                <label for="settingPortalEnabled">Genel canlı portal sayfasını aktif et</label>
-              </div>
-              <div class="form-row-check">
-                <input type="checkbox" id="settingEmailEnabled" />
-                <label for="settingEmailEnabled">Yeni yayınlarda kullanıcılara otomatik e-posta gönder</label>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <!-- ===== CANLI DİNAMİK PORTAL ALANI ===== -->
-    <div id="pn-portal-view">
-      <button id="portalTemaToggle" class="btn btn-secondary" style="position:absolute; right:20px; top:20px;">Tema</button>
-      <header class="pn-header">
-        <h1 class="pn-title" id="portalTitleText">Sürüm Güncellemeleri</h1>
-        <p class="pn-subtitle" id="portalSubtitleText">Ürünümüzle ilgili en son değişiklikler, iyileştirmeler ve hata düzeltmeleri.</p>
-      </header>
-
-      <nav class="pn-nav" id="portalCategoryList">
-        <button class="pn-cat active" data-category="all">Hepsi</button>
-        <button class="pn-cat" data-category="New Feature">Yenilikler</button>
-        <button class="pn-cat" data-category="Improvement">Geliştirmeler</button>
-        <button class="pn-cat" data-category="Fix">Düzeltmeler</button>
-      </nav>
-
-      <div id="pn-feed-dynamic">
-        <!-- Dinamik Yayın Kartları -->
+        </div>
+        <div class="modal-footer">
+          <button id="btnDelete" class="btn-neon" style="background-color:#e74c3c; display:none;">Sil</button>
+          <button id="btnCancel" class="form-control" style="width:auto; cursor:pointer;">Vazgeç</button>
+          <button id="btnSave" class="btn-neon">Kaydet</button>
+        </div>
       </div>
     </div>
 
-    <!-- ===== SÜRÜM EKLE / DÜZENLE MODAL DIALOG ===== -->
-    <div id="releaseModal" class="modal-overlay">
-      <form id="releaseForm" class="modal-window">
-        <div class="modal-header">
-          <h2 id="modalTitle">Sürüm Yayını Oluştur</h2>
-          <button type="button" id="closeModal" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-muted);">✕</button>
-        </div>
-        
-        <div class="modal-body">
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
-            <div class="form-group">
-              <label>Sürüm Numarası (Etiket) *</label>
-              <input type="text" id="modalVersion" class="form-control" placeholder="Örn: v1.0.4" required />
-            </div>
-            <div class="form-group">
-              <label>Yayın Başlığı *</label>
-              <input type="text" id="modalTitleInput" class="form-control" placeholder="Kısa özet başlık" required />
-            </div>
-          </div>
-
-          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; margin-bottom:16px;">
-            <div class="form-group">
-              <label>Yayın Tarihi</label>
-              <input type="date" id="modalDate" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label>Durum</label>
-              <select id="modalReleaseDurum" class="form-control">
-                <option value="Published">Published (Yayında)</option>
-                <option value="Draft">Draft (Taslak)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Yazar</label>
-              <input type="text" id="modalAuthor" class="form-control" placeholder="Avs" />
-            </div>
-          </div>
-
-          <!-- Rich Text Editör Bölümü -->
-          <div class="form-group">
-            <label>Sürüm Özeti / Açıklama Metni</label>
-            <div class="editor-toolbar">
-              <button type="button" class="editor-btn" data-command="bold"><b>B</b></button>
-              <button type="button" class="editor-btn" data-command="italic"><i>I</i></button>
-              <button type="button" class="editor-btn" data-command="underline"><u>U</u></button>
-              <button type="button" class="editor-btn" data-command="insertUnorderedList">• Liste</button>
-              <button type="button" class="editor-btn" id="modalInsertLinkBtn">Link</button>
-              <button type="button" class="editor-btn" id="modalInsertTableBtn">Tablo</button>
-              <button type="button" class="editor-btn" id="modalInsertVideoBtn">Video</button>
-              <button type="button" class="editor-btn" id="modalInsertHrBtn">Çizgi</button>
-            </div>
-            <div id="modalSummaryEditor" class="rich-editor" contenteditable="true"></div>
-          </div>
-
-          <!-- Değişiklik Maddeleri Ekleme -->
-          <div class="items-container">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <span style="font-size:13px; font-weight:600; color:var(--text-muted);">Değişiklik Maddeleri (Maddeli Liste)</span>
-              <button type="button" id="modalAddItemBtn" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;">+ Madde Ekle</button>
-            </div>
-            <div id="modalItemsList">
-              <!-- Dinamik maddeler -->
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" id="modalDeleteBtn" class="btn" style="background-color:#e74c3c; color:white; display:none;">Bu Sürümü Sil</button>
-          <div style="display:flex; gap:10px; margin-left:auto;">
-            <button type="button" id="cancelModal" class="btn btn-secondary">Vazgeç</button>
-            <button type="submit" class="btn">Kaydet ve Kapat</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- ===== JAVASCRIPT ÇALIŞMA MANTIĞI ===== -->
+    <!-- ===== APPS ENGINE JAVASCRIPT ===== -->
     <script>
-        const useSupabaseSync = false; 
-        const serverDatabaseEnabled = false;
-
-        const state = {
-          data: {
-            releases: [],
-            settings: {
-              portalTitle: "Sürüm Güncellemeleri",
-              portalSubtitle: "Ürünümüzle ilgili en son değişiklikler, iyileştirmeler ve hata düzeltmeleri.",
-              basicDomain: "myproduct",
-              customDomain: "",
-              portalEnabled: true,
-              emailEnabled: false,
-              theme: "light"
-            }
-          },
-          editingId: null,
-          portalCategory: "all"
-        };
-
-        const els = {
-          app: document.getElementById("app-admin-container"),
-          portalView: document.getElementById("pn-portal-view"),
-          navItems: document.querySelectorAll(".nav-item"),
-          releaseTable: document.getElementById("releaseTableBody"),
-          releaseModal: document.getElementById("releaseModal"),
-          releaseForm: document.getElementById("releaseForm"),
-          versionInput: document.getElementById("modalVersion"),
-          titleInput: document.getElementById("modalTitleInput"),
-          dateInput: document.getElementById("modalDate"),
-          releaseDurum: document.getElementById("modalReleaseDurum"),
-          authorInput: document.getElementById("modalAuthor"),
-          summaryEditor: document.getElementById("modalSummaryEditor"),
-          itemsList: document.getElementById("modalItemsList"),
-          addItemBtn: document.getElementById("modalAddItemBtn"),
-          deleteReleaseBtn: document.getElementById("modalDeleteBtn"),
-          statusFilter: document.getElementById("statusFilter"),
-          typeFilter: document.getElementById("typeFilter"),
-          adminSearch: document.getElementById("adminSearch"),
-          portalTitle: document.getElementById("settingPortalTitle"),
-          portalSubtitle: document.getElementById("settingPortalSubtitle"),
-          basicDomain: document.getElementById("settingBasicDomain"),
-          customDomain: document.getElementById("settingCustomDomain"),
-          portalEnabled: document.getElementById("settingPortalEnabled"),
-          emailEnabled: document.getElementById("settingEmailEnabled"),
-          portalTitleText: document.getElementById("portalTitleText"),
-          portalSubtitleText: document.getElementById("portalSubtitleText"),
-          categoryList: document.getElementById("portalCategoryList")
-        };
-
-        function formatDate(dateStr) {
-          if (!dateStr) return "";
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
-          return new Date(dateStr).toLocaleDateString('tr-TR', options);
-        }
-
-        function setTema(theme) {
-          document.documentElement.setAttribute("data-theme", theme);
-          state.data.settings.theme = theme;
-          saveData();
-        }
-
-        function saveData() {
-          localStorage.setItem("changelog_studio_data", JSON.stringify(state.data));
-        }
-
-        async function hydrateFromLocalDatabase() {
-          const local = localStorage.getItem("changelog_studio_data");
-          if (local) {
-            state.data = JSON.parse(local);
-          } else {
-            state.data.releases = [
-              {
-                id: "mock-1",
-                version: "v1.1.0",
-                title: "Performans Güncellemesi ve Yenilikler",
-                date: "2026-06-15",
-                status: "Published",
-                author: "Avs",
-                summary: "Bu sürümde altyapı geliştirmelerine odaklandık ve yüklenme sürelerini optimize ettik.",
-                items: [
-                  { type: "New Feature", text: "Karanlık mod desteği tam sürüme geçirildi." },
-                  { type: "Improvement", text: "Veritabanı indekslemeleri optimize edildi." }
-                ]
-              }
-            ];
-            saveData();
+      const store = {
+        releases: JSON.parse(localStorage.getItem("cs_pro_data")) || [
+          {
+            id: "1",
+            version: "v1.1.0",
+            title: "A Few Things You Should Know",
+            date: "2026-06-22",
+            status: "Draft",
+            type: "New Feature",
+            author: "Avs",
+            text: "Bu sürümde release notes deneyimini daha hızlı, okunabilir ve premium hale getirmek için yeni altyapı çalışmalarını tamamladık."
           }
-          setTema(state.data.settings.theme || "light");
+        ],
+        settings: JSON.parse(localStorage.getItem("cs_pro_settings")) || {
+          title: "Sürüm Notları Uygulaması",
+          desc: "Ürünümüzle ilgili tüm değişiklik geçmişini ve güncellemeleri buradan takip edebilirsiniz."
+        },
+        activeId: null
+      };
+
+      function pushLocal() {
+        localStorage.setItem("cs_pro_data", JSON.stringify(store.releases));
+        localStorage.setItem("cs_pro_settings", JSON.stringify(store.settings));
+      }
+
+      function initTable() {
+        const tbody = document.getElementById("releaseTableBody");
+        tbody.innerHTML = "";
+
+        const sVal = document.getElementById("adminSearch").value.toLowerCase();
+        const tVal = document.getElementById("typeFilter").value;
+        const stVal = document.getElementById("statusFilter").value;
+
+        const filtered = store.releases.filter(r => {
+          const mS = r.version.toLowerCase().includes(sVal) || r.title.toLowerCase().includes(sVal);
+          const mT = tVal === "all" || r.type === tVal;
+          const mSt = stVal === "all" || r.status === stVal;
+          return mS && mT && mSt;
+        });
+
+        if(!filtered.length) {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:30px;">Kayıtlı veri bulunamadı.</td></tr>`;
+          return;
         }
 
-        function renderTable() {
-          els.releaseTable.innerHTML = "";
-          const searchVal = els.adminSearch.value.toLowerCase();
-          const statusVal = els.statusFilter.value;
-          const typeVal = els.typeFilter.value;
-
-          const filtered = state.data.releases.filter(r => {
-            const matchesSearch = r.version.toLowerCase().includes(searchVal) || r.title.toLowerCase().includes(searchVal);
-            const matchesStatus = statusVal === "all" || r.status === statusVal;
-            const matchesType = typeVal === "all" || r.items.some(item => item.type === typeVal);
-            return matchesSearch && matchesStatus && matchesType;
-          });
-
-          if (!filtered.length) {
-            els.releaseTable.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Eşleşen kayıt bulunamadı.</td></tr>`;
-            return;
-          }
-
-          filtered.forEach(r => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-              <td style="font-weight:600;">${r.version}</td>
-              <td>${r.title}</td>
-              <td>${formatDate(r.date)}</td>
-              <td><span class="badge ${r.status === 'Published' ? 'badge-published' : 'badge-draft'}">${r.status}</span></td>
-              <td style="color:var(--text-muted);">${r.author || 'Avs'}</td>
-              <td><button class="row-action-btn" data-edit="${r.id}">Düzenle</button></td>
-            `;
-            els.releaseTable.appendChild(tr);
-          });
-        }
-
-        function openModal(release = null) {
-          els.itemsList.innerHTML = "";
-          if (release) {
-            state.editingId = release.id;
-            document.getElementById("modalTitle").textContent = "Sürümü Düzenle";
-            els.versionInput.value = release.version;
-            els.titleInput.value = release.title;
-            els.dateInput.value = release.date;
-            els.releaseDurum.value = release.status;
-            els.authorInput.value = release.author || "Avs";
-            els.summaryEditor.innerHTML = release.summary || "";
-            els.deleteReleaseBtn.style.display = "block";
-
-            if (release.items && release.items.length) {
-              release.items.forEach(item => addItemRow(item));
-            } else {
-              addItemRow();
-            }
-          } else {
-            state.editingId = null;
-            document.getElementById("modalTitle").textContent = "Sürüm Yayını Oluştur";
-            els.releaseForm.reset();
-            els.summaryEditor.innerHTML = "";
-            els.dateInput.value = new Date().toISOString().split('T')[0];
-            els.deleteReleaseBtn.style.display = "none";
-            addItemRow();
-          }
-          els.releaseModal.classList.add("active");
-        }
-
-        function closeModal() {
-          els.releaseModal.classList.remove("active");
-        }
-
-        els.addItemBtn.addEventListener("click", () => addItemRow());
-
-        function addItemRow(item = { type: "New Feature", text: "" }) {
-          const row = document.createElement("div");
-          row.className = "item-row";
-          row.innerHTML = `
-            <select class="item-type">
-              <option ${item.type === "New Feature" ? "selected" : ""}>New Feature</option>
-              <option ${item.type === "Improvement" ? "selected" : ""}>Improvement</option>
-              <option ${item.type === "Fix" ? "selected" : ""}>Fix</option>
-            </select>
-            <textarea class="item-text" placeholder="Değişiklik maddesini yazın...">${item.text || ""}</textarea>
-            <button type="button" class="remove-item">✕</button>
+        filtered.forEach(r => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${r.type || 'New Feature'}</td>
+            <td style="color:var(--text-muted);">${r.author || 'Avs'}</td>
+            <td><span class="badge ${r.status === 'Published' ? 'badge-published' : 'badge-draft'}">${r.status}</span></td>
+            <td>${r.date}</td>
+            <td style="text-align: right;">
+              <div style="font-weight:600; color:var(--text);">${r.version} • ${r.title}</div>
+              <div style="font-size:12px; color:var(--text-muted); margin-top:2px; max-width:400px; margin-left:auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${r.text}</div>
+            </td>
+            <td><button class="row-action-btn" onclick="editRow('${r.id}')">Düzenle</button></td>
           `;
-          
-          row.querySelector(".remove-item").addEventListener("click", () => {
-            row.remove();
-            if (els.itemsList.children.length === 0) {
-              addItemRow();
-            }
-          });
-          els.itemsList.appendChild(row);
+          tbody.appendChild(tr);
+        });
+      }
+
+      function openModal(id = null) {
+        const modal = document.getElementById("releaseModal");
+        const delBtn = document.getElementById("btnDelete");
+        store.activeId = id;
+
+        if(id) {
+          const r = store.releases.find(x => x.id === id);
+          document.getElementById("modalHeadText").textContent = "Sürümü Düzenle";
+          document.getElementById("mVersion").value = r.version;
+          document.getElementById("mTitle").value = r.title;
+          document.getElementById("mDate").value = r.date;
+          document.getElementById("mStatus").value = r.status;
+          document.getElementById("mType").value = r.type || "New Feature";
+          document.getElementById("mText").value = r.text;
+          delBtn.style.display = "block";
+        } else {
+          document.getElementById("modalHeadText").textContent = "Yayın Oluştur";
+          document.getElementById("mVersion").value = "";
+          document.getElementById("mTitle").value = "";
+          document.getElementById("mDate").value = new Date().toISOString().split('T')[0];
+          document.getElementById("mStatus").value = "Published";
+          document.getElementById("mType").value = "New Feature";
+          document.getElementById("mText").value = "";
+          delBtn.style.display = "none";
+        }
+        modal.classList.add("active");
+      }
+
+      function editRow(id) { openModal(id); }
+
+      function renderPortal() {
+        const feed = document.getElementById("portalFeed");
+        feed.innerHTML = "";
+        
+        const activePubs = store.releases.filter(x => x.status === "Published");
+        if(!activePubs.length) {
+          feed.innerHTML = `<p style="color:var(--text-muted); text-align:center;">Yayınlanmış sürüm bulunmuyor.</p>`;
+          return;
         }
 
-        function handleFormSubmit(e) {
-          e.preventDefault();
-          const items = [];
-          els.itemsList.querySelectorAll(".item-row").forEach(row => {
-            const text = row.querySelector(".item-text").value.trim();
-            if (text) {
-              items.push({
-                type: row.querySelector(".item-type").value,
-                text: text
-              });
-            }
-          });
+        activePubs.forEach(r => {
+          let tCls = "tag-feature";
+          if(r.type === "Improvement") tCls = "tag-improvement";
+          if(r.type === "Fix") tCls = "tag-fix";
 
-          const releaseData = {
-            id: state.editingId || crypto.randomUUID(),
-            version: els.versionInput.value.trim(),
-            title: els.titleInput.value.trim(),
-            date: els.dateInput.value,
-            status: els.releaseDurum.value,
-            author: els.authorInput.value.trim() || "Avs",
-            summary: els.summaryEditor.innerHTML,
-            items: items
-          };
+          const div = document.createElement("div");
+          div.className = "portal-item";
+          div.innerHTML = `
+            <div class="portal-item-title">${r.version} — ${r.title}</div>
+            <div class="portal-item-meta">${r.date} tarihinde yayınlandı.</div>
+            <p style="font-size:15px; color:#e2e8f0;">${r.text}</p>
+            <div class="tag-section">
+              <span class="tag-lbl ${tCls}">${r.type || 'New Feature'}</span>
+            </div>
+          `;
+          feed.appendChild(div);
+        });
+      }
 
-          if (state.editingId) {
-            const index = state.data.releases.findIndex(r => r.id === state.editingId);
-            if (index !== -1) state.data.releases[index] = releaseData;
-          } else {
-            state.data.releases.push(releaseData);
-          }
-
-          saveData();
-          renderTable();
-          closeModal();
-        }
-
-        function handleDeleteRelease() {
-          if (!state.editingId) return;
-          if (confirm("Bu sürümü silmek istediğinize emin misiniz?")) {
-            state.data.releases = state.data.releases.filter(r => r.id !== state.editingId);
-            saveData();
-            renderTable();
-            closeModal();
-          }
-        }
-
-        function renderPortal() {
-          const feed = document.getElementById("pn-feed-dynamic");
-          if (!feed) return;
-
-          feed.innerHTML = "";
-          const releases = [...state.data.releases]
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .filter(r => r.status === "Published");
-
-          if (!releases.length) {
-            feed.innerHTML = '<div class="empty-state">Henüz yayınlanmış bir sürüm notu bulunmuyor.</div>';
-            return;
-          }
-
-          releases.forEach((release) => {
-            if (state.portalCategory !== "all" && !release.items.some(i => i.type === state.portalCategory)) {
-              return;
-            }
-
-            const sectionsMap = {};
-            release.items.forEach(item => {
-              if (!sectionsMap[item.type]) sectionsMap[item.type] = [];
-              sectionsMap[item.type].push(item.text);
-            });
-
-            let sectionsHtml = "";
-            Object.entries(sectionsMap).forEach(([type, list]) => {
-              sectionsHtml += `
-                <div class="pn-section">
-                  <div class="pn-section-title">${type}</div>
-                  <ul>
-                    ${list.map(txt => `<li>${txt}</li>`).join("")}
-                  </ul>
-                </div>
-              `;
-            });
-
-            const article = document.createElement("article");
-            article.className = "pn-entry";
-            article.innerHTML = `
-              <div class="pn-entry-main">
-                <h2 class="pn-entry-title">${release.version} - ${release.title}</h2>
-                <div class="pn-entry-date">${formatDate(release.date)}</div>
-                <div class="pn-entry-body">
-                  ${release.summary}
-                </div>
-                ${sectionsHtml}
-              </div>
-            `;
-            feed.appendChild(article);
-          });
-        }
-
-        function initSettings() {
-          els.portalTitle.value = state.data.settings.portalTitle;
-          els.portalSubtitle.value = state.data.settings.portalSubtitle;
-          els.basicDomain.value = state.data.settings.basicDomain;
-          els.customDomain.value = state.data.settings.customDomain;
-          els.portalEnabled.checked = state.data.settings.portalEnabled;
-          els.emailEnabled.checked = state.data.settings.emailEnabled;
-
-          const updateSettings = () => {
-            state.data.settings.portalTitle = els.portalTitle.value;
-            state.data.settings.portalSubtitle = els.portalSubtitle.value;
-            state.data.settings.basicDomain = els.basicDomain.value;
-            state.data.settings.customDomain = els.customDomain.value;
-            state.data.settings.portalEnabled = els.portalEnabled.checked;
-            state.data.settings.emailEnabled = els.emailEnabled.checked;
+      document.addEventListener("DOMContentLoaded", () => {
+        // Sidebar geçişleri
+        document.querySelectorAll(".sidebar-item").forEach(item => {
+          item.addEventListener("click", () => {
+            document.querySelectorAll(".sidebar-item").forEach(x => x.classList.remove("active"));
+            item.classList.add("active");
             
-            if (els.portalTitleText) els.portalTitleText.textContent = els.portalTitle.value;
-            if (els.portalSubtitleText) els.portalSubtitleText.textContent = els.portalSubtitle.value;
-            saveData();
+            const target = item.dataset.target;
+            document.getElementById("publicationsView").classList.toggle("active", target === "publications");
+            document.getElementById("newspageView").classList.toggle("active", target === "newspage");
+          });
+        });
+
+        // Filtre dinleyicileri
+        document.getElementById("adminSearch").addEventListener("input", initTable);
+        document.getElementById("typeFilter").addEventListener("change", initTable);
+        document.getElementById("statusFilter").addEventListener("change", initTable);
+
+        // Modal tetikleyiciler
+        document.getElementById("newReleaseBtn").addEventListener("click", () => openModal(null));
+        document.getElementById("closeModal").addEventListener("click", () => document.getElementById("releaseModal").classList.remove("active"));
+        document.getElementById("btnCancel").addEventListener("click", () => document.getElementById("releaseModal").classList.remove("active"));
+
+        // Ayarlar Bağlama
+        document.getElementById("setPortalTitle").value = store.settings.title;
+        document.getElementById("setPortalDesc").value = store.settings.desc;
+
+        const syncSettings = () => {
+          store.settings.title = document.getElementById("setPortalTitle").value;
+          store.settings.desc = document.getElementById("setPortalDesc").value;
+          pushLocal();
+        };
+        document.getElementById("setPortalTitle").addEventListener("input", syncSettings);
+        document.getElementById("setPortalDesc").addEventListener("input", syncSettings);
+
+        // Kaydetme işlemi
+        document.getElementById("btnSave").addEventListener("click", () => {
+          const ver = document.getElementById("mVersion").value.trim();
+          const ttl = document.getElementById("mTitle").value.trim();
+          if(!ver || !ttl) return alert("Lütfen gerekli alanları doldurun.");
+
+          const data = {
+            id: store.activeId || crypto.randomUUID(),
+            version: ver,
+            title: ttl,
+            date: document.getElementById("mDate").value,
+            status: document.getElementById("mStatus").value,
+            type: document.getElementById("mType").value,
+            author: "Avs",
+            text: document.getElementById("mText").value
           };
 
-          [els.portalTitle, els.portalSubtitle, els.basicDomain, els.customDomain].forEach(el => {
-            el.addEventListener("input", updateSettings);
-          });
-          [els.portalEnabled, els.emailEnabled].forEach(el => {
-            el.addEventListener("change", updateSettings);
-          });
-        }
-
-        function initEditorCommands() {
-          document.querySelectorAll("[data-command]").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-              e.preventDefault();
-              const cmd = btn.dataset.command;
-              document.execCommand(cmd, false, null);
-              els.summaryEditor.focus();
-            });
-          });
-
-          document.getElementById("modalInsertVideoBtn").addEventListener("click", (e) => {
-            e.preventDefault();
-            const url = prompt("Video URL'si girin:");
-            if (url) {
-              const html = `<div class="video-container"><iframe src="${url}" frameborder="0" allowfullscreen style="width:100%;height:315px;border-radius:8px;"></iframe></div><p></p>`;
-              document.execCommand("insertHTML", false, html);
-            }
-          });
-
-          document.getElementById("modalInsertLinkBtn").addEventListener("click", (e) => {
-            e.preventDefault();
-            const url = prompt("URL adresi girin:", "https://");
-            if (url) document.execCommand("createLink", false, url);
-          });
-
-          document.getElementById("modalInsertTableBtn").addEventListener("click", (e) => {
-            e.preventDefault();
-            const rows = prompt("Satır sayısı:", "2");
-            const cols = prompt("Sütun sayısı:", "2");
-            if (rows && cols) {
-              let tableHtml = `<table style="width:100%; border-collapse: collapse; margin: 10px 0;">`;
-              for (let i = 0; i < parseInt(rows); i++) {
-                tableHtml += `<tr>`;
-                for (let j = 0; j < parseInt(cols); j++) {
-                  tableHtml += `<td style="border: 1px solid var(--line); padding: 8px;">Hücre</td>`;
-                }
-                tableHtml += `</tr>`;
-              }
-              tableHtml += `</table><p></p>`;
-              document.execCommand("insertHTML", false, tableHtml);
-            }
-          });
-
-          document.getElementById("modalInsertHrBtn").addEventListener("click", (e) => {
-            e.preventDefault();
-            document.execCommand("insertHorizontalRule", false, null);
-          });
-        }
-
-        function initNavigation() {
-          els.navItems.forEach(item => {
-            item.addEventListener("click", () => {
-              els.navItems.forEach(i => i.classList.remove("active"));
-              item.classList.add("active");
-
-              const view = item.dataset.view;
-              if (view === "publications") {
-                document.getElementById("publicationsView").classList.add("active");
-                document.getElementById("newspageView").classList.remove("active");
-              } else if (view === "newspage") {
-                document.getElementById("publicationsView").classList.remove("active");
-                document.getElementById("newspageView").classList.add("active");
-              }
-            });
-          });
-
-          document.getElementById("openPortal").addEventListener("click", () => {
-            els.app.style.display = "none";
-            els.portalView.classList.add("active");
-            document.getElementById("backToAdmin").style.display = "block";
-            renderPortal();
-          });
-
-          document.getElementById("backToAdmin").addEventListener("click", () => {
-            els.portalView.classList.remove("active");
-            document.getElementById("backToAdmin").style.display = "none";
-            els.app.style.display = "grid";
-          });
-        }
-
-        function initFilters() {
-          [els.statusFilter, els.typeFilter].forEach(el => el.addEventListener("change", renderTable));
-          els.adminSearch.addEventListener("input", renderTable);
-
-          if (els.categoryList) {
-            els.categoryList.querySelectorAll(".pn-cat").forEach(btn => {
-              btn.addEventListener("click", () => {
-                els.categoryList.querySelectorAll(".pn-cat").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                state.portalCategory = btn.dataset.category;
-                renderPortal();
-              });
-            });
+          if(store.activeId) {
+            const idx = store.releases.findIndex(x => x.id === store.activeId);
+            if(idx !== -1) store.releases[idx] = data;
+          } else {
+            store.releases.push(data);
           }
-        }
 
-        function initTableActions() {
-          els.releaseTable.addEventListener("click", (e) => {
-            const editBtn = e.target.closest("[data-edit]");
-            if (editBtn) {
-              const releaseId = editBtn.dataset.edit;
-              const release = state.data.releases.find(r => r.id === releaseId);
-              if (release) openModal(release);
-            }
-          });
-        }
+          pushLocal();
+          initTable();
+          document.getElementById("releaseModal").classList.remove("active");
+        });
 
-        async function initApp() {
-          initNavigation();
-          initEditorCommands();
-          initFilters();
-          initTableActions();
-          
-          els.releaseForm.addEventListener("submit", handleFormSubmit);
-          els.deleteReleaseBtn.addEventListener("click", handleDeleteRelease);
-          document.getElementById("newReleaseBtn").addEventListener("click", () => openModal());
-          document.getElementById("closeModal").addEventListener("click", closeModal);
-          document.getElementById("cancelModal").addEventListener("click", closeModal);
-          
-          document.getElementById("themeToggle").addEventListener("click", () => {
-            setTema(state.data.settings.theme === "dark" ? "light" : "dark");
-          });
-          
-          document.getElementById("portalTemaToggle").addEventListener("click", () => {
-            setTema(state.data.settings.theme === "dark" ? "light" : "dark");
-          });
+        // Silme işlemi
+        document.getElementById("btnDelete").addEventListener("click", () => {
+          if(!store.activeId) return;
+          if(confirm("Bu sürümü kalıcı olarak silmek istiyor musunuz?")) {
+            store.releases = store.releases.filter(x => x.id !== store.activeId);
+            pushLocal();
+            initTable();
+            document.getElementById("releaseModal").classList.remove("active");
+          }
+        });
 
-          await hydrateFromLocalDatabase();
-          renderTable();
-          initSettings();
-        }
+        // Portalı Aç / Kapat
+        document.getElementById("btnViewLive").addEventListener("click", () => {
+          document.getElementById("pTitle").textContent = store.settings.title;
+          document.getElementById("pDesc").textContent = store.settings.desc;
+          renderPortal();
+          document.getElementById("app-wrapper").style.display = "none";
+          document.getElementById("public-portal-view").classList.add("active");
+          document.getElementById("backToAdmin").style.display = "block";
+        });
 
-        document.addEventListener("DOMContentLoaded", initApp);
+        document.getElementById("backToAdmin").addEventListener("click", () => {
+          document.getElementById("public-portal-view").classList.remove("active");
+          document.getElementById("backToAdmin").style.display = "none";
+          document.getElementById("app-wrapper").style.display = "flex";
+        });
+
+        initTable();
+      });
     </script>
   </body>
 </html>

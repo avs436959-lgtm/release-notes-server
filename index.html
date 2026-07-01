@@ -1,816 +1,1304 @@
 <!DOCTYPE html>
-<html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sürüm Notları Uygulaması | Sürüm Merkezi</title>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes Platform</title>
     <style>
-      :root {
-        --bg: #070d19;
-        --surface: #0b1329;
-        --surface-card: #0f172a;
-        --line: #1e293b;
-        --text: #f8fafc;
-        --text-muted: #94a3b8;
-        --primary: #3b82f6;
-        --primary-hover: #2563eb;
-        --radius: 8px;
-        --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      }
+:root {
+  color-scheme: light;
+  --bg: #eef2f8;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --nav: #07182b;
+  --nav-active: #102945;
+  --text: #13073d;
+  --muted: #71809a;
+  --line: #dbe3f0;
+  --primary: #1265f4;
+  --pink: #e3007a;
+  --yellow: #ffd832;
+  --green: #27b36a;
+  --red: #ff3d38;
+  --shadow: 0 18px 45px rgba(27, 44, 76, 0.12);
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1421;
+  --surface: #141c2b;
+  --surface-soft: #101827;
+  --nav: #07111f;
+  --nav-active: #182842;
+  --text: #f3f6ff;
+  --muted: #9ca9bd;
+  --line: #29364d;
+  --primary: #4f8dff;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.app-shell { min-height: 100vh; display: grid; grid-template-columns: 296px minmax(0, 1fr); }
+.sidebar {
+  background: var(--nav);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+}
+.brand {
+  height: 86px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  background: conic-gradient(from 40deg, #7b18ff, #1f6fff 35%, #05c3ff 56%, transparent 57%, transparent 64%, #7b18ff 65%), radial-gradient(circle at center, var(--nav) 0 43%, transparent 44%);
+}
+.brand small { display: block; color: #9fb2ca; margin-top: 2px; }
+.side-nav { padding: 20px 0; }
+.nav-item, .portal-link {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  background: transparent;
+  color: #edf4ff;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 30px;
+  font-weight: 700;
+  text-align: left;
+}
+.nav-item.active, .nav-item:hover, .portal-link:hover { background: var(--nav-active); }
+.icon { width: 18px; text-align: center; }
+.sidebar-footer { margin-top: auto; padding: 16px 0 28px; border-top: 1px solid rgba(255, 255, 255, 0.13); }
+.workspace { min-width: 0; }
+.topbar {
+  height: 86px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+.project-name { color: #3f5576; }
+.topbar-actions { display: flex; align-items: center; gap: 14px; }
+.icon-button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 8px;
+  position: relative;
+}
+.icon-button:hover { background: var(--surface-soft); }
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  display: grid;
+  place-items: center;
+}
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #cce322;
+  color: #fff;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.panel-view { display: none; padding: 78px clamp(24px, 7vw, 96px); }
+.panel-view.active { display: block; }
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 38px;
+}
+h1 { margin: 0; font-size: clamp(32px, 4vw, 40px); font-weight: 500; }
+p { color: var(--muted); }
+.primary-button, .secondary-button, .danger-button, .ghost-button, .follow-button {
+  border: 0;
+  border-radius: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  font-weight: 800;
+}
+.primary-button {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(18, 101, 244, 0.28);
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.secondary-button { background: var(--surface-soft); color: var(--text); border: 1px solid var(--line); }
+.danger-button { background: rgba(255, 61, 56, 0.11); color: var(--red); }
+.filters {
+  display: grid;
+  grid-template-columns: 196px 196px minmax(260px, 1fr);
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 48px;
+}
+label span { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+input, select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0 16px;
+  outline: none;
+}
+input:focus, select:focus, .rich-editor:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(18, 101, 244, 0.12);
+}
+.table-card, .settings-row, .settings-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.release-table { overflow: hidden; }
+.table-head, .release-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.7fr) 150px 120px 120px 180px 52px;
+  gap: 18px;
+  align-items: center;
+  padding: 24px;
+}
+.table-head { font-weight: 700; border-bottom: 1px solid var(--line); }
+.release-row { border-bottom: 1px solid var(--line); }
+.release-row:last-child { border-bottom: 0; }
+.release-title { font-weight: 800; margin: 0 0 6px; }
+.release-desc { margin: 0 0 12px; color: var(--muted); line-height: 1.45; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border-radius: 999px;
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.chip.feature { background: var(--red); }
+.chip.improvement { background: var(--yellow); color: #111; }
+.chip.fix { background: #7468f2; }
+.status { display: inline-flex; align-items: center; gap: 8px; }
+.status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #ff9f00; }
+.status.Published::before { background: var(--green); }
+.status.Archived::before { background: var(--muted); }
+.row-actions { display: flex; justify-content: flex-start; gap: 4px; }
+.row-actions button {
+  border: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+}
+.row-actions button:hover { background: var(--surface-soft); }
+.empty-state { padding: 52px 24px; text-align: center; color: var(--muted); }
+.settings-stack { max-width: 860px; display: grid; gap: 18px; }
+.settings-row, .settings-box { padding: 34px 32px; }
+.settings-row { display: grid; grid-template-columns: 42px 1fr auto; gap: 18px; align-items: center; }
+.settings-row h3, .settings-box h3 { margin: 0 0 4px; }
+.settings-row p, .settings-box p { margin: 0; }
+.settings-icon { width: 42px; height: 42px; border-radius: 8px; background: #453f70; color: #fff; display: grid; place-items: center; font-weight: 900; }
+.settings-icon.blue { background: #079beb; }
+.settings-icon.pink { background: var(--pink); }
+.settings-box header { display: grid; grid-template-columns: 42px 1fr auto; gap: 18px; align-items: center; margin-bottom: 34px; }
+.switch input { display: none; }
+.switch span { width: 62px; height: 28px; border-radius: 999px; background: var(--line); display: block; position: relative; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04); }
+.switch span::after { content: ""; width: 22px; height: 22px; border-radius: 50%; background: #fff; position: absolute; top: 3px; left: 4px; transition: 0.2s ease; }
+.switch input:checked + span { background: var(--primary); }
+.switch input:checked + span::after { transform: translateX(32px); }
+.form-grid { display: grid; gap: 18px; }
+.domain-input { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.notice { margin-top: 28px; background: #fff1bd; color: #583f02; border: 1px solid #f4ce6c; border-radius: 8px; padding: 18px 24px; line-height: 1.55; }
+.portal { display: none; min-height: 100vh; background: var(--surface); color: var(--text); }
+.portal.active { display: block; }
+.app-shell.portal-open { display: none; }
+.portal-header { max-width: 1040px; margin: 0 auto; padding: 26px 24px; display: flex; justify-content: flex-end; gap: 14px; }
+.ghost-button { margin-right: auto; color: var(--text); background: var(--surface-soft); border: 1px solid var(--line); }
+.follow-button { background: var(--pink); color: #fff; border-radius: 999px; text-transform: uppercase; font-size: 13px; }
+.portal-hero { text-align: center; padding: 66px 24px 58px; }
+.portal-hero h1 { font-size: clamp(32px, 5vw, 42px); }
+.portal-hero p { font-size: 22px; font-weight: 800; margin: 12px 0 0; }
+.portal-layout { max-width: 940px; margin: 0 auto; padding: 0 24px 70px; display: grid; grid-template-columns: minmax(0, 1fr) 226px; gap: 58px; align-items: start; }
+.timeline { border-left: 2px solid var(--line); padding-left: 32px; }
+.timeline-entry { position: relative; display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 26px; margin-bottom: 46px; }
+.timeline-entry::before { content: ""; position: absolute; left: -42px; top: 4px; width: 15px; height: 15px; background: var(--surface); border: 6px solid #303030; border-radius: 50%; }
+.entry-time { color: var(--text); text-align: right; line-height: 1.45; font-size: 14px; }
+.entry-content h2 { margin: 0 0 8px; font-size: 24px; }
+.entry-meta { margin: 0 0 14px; color: var(--muted); }
+.entry-body { color: #4b5870; line-height: 1.55; }
+[data-theme="dark"] .entry-body { color: #c7d0df; }
+.entry-body img, .rich-editor img { max-width: 100%; border-radius: 8px; margin: 10px 0; }
+.notes-list { display: grid; gap: 12px; margin-top: 18px; }
+.note-item { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--surface-soft); }
+.note-item strong { display: block; margin-bottom: 5px; }
+.portal-filter { position: sticky; top: 24px; }
+.portal-search { position: relative; display: block; margin-bottom: 16px; }
+.portal-search input { padding-right: 42px; }
+.portal-search span { position: absolute; right: 14px; top: 13px; color: var(--muted); }
+.category-list { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.category-list button { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--text); min-height: 43px; text-align: left; padding: 0 16px; }
+.category-list button:last-child { border-bottom: 0; }
+.category-list button.active { border-left: 3px solid var(--pink); padding-left: 13px; }
+.portal-footer { text-align: center; display: grid; gap: 48px; padding: 30px 24px 82px; color: var(--muted); }
+.portal-footer a { color: var(--text); text-decoration: none; }
+.release-modal { width: min(980px, calc(100vw - 32px)); border: 0; border-radius: 8px; padding: 0; background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.release-modal::backdrop { background: rgba(3, 10, 22, 0.6); }
+.modal-content { padding: 28px; }
+.modal-header, .modal-actions, .items-editor header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.modal-header h2, .items-editor h3 { margin: 0; }
+.modal-header p { margin: 6px 0 0; }
+.modal-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 24px 0 14px; }
+.full-label { display: block; margin-bottom: 14px; }
+.editor-shell { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.editor-toolbar { min-height: 50px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); background: var(--surface-soft); }
+.editor-toolbar button, .upload-button { min-height: 34px; border: 0; border-radius: 8px; padding: 0 12px; background: transparent; color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
+.editor-toolbar button:hover, .upload-button:hover { background: var(--surface); }
+.upload-button input { display: none; }
+.rich-editor:empty::before { content: attr(data-placeholder); color: #969bb3; pointer-events: none; }
+.rich-editor { min-height: 160px; padding: 18px; outline: none; line-height: 1.6; }
+.items-editor { margin-top: 24px; }
+.items-editor header { margin-bottom: 14px; }
+#itemsList { display: grid; gap: 12px; }
+.item-row { display: grid; grid-template-columns: 170px minmax(0, 1fr) 40px; gap: 12px; align-items: start; border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--surface-soft); }
+.item-row textarea { min-height: 88px; resize: vertical; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); padding: 12px; }
+.remove-item { width: 40px; height: 40px; border: 0; border-radius: 8px; background: rgba(255, 61, 56, 0.1); color: var(--red); }
+.modal-actions { margin-top: 28px; }
+.modal-actions > div { display: flex; gap: 10px; }
+.mobile-menu { display: none; }
+@media (max-width: 980px) { .app-shell { grid-template-columns: 1fr; } .sidebar { position: fixed; inset: 0 auto 0 0; width: 286px; z-index: 10; transform: translateX(-100%); transition: transform 0.2s ease; } .sidebar.open { transform: translateX(0); } .mobile-menu { display: inline-grid; place-items: center; width: 38px; height: 38px; margin-right: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); } .filters, .portal-layout, .modal-grid, .table-head, .release-row { grid-template-columns: 1fr; } .table-head { display: none; } .release-row { gap: 10px; } .portal-filter { position: static; order: -1; } .timeline-entry { grid-template-columns: 1fr; gap: 8px; } .entry-time { text-align: left; } }
+@media (max-width: 640px) { .topbar { padding: 0 16px; } .user-name { display: none; } .panel-view { padding: 36px 16px; } .page-heading, .settings-box header, .settings-row, .modal-header, .modal-actions { display: grid; } .primary-button, .secondary-button, .danger-button, .ghost-button, .follow-button { width: 100%; } .portal-header { display: grid; } .item-row { grid-template-columns: 1fr; } }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+.publication-editor { padding-top: 28px; }
+.editor-top-actions { max-width: 1024px; margin: 0 auto 18px; }
+.publication-steps { max-width: 720px; margin: 0 auto 84px; display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: center; gap: 16px; }
+.publication-steps i { height: 1px; background: #cfd6e4; display: block; }
+.step-pill { display: inline-flex; align-items: center; gap: 12px; color: var(--text); }
+.step-pill b { width: 32px; height: 32px; border-radius: 8px; background: #dde1ef; color: #777f99; display: grid; place-items: center; }
+.step-pill.active b { background: #443f70; color: #fff; }
+.publication-step { display: none; max-width: 1024px; margin: 0 auto; }
+.publication-step.active { display: block; }
+.editor-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--text); }
+.publication-title-input { width: min(720px, 100%); min-height: 58px; border: 0; background: transparent; padding: 0; font-size: clamp(34px, 5vw, 40px); font-weight: 800; color: var(--text); box-shadow: none; }
+.publication-title-input:focus { box-shadow: none; border: 0; }
+.editor-labels { display: flex; gap: 18px; align-items: center; margin: 24px 0 26px; }
+.label-button { border: 0; background: transparent; color: var(--text); font-weight: 800; text-transform: uppercase; }
+.flow-editor-card { position: relative; background: var(--surface); border: 1px solid #cbd7ea; min-height: 346px; }
+.flow-toolbar .tb-sep { width:1px; height:18px; background:var(--line); margin:0 2px; display:inline-block; }
+.flow-toolbar { min-height: 48px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 8px 18px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.flow-toolbar button, .flow-toolbar .upload-button { min-height: 32px; border: 0; background: transparent; color: var(--text); border-radius: 8px; padding: 0 10px; font-weight: 700; }
+.flow-toolbar button:hover, .flow-toolbar .upload-button:hover { background: var(--surface-soft); }
+.flow-editor { min-height: 296px; padding: 70px 72px; outline: 0; line-height: 1.65; color: var(--text); }
+.flow-editor:empty::before { content: attr(data-placeholder); color: #969bb3; }
+.flow-editor img { max-width: 100%; border-radius: 8px; }
+.featured-image-tab { position: absolute; right: -47px; top: 63px; width: 48px; min-height: 194px; border: 1px dashed #bdc9df; border-left: 0; border-radius: 0 8px 8px 0; display: grid; place-items: center; color: var(--text); font-size: 12px; font-weight: 800; text-transform: uppercase; writing-mode: vertical-rl; background: var(--bg); }
+.featured-image-tab input { display: none; }
+.wide-action { width: 100%; margin-top: 18px; }
+.options-card, .summary-card { background: var(--surface); border: 1px solid #d5dfed; padding: 52px 56px; box-shadow: var(--shadow); margin-top: 36px; }
+.option-line { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; margin-bottom: 24px; color: var(--text); }
+.option-line p { margin: 0; color: var(--text); }
+.option-icon { width: 22px; color: #37305f; font-weight: 800; }
+.option-line.stacked { grid-template-columns: 22px minmax(0, 1fr); }
+.option-line.stacked .text-link { grid-column: 2; justify-self: start; margin-top: 14px; }
+.text-link { border: 0; background: transparent; color: #006bff; padding: 0; text-decoration: underline; }
+.excerpt-input { display: none; width: 100%; min-height: 86px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); color: var(--text); padding: 14px; resize: vertical; margin: -4px 0 22px 34px; max-width: calc(100% - 34px); }
+.excerpt-input.visible { display: block; }
+.options-card hr { border: 0; border-top: 1px solid var(--line); margin: 34px 0; }
+.toggle-line { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 20px 0; color: var(--text); }
+.toggle-line > div { display: flex; align-items: center; gap: 12px; }
+.toggle-line.muted { color: #969bb3; }
+.summary-card h2 { margin: 0 0 10px; font-size: 28px; }
+.summary-card p { margin: 8px 0; }
+.summary-preview { border: 1px solid var(--line); background: var(--surface-soft); border-radius: 8px; padding: 18px; margin-top: 20px; line-height: 1.6; }
+.summary-actions { margin-top: 18px; display: flex; gap: 12px; justify-content: flex-end; }
+@media (max-width: 980px) { .publication-steps { margin-bottom: 42px; grid-template-columns: 1fr; justify-items: start; } .publication-steps i { display: none; } .featured-image-tab { position: static; writing-mode: horizontal-tb; width: 100%; min-height: 46px; border: 1px dashed #bdc9df; border-radius: 0; } .flow-editor { padding: 34px 24px; } .options-card, .summary-card { padding: 28px 22px; } }
+@media (max-width: 640px) { .editor-meta-row, .toggle-line, .summary-actions { display: grid; } }
 
-      body {
-        font-family: var(--font);
-        background-color: var(--bg);
-        color: var(--text);
-        line-height: 1.5;
-        overflow-x: hidden;
-      }
+.flow-labels { display: flex; flex-wrap: wrap; gap: 8px; }
+.label-picker, .more-tools { position: relative; display: inline-flex; }
+.label-button { min-height: 34px; padding: 0 10px; border-radius: 8px; }
+.label-menu, .more-tools-menu {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 190px;
+  background: var(--surface);
+  border: 2px solid #29204f;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+}
+.label-menu.open, .more-tools-menu.open { display: grid; gap: 4px; }
+.label-menu button, .more-tools-menu button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 0 10px;
+}
+.label-menu button:hover, .more-tools-menu button:hover { background: var(--surface-soft); }
+.more-tools-menu { min-width: 304px; }
+.more-tools-menu button { display: grid; grid-template-columns: 26px 1fr; align-items: center; gap: 8px; }
+.more-tools-button { min-width: 36px; font-weight: 900; }
+.release-section-list { display: grid; gap: 16px; margin-top: 18px; }
+.release-section { border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); overflow: hidden; }
+.release-section h3 { margin: 0; padding: 12px 14px; font-size: 14px; text-transform: uppercase; letter-spacing: 0; border-bottom: 1px solid var(--line); }
+.release-section.feature h3 { color: var(--red); }
+.release-section.improvement h3 { color: #8a6700; }
+.release-section.fix h3 { color: #6256df; }
+.release-section .note-item { border: 0; border-radius: 0; border-bottom: 1px solid var(--line); background: transparent; }
+.release-section .note-item:last-child { border-bottom: 0; }
+.image-status { margin-left: auto; color: var(--muted); font-size: 13px; }
+.flow-labels .chip { border: 0; cursor: pointer; }
+.flow-labels .chip:hover { filter: brightness(0.96); }
 
-      /* === MASTER LAYOUT (Görseldeki gibi Sağ Menülü Yapı) === */
-      #app-wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+.pn-header { background: var(--surface); border-bottom: 1px solid var(--line); padding: 0; }
+.pn-header-inner { max-width: 1100px; margin: 0 auto; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.pn-brand { display: flex; align-items: center; gap: 14px; }
+.pn-logo-circle { width: 48px; height: 48px; border-radius: 50%; background: conic-gradient(from 40deg, #7b18ff, #1f6fff 35%, #05c3ff 56%, transparent 57%, transparent 64%, #7b18ff 65%); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #fff; flex-shrink: 0; }
+.pn-brand-name { font-size: 20px; font-weight: 800; color: var(--text); }
+.pn-brand-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.pn-header-actions { display: flex; align-items: center; gap: 10px; }
+.pn-layout { max-width: 1100px; margin: 0 auto; padding: 40px 28px 80px; display: grid; grid-template-columns: minmax(0,1fr) 240px; gap: 48px; align-items: start; }
+.pn-feed { display: grid; gap: 0; }
+.pn-entry { position: relative; border-bottom: 1px solid var(--line); padding: 36px 0 36px 52px; }
+.pn-entry:last-child { border-bottom: 0; }
+.pn-back { display: inline-block; margin-bottom: 10px; font-size: 13px; color: var(--primary); text-decoration: none; }
+.pn-back:hover { text-decoration: underline; }
+.pn-entry-social { position: absolute; left: 0; top: 44px; display: flex; flex-direction: column; gap: 8px; }
+.pn-social-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-soft); border: 1px solid var(--line); color: var(--muted); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.15s; }
+.pn-social-btn:hover { background: var(--line); }
+.pn-entry-title { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--text); }
+.pn-entry-date { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.pn-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.pn-chip { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; }
+.pn-chip-new { background: #e3007a; color: #fff; }
+.pn-chip-improvement { background: #f59e0b; color: #fff; }
+.pn-chip-fix { background: #6256df; color: #fff; }
+.pn-chip-announcement { background: #0ea5e9; color: #fff; }
+.pn-chip-maintenance { background: #64748b; color: #fff; }
+.pn-section { border: 1px solid var(--line); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.pn-section-title { padding: 10px 16px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; color: var(--primary); border-bottom: 1px solid var(--line); background: var(--surface-soft); }
+.pn-section ul { margin: 0; padding: 14px 18px 14px 32px; line-height: 1.8; color: var(--text); }
+.pn-section ul li { margin-bottom: 4px; font-size: 14px; }
+.pn-entry-body { font-size: 14px; color: var(--muted); line-height: 1.7; margin-top: 10px; }
+.pn-sidebar { position: sticky; top: 24px; }
+.pn-search-wrap { position: relative; margin-bottom: 14px; }
+.pn-search { width: 100%; padding: 9px 36px 9px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); font-size: 14px; }
+.pn-search:focus { outline: none; border-color: var(--primary); }
+.pn-search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; }
+.pn-categories { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.pn-cat { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--text); min-height: 42px; text-align: left; padding: 0 16px; font-size: 14px; cursor: pointer; transition: background 0.1s; }
+.pn-cat:last-child { border-bottom: 0; }
+.pn-cat:hover { background: var(--surface-soft); }
+.pn-cat.active { border-left: 3px solid var(--pink); padding-left: 13px; color: var(--pink); font-weight: 700; background: var(--surface-soft); }
+@media (max-width: 780px) { .pn-layout { grid-template-columns: 1fr; } .pn-header-inner { flex-direction: column; align-items: flex-start; } .pn-entry { padding-left: 16px; } .pn-entry-social { display: none; } }
 
-      /* Üst Bar */
-      header.top-bar {
-        background-color: var(--surface);
-        border-bottom: 1px solid var(--line);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 40px;
-        height: 70px;
-      }
-
-      .top-left-actions {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .user-avatar {
-        width: 36px;
-        height: 36px;
-        background-color: #a3e635;
-        color: #000;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 14px;
-      }
-
-      .btn-top-theme {
-        background-color: var(--primary);
-        color: white;
-        border: none;
-        padding: 8px 18px;
-        border-radius: var(--radius);
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 13px;
-        box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-      }
-
-      .status-saved {
-        color: var(--text-muted);
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-
-      .top-right-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-align: right;
-      }
-
-      .brand-text h2 {
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: -0.3px;
-      }
-
-      .brand-text p {
-        font-size: 12px;
-        color: var(--text-muted);
-      }
-
-      .brand-logo-circle {
-        width: 32px;
-        height: 32px;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        border-radius: 50%;
-      }
-
-      /* Ana İçerik Alanı (Sol İçerik, Sağ Menü) */
-      .main-container {
-        display: grid;
-        grid-template-columns: 1fr 260px;
-        flex: 1;
-      }
-
-      /* Sağ Panel (Görseldeki Menü Alanı) */
-      aside.right-sidebar {
-        background-color: var(--surface);
-        border-left: 1px solid var(--line);
-        padding: 24px 0;
-      }
-
-      .sidebar-menu {
-        list-style: none;
-      }
-
-      .sidebar-item {
-        padding: 12px 24px;
-        font-size: 14px;
-        color: var(--text-muted);
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.2s;
-        text-align: right;
-      }
-
-      .sidebar-item:hover, .sidebar-item.active {
-        background-color: var(--surface-card);
-        color: var(--text);
-        border-right: 4px solid var(--primary);
-      }
-
-      /* Sol İçerik Panel */
-      main.content-area {
-        padding: 40px;
-        max-width: 1000px;
-        width: 100%;
-        margin: 0 auto;
-      }
-
-      .view-panel {
-        display: none;
-      }
-
-      .view-panel.active {
-        display: block;
-      }
-
-      /* Başlık Alanı */
-      .content-center-header {
-        text-align: center;
-        margin: 20px 0 40px 0;
-      }
-
-      .content-center-header h1 {
-        font-size: 36px;
-        font-weight: 700;
-        letter-spacing: -1px;
-        margin-bottom: 8px;
-      }
-
-      .content-center-header p {
-        color: var(--text-muted);
-        font-size: 14px;
-      }
-
-      /* Yeni Yayın Butonu (Sol Üstte Parlayan Model) */
-      .action-top-row {
-        margin-bottom: 24px;
-      }
-
-      .btn-neon {
-        background-color: var(--primary);
-        color: white;
-        padding: 10px 24px;
-        border-radius: var(--radius);
-        font-size: 14px;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-        transition: all 0.2s;
-      }
-
-      .btn-neon:hover {
-        background-color: var(--primary-hover);
-        box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
-      }
-
-      /* === FİLTRELEME VE ARAMA BARBARI === */
-      .filter-grid-bar {
-        display: grid;
-        grid-template-columns: 1fr 180px 180px;
-        gap: 16px;
-        margin-bottom: 32px;
-      }
-
-      .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .filter-group label {
-        font-size: 12px;
-        color: var(--text-muted);
-        font-weight: 500;
-        text-align: right;
-      }
-
-      .search-input, .filter-select, .form-control {
-        background-color: var(--surface);
-        border: 1px solid var(--line);
-        color: var(--text);
-        padding: 10px 14px;
-        border-radius: var(--radius);
-        font-size: 14px;
-        outline: none;
-        width: 100%;
-        font-family: inherit;
-      }
-      .search-input { text-align: left; }
-
-      /* === VERİ TABLOSU / LİSTE (Görseldeki Stil) === */
-      .table-wrapper {
-        background-color: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        overflow: hidden;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
-        font-size: 14px;
-      }
-
-      th, td {
-        padding: 16px 20px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      th {
-        background-color: rgba(15, 23, 42, 0.6);
-        font-weight: 600;
-        color: var(--text);
-      }
-
-      tr:last-child td { border-bottom: none; }
-      tr:hover td { background-color: rgba(30, 41, 59, 0.3); }
-
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 500;
-      }
-      .badge::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-      }
-      .badge-published::before { background-color: #2ecc71; }
-      .badge-draft::before { background-color: #f1c40f; }
-
-      .row-action-btn {
-        background: none;
-        border: none;
-        color: var(--primary);
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .row-action-btn:hover { text-decoration: underline; }
-
-      /* === AYARLAR KARTLARI === */
-      .settings-layout {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-      }
-
-      .settings-card {
-        background-color: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 24px;
-      }
-
-      .card-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        border-bottom: 1px solid var(--line);
-        padding-bottom: 10px;
-      }
-
-      /* === DIALOG MODAL === */
-      .modal-overlay {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        padding: 20px;
-      }
-
-      .modal-overlay.active { display: flex; }
-
-      .modal-window {
-        background-color: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        width: 100%;
-        max-width: 700px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .modal-header {
-        padding: 20px 24px;
-        border-bottom: 1px solid var(--line);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .modal-body { padding: 24px; }
-      .modal-footer {
-        padding: 16px 24px;
-        border-top: 1px solid var(--line);
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        background-color: rgba(7, 13, 25, 0.5);
-      }
-
-      /* === DYNAMIC PORTAL PUBLIC VIEW === */
-      #public-portal-view {
-        display: none;
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 60px 20px;
-      }
-      #public-portal-view.active { display: block; }
-
-      .portal-header { margin-bottom: 40px; }
-      .portal-title { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
-      .portal-desc { color: var(--text-muted); }
-
-      .portal-item {
-        border-bottom: 1px solid var(--line);
-        padding-bottom: 32px;
-        margin-bottom: 32px;
-      }
-      .portal-item-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-      .portal-item-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
-
-      .tag-section { margin-top: 12px; }
-      .tag-lbl {
-        display: inline-block;
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 2px 8px;
-        border-radius: 4px;
-        margin-bottom: 6px;
-      }
-      .tag-feature { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
-      .tag-improvement { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
-      .tag-fix { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
-
-      .back-to-panel-btn {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background-color: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--line);
-        padding: 8px 16px;
-        border-radius: var(--radius);
-        cursor: pointer;
-        z-index: 1000;
-      }
+.flow-editor img, .pn-entry-body img, .entry-body img, .summary-card img {
+  max-width: 100% !important;
+  max-height: 260px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+  margin: 10px 0;
+  border: 1px solid var(--line);
+}
+.status-btn-active-draft { border-color: var(--primary) !important; background: var(--primary) !important; color: #fff !important; }
+.status-btn-active-publish { border-color: var(--green) !important; background: var(--green) !important; color: #fff !important; }
+.pn-detail-link { font-size:13px; color:var(--primary); font-weight:600; margin-left:8px; opacity:0.85; }
+.pn-entry-title:hover .pn-detail-link { opacity:1; text-decoration:underline; }
+.section-header-picker { position:relative; display:inline-block; }
+.section-header-btn { background:var(--surface-soft); border:1px solid var(--line); border-radius:6px; padding:4px 10px; font-size:13px; color:var(--primary); font-weight:600; cursor:pointer; }
+.section-header-menu { display:none; position:absolute; top:110%; left:0; background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:999; min-width:220px; overflow:hidden; }
+.section-header-menu button { display:block; width:100%; text-align:left; padding:10px 16px; border:none; background:none; color:var(--text); font-size:13px; cursor:pointer; border-bottom:1px solid var(--line); }
+.section-header-menu button:last-child { border-bottom:none; }
+.section-header-menu button:hover { background:var(--surface-soft); }
+.section-header-picker.open .section-header-menu { display:block; }
+.flow-editor .pn-section-header-block { background:var(--surface-soft); border-left:4px solid var(--primary); padding:8px 14px; margin:14px 0 8px; border-radius:0 6px 6px 0; font-weight:800; font-size:14px; color:var(--primary); }
     </style>
-  </head>
-  <body>
-
-    <!-- PORTALDAN GERİ DÖNÜŞ BUTONU -->
-    <button id="backToAdmin" class="back-to-panel-btn" style="display: none;">← Panele Dön</button>
-
-    <!-- ===== ANA UYGULAMA KAPSAYICI ===== -->
-    <div id="app-wrapper">
-      
-      <!-- TOP ÜST BAR (Görselin Aynısı) -->
-      <header class="top-bar">
-        <div class="top-left-actions">
-          <div class="user-avatar">A</div>
-          <button class="btn-top-theme">Tema</button>
-          <div class="status-saved">
-            <span>✓ Tem Hazır</span>
-          </div>
+</head>
+<body>
+    <div class="app-shell" id="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div><strong>Sürüm Notları Uygulaması</strong><small>Sürüm Merkezi</small></div>
         </div>
-        
-        <div class="top-right-brand">
-          <div class="brand-text">
-            <h2>Sürüm Notları Uygulaması</h2>
-            <p>Sürüm Merkezi</p>
-          </div>
-          <div class="brand-logo-circle"></div>
+        <nav class="side-nav" aria-label="Ana menü">
+          <button class="nav-item active" data-view="publications" type="button"><span class="icon"></span>المنشورات</button>
+          <button class="nav-item" data-view="newspage" type="button"><span class="icon"></span>صفحة الأخبار</button>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="portal-link" id="openPortal" type="button"><span class="icon"></span>فتح البوابة</button>
         </div>
-      </header>
+      </aside>
 
-      <!-- İÇERİK VE SAĞ MENÜ ALANI -->
-      <div class="main-container">
-        
-        <!-- SOL ANA İÇERİK -->
-        <main class="content-area" id="mainContentPanel">
-          
-          <!-- PENCERE: YAYINLAR -->
-          <section id="publicationsView" class="view-panel active">
-            
-            <div class="action-top-row">
-              <button id="newReleaseBtn" class="btn-neon">Yeni Yayın</button>
-            </div>
-
-            <div class="content-center-header">
-              <h1>Yayınlar</h1>
-              <p>Ürün sürümlerini oluşturun, düzenleyin ve arşivleyin.</p>
-            </div>
-
-            <!-- Filtre Çubuğu (Görseldeki Yapı) -->
-            <div class="filter-grid-bar">
-              <div class="filter-group">
-                <label>Ara</label>
-                <input type="text" id="adminSearch" class="search-input" placeholder="Sürüm veya içerik ara..." />
-              </div>
-              <div class="filter-group">
-                <label>Tür</label>
-                <select id="typeFilter" class="filter-select">
-                  <option value="all">Tüm Türler</option>
-                  <option value="New Feature">New Feature</option>
-                  <option value="Improvement">Improvement</option>
-                  <option value="Fix">Fix</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label>Durum</label>
-                <select id="statusFilter" class="filter-select">
-                  <option value="all">Tüm Durumlar</option>
-                  <option value="Published">Published</option>
-                  <option value="Draft">Draft</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Liste Tablosu -->
-            <div class="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Bölümler</th>
-                    <th>Katkıcı</th>
-                    <th>Durum</th>
-                    <th>Yayın Zamanı</th>
-                    <th style="text-align: right;">Unvan / Başlık</th>
-                    <th style="width: 80px;"></th>
-                  </tr>
-                </thead>
-                <tbody id="releaseTableBody">
-                  <!-- JS ile dolacak -->
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- PENCERE: PORTAL AYARLARI -->
-          <section id="newspageView" class="view-panel">
-            <div class="content-center-header">
-              <h1>Portal Ayarları</h1>
-            </div>
-            <div class="settings-layout">
-              <div class="settings-card">
-                <div class="card-title">Genel Ayarlar</div>
-                <div style="margin-bottom:12px;">
-                  <label style="display:block; font-size:12px; margin-bottom:4px;">Başlık</label>
-                  <input type="text" id="setPortalTitle" class="form-control" />
-                </div>
-                <div>
-                  <label style="display:block; font-size:12px; margin-bottom:4px;">Açıklama</label>
-                  <input type="text" id="setPortalDesc" class="form-control" />
-                </div>
-              </div>
-              <div class="settings-card">
-                <div class="card-title">Görünüm</div>
-                <p style="color:var(--text-muted); font-size:14px;">Portal sayfanız genel kullanıma ve müşterilerinize açıktır.</p>
-                <button id="btnViewLive" class="btn-neon" style="margin-top:20px; width:100%;">Canlı Portalı Aç ↗</button>
-              </div>
-            </div>
-          </section>
-        </main>
-
-        <!-- SAĞ SIDEBAR PANEL (Görseldeki Sağ Yapı) -->
-        <aside class="right-sidebar">
-          <ul class="sidebar-menu">
-            <li class="sidebar-item active" data-target="publications">Yayınlar</li>
-            <li class="sidebar-item" data-target="newspage">Portal Sayfası</li>
-          </ul>
-        </aside>
-
-      </div>
-    </div>
-
-    <!-- ===== GENEL CANLI PORTAL BÖLÜMÜ ===== -->
-    <div id="public-portal-view">
-      <header class="portal-header">
-        <h1 class="portal-title" id="pTitle">Sürüm Notları</h1>
-        <p class="portal-desc" id="pDesc">En son güncellemeler ve yenilikler.</p>
-      </header>
-      <div id="portalFeed"></div>
-    </div>
-
-    <!-- ===== YENİ / DÜZENLEME MODAL FORMU ===== -->
-    <div id="releaseModal" class="modal-overlay">
-      <div class="modal-window">
-        <div class="modal-header">
-          <h3 id="modalHeadText">Yayın Oluştur</h3>
-          <button id="closeModal" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">✕</button>
-        </div>
-        <div class="modal-body">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-            <div>
-              <label style="font-size:12px;">Sürüm No *</label>
-              <input type="text" id="mVersion" class="form-control" placeholder="v1.0.0" />
-            </div>
-            <div>
-              <label style="font-size:12px;">Başlık *</label>
-              <input type="text" id="mTitle" class="form-control" placeholder="Örn: Yeni Tasarım Arayüzü" />
-            </div>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-            <div>
-              <label style="font-size:12px;">Tarih</label>
-              <input type="date" id="mDate" class="form-control" />
-            </div>
-            <div>
-              <label style="font-size:12px;">Durum</label>
-              <select id="mStatus" class="form-control">
-                <option value="Published">Published</option>
-                <option value="Draft">Draft</option>
-              </select>
-            </div>
-          </div>
-          <div style="margin-bottom:12px;">
-            <label style="font-size:12px;">Tür</label>
-            <select id="mType" class="form-control">
-              <option value="New Feature">New Feature</option>
-              <option value="Improvement">Improvement</option>
-              <option value="Fix">Fix</option>
-            </select>
-          </div>
+      <main class="workspace">
+        <header class="topbar">
           <div>
-            <label style="font-size:12px;">Açıklama Notu</label>
-            <textarea id="mText" class="form-control" style="min-height:100px; resize:vertical;" placeholder="Değişikliklerinizi buraya yazın..."></textarea>
+            <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Menüyü aç">☰</button>
+            <span class="project-name">المستخدم</span>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button id="btnDelete" class="btn-neon" style="background-color:#e74c3c; display:none;">Sil</button>
-          <button id="btnCancel" class="form-control" style="width:auto; cursor:pointer;">Vazgeç</button>
-          <button id="btnSave" class="btn-neon">Kaydet</button>
-        </div>
-      </div>
+          <div class="topbar-actions">
+            <span id="saveIndicator" style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;transition:opacity 0.4s;opacity:0;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              تم الحفظ
+            </span>
+            <button class="primary-button" id="themeToggle" type="button" aria-label="Temayı değiştir">السمة</button>
+            <span class="avatar">A</span><span class="user-name">المستخدم</span>
+          </div>
+        </header>
+
+        <section class="panel-view active" id="publicationsView">
+          <div class="page-heading">
+            <div><h1>المنشورات</h1><p>أنشئ إصدارات المنتج وعدّلها وانشرها وأرشفتها.</p></div>
+            <button class="primary-button" id="newReleaseBtn" type="button">نشر جديد</button>
+          </div>
+          <div class="filters">
+            <label><span>الحالة</span><select id="statusFilter"><option value="all">جميع الحالات</option><option>مسودة</option><option>منشور</option><option>مؤرشف</option></select></label>
+            <label><span>النوع</span><select id="typeFilter"><option value="all">جميع الأنواع</option><option>New Feature</option><option>Improvement</option><option>Fix</option></select></label>
+            <label class="search-box"><span>بحث</span><input id="adminSearch" type="search" placeholder="ابحث عن إصدار، عنوان أو محتوى..."></label>
+          </div>
+          <div class="table-card">
+              <div class="release-table" id="releaseTable"></div>
+          </div>
+        </section>
+
+        <section class="panel-view publication-editor" id="publicationEditorView">
+          <div class="editor-top-actions">
+            <button class="ghost-button" id="backToPublications" type="button">العودة إلى المنشورات</button>
+          </div>
+          <div class="publication-steps" aria-label="Yayın adımları">
+            <div class="step-pill active" data-step-indicator="1"><b>1</b><span>المحتوى</span></div><i></i>
+            <div class="step-pill" data-step-indicator="2"><b>2</b><span>الخيارات</span></div><i></i>
+            <div class="step-pill" data-step-indicator="3"><b>3</b><span>الملخص</span></div>
+          </div>
+          
+          <section class="publication-step active" data-editor-step="1">
+            <div class="editor-meta-row"><span>تم التحديث للتو.</span><span class="status Draft">مسودة</span></div>
+            <input class="publication-title-input" id="flowTitleInput" type="text" value="Untitled" aria-label="Başlık">
+            <div class="editor-labels">
+                <div class="flow-labels" id="flowLabels"></div>
+                <div class="label-picker">
+                    <button class="label-button" id="labelButton" type="button">إضافة تصنيف</button>
+                    <div class="label-menu" id="labelMenu">
+                        <button type="button" data-label="ميزة جديدة">New Feature</button>
+                        <button type="button" data-label="Improvement">Improvement</button>
+                        <button type="button" data-label="Fix">Fix</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flow-editor-card">
+              <div class="flow-toolbar" id="flowToolbar" aria-label="أدوات المحتوى">
+                <button type="button" data-flow-command="formatBlock" data-value="h2" title="عنوان"><b>H</b></button>
+                <button type="button" data-flow-command="bold" title="غامق"><b>B</b></button>
+                <button type="button" data-flow-command="italic" title="مائل"><i>I</i></button>
+                <button type="button" id="flowColorBtn" title="لون النص" style="text-decoration:underline;text-decoration-color:#e3007a;">A</button>
+                <button type="button" id="flowMoreBtn" title="المزيد">···</button>
+                <span class="tb-sep"></span>
+                <button type="button" data-flow-command="justifyLeft" title="محاذاة يسار">&#8676;</button>
+                <button type="button" data-flow-command="justifyCenter" title="توسيط">&#8801;</button>
+                <button type="button" data-flow-command="justifyRight" title="محاذاة يمين">&#8677;</button>
+                <span class="tb-sep"></span>
+                <button type="button" data-flow-command="insertOrderedList" title="قائمة مرقمة">&#8942;1</button>
+                <button type="button" data-flow-command="insertUnorderedList" title="قائمة نقطية">&#8942;•</button>
+                <span class="tb-sep"></span>
+                <label class="upload-button" title="إدراج صورة">🖼<input id="flowImageInput" type="file" accept="image/*"></label>
+                <button type="button" id="flowVideoBtn" title="رابط فيديو">📹</button>
+                <div class="section-header-picker">
+                  <button class="section-header-btn" id="sectionHeaderBtn" type="button">+ عنوان القسم</button>
+                  <div class="section-header-menu" id="sectionHeaderMenu">
+                    <button type="button" onclick="insertSectionHeader('🌙 إضافات جديدة')">🌙 إضافات جديدة</button>
+                    <button type="button" onclick="insertSectionHeader('🔧 إصلاح الأخطاء')">🔧 إصلاح الأخطاء</button>
+                    <button type="button" onclick="insertSectionHeader('⚡ تحسينات الأداء')">⚡ تحسينات الأداء</button>
+                    <button type="button" onclick="insertSectionHeader('🔍 ميزات جديدة')">🔍 ميزات جديدة</button>
+                    <button type="button" onclick="insertSectionHeader('📢 إعلانات')">📢 إعلانات</button>
+                    <button type="button" onclick="insertSectionHeader('🛠 الصيانة والبنية التحتية')">🛠 الصيانة والبنية التحتية</button>
+                  </div>
+                </div>
+                <span class="tb-sep"></span>
+                <button type="button" data-flow-command="formatBlock" data-value="pre" title="كود"><code>&lt;/&gt;</code></button>
+                <button type="button" id="flowLinkBtn" title="رابط">🔗</button>
+                <button type="button" id="flowTableBtn" title="جدول">⊞</button>
+                <button type="button" id="flowHrBtn" title="فاصل أفقي">&#8803;</button>
+              </div>
+              <div class="flow-editor" id="flowContentEditor" contenteditable="true" data-placeholder="اكتب هنا المستجدات..."></div>
+              <label class="featured-image-tab">صورة الغلاف<input id="featuredImageInput" type="file" accept="image/*"></label>
+            </div>
+            <button class="primary-button wide-action" id="continueToOptions" type="button">متابعة</button>
+          </section>
+
+          <section class="publication-step" data-editor-step="2">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+              <button class="ghost-button" id="backToStep1Btn" type="button">← العودة إلى المحتوى</button>
+            </div>
+            <h1 id="optionsTitle">Başlıksız</h1>
+            <div class="options-card">
+              <div class="option-line">
+                <span class="option-icon">A</span>
+                <p><strong>Avs</strong> تم تعيينه كاتباً لهذا المنشور.</p>
+              </div>
+              <div class="option-line">
+                <span class="option-icon">D</span>
+                <p>تاريخ ووقت النشر: <strong id="flowDateText"></strong></p>
+              </div>
+              <div class="option-line stacked">
+                <span class="option-icon">Ö</span>
+                <p>تم إنشاء نص الملخص تلقائياً من المحتوى:</p>
+                <button class="text-link" id="customExcerptBtn" type="button">كتابة ملخص مخصص</button>
+              </div>
+              <textarea class="excerpt-input" id="flowExcerptInput" placeholder="ملخص مخصص"></textarea>
+              <hr>
+              <div style="padding:14px 0 6px;">
+                <p style="margin:0 0 10px;font-weight:700;font-size:14px;">حالة النشر</p>
+                <div style="display:flex;gap:10px;">
+                  <button type="button" id="chooseDraftBtn" onclick="setFlowStatus('draft')"
+                    style="flex:1;padding:12px;border-radius:10px;border:2px solid var(--primary);background:var(--primary);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">
+                    📝 حفظ كمسودة
+                  </button>
+                  <button type="button" id="choosePublishBtn" onclick="setFlowStatus('publish')"
+                    style="flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:14px;cursor:pointer;">
+                    🚀 نشر
+                  </button>
+                </div>
+                <p id="flowStatusHint" style="margin:10px 0 0;font-size:12px;color:var(--muted);">الآن: سيتم الحفظ كمسودة</p>
+              </div>
+              <div class="toggle-line muted">
+                <div><span class="option-icon">M</span>إرسال بريد إلكتروني للمشتركين</div>
+                <label class="switch"><input id="flowEmailToggle" type="checkbox"><span></span></label>
+              </div>
+            </div>
+            <button class="primary-button wide-action" id="saveFlowBtn" type="button">حفظ</button>
+          </section>
+
+          <section class="publication-step" data-editor-step="3">
+            <h1>الملخص</h1>
+            <div class="summary-card" id="flowSummaryCard"></div>
+            <div class="summary-actions">
+                <button class="secondary-button" id="editFlowAgain" type="button">تعديل المحتوى</button>
+                <button class="primary-button" id="finishFlowBtn" type="button">العودة إلى المنشورات</button>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel-view" id="newspageView">
+          <div class="page-heading compact">
+            <div><h1>صفحة الأخبار</h1><p>تحرير عرض البوابة وإعدادات البث.</p></div>
+            <button class="primary-button" id="viewOnlineBtn" type="button">←— عرض عبر الإنترنت</button>
+          </div>
+          <div class="settings-stack">
+            <article class="settings-row">
+              <div class="settings-icon">â »</div>
+              <div><h3>مفعّل</h3><p>افتح أو أغلق بوابة ملاحظات الإصدار.</p></div>
+              <label class="switch"><input id="portalEnabled" type="checkbox" checked><span></span></label>
+            </article>
+            <article class="settings-box">
+              <header>
+                <div class="settings-icon blue">ðŸ”—</div>
+                <div><h3>النطاق الأساسي والمخصص</h3><p>قم بتكوين عنوان البوابة ونطاق العلامة التجارية.</p></div>
+              </header>
+              <div class="form-grid">
+                <label><span>النطاق الأساسي</span><div class="domain-input"><input id="basicDomain" type="text" value="aous"><b>.release.news</b></div></label>
+                <label><span>النطاق المخصص</span><input id="customDomain" type="text" placeholder="updates.acme.com"></label>
+                <label><span>عنوان البوابة</span><input id="portalTitle" type="text" value="aous Güncellemeleri"></label>
+                <label><span>اسم الموقع</span><input id="portalSubtitle" type="text" value="aouspython.com"></label>
+              </div>
+              <div class="notice">يتم إنشاء الشهادة تلقائياً عند الوصول الأولي. يتطلب تكوين النطاق المخصص التحقق من DNS في بيئة الإنتاج.</div>
+            </article>
+            <article class="settings-box">
+              <header>
+                <div class="settings-icon pink">âœ‰</div>
+                <div><h3>إشعارات البريد الإلكتروني</h3><p>أرسل بريداً إلكترونياً للمشتركين عند نشر إصدار جديد.</p></div>
+                <label class="switch"><input id="emailEnabled" type="checkbox"><span></span></label>
+              </header>
+            </article>
+          </div>
+        </section>
+      </main>
     </div>
 
-    <!-- ===== APPS ENGINE JAVASCRIPT ===== -->
-    <script>
-      const store = {
-        releases: JSON.parse(localStorage.getItem("cs_pro_data")) || [
-          {
-            id: "1",
-            version: "v1.1.0",
-            title: "A Few Things You Should Know",
-            date: "2026-06-22",
-            status: "Draft",
-            type: "New Feature",
-            author: "Avs",
-            text: "Bu sürümde release notes deneyimini daha hızlı, okunabilir ve premium hale getirmek için yeni altyapı çalışmalarını tamamladık."
-          }
-        ],
-        settings: JSON.parse(localStorage.getItem("cs_pro_settings")) || {
-          title: "Sürüm Notları Uygulaması",
-          desc: "Ürünümüzle ilgili tüm değişiklik geçmişini ve güncellemeleri buradan takip edebilirsiniz."
-        },
-        activeId: null
-      };
-
-      function pushLocal() {
-        localStorage.setItem("cs_pro_data", JSON.stringify(store.releases));
-        localStorage.setItem("cs_pro_settings", JSON.stringify(store.settings));
-      }
-
-      function initTable() {
-        const tbody = document.getElementById("releaseTableBody");
-        tbody.innerHTML = "";
-
-        const sVal = document.getElementById("adminSearch").value.toLowerCase();
-        const tVal = document.getElementById("typeFilter").value;
-        const stVal = document.getElementById("statusFilter").value;
-
-        const filtered = store.releases.filter(r => {
-          const mS = r.version.toLowerCase().includes(sVal) || r.title.toLowerCase().includes(sVal);
-          const mT = tVal === "all" || r.type === tVal;
-          const mSt = stVal === "all" || r.status === stVal;
-          return mS && mT && mSt;
-        });
-
-        if(!filtered.length) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:30px;">Kayıtlı veri bulunamadı.</td></tr>`;
-          return;
-        }
-
-        filtered.forEach(r => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${r.type || 'New Feature'}</td>
-            <td style="color:var(--text-muted);">${r.author || 'Avs'}</td>
-            <td><span class="badge ${r.status === 'Published' ? 'badge-published' : 'badge-draft'}">${r.status}</span></td>
-            <td>${r.date}</td>
-            <td style="text-align: right;">
-              <div style="font-weight:600; color:var(--text);">${r.version} • ${r.title}</div>
-              <div style="font-size:12px; color:var(--text-muted); margin-top:2px; max-width:400px; margin-left:auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${r.text}</div>
-            </td>
-            <td><button class="row-action-btn" onclick="editRow('${r.id}')">Düzenle</button></td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
-
-      function openModal(id = null) {
-        const modal = document.getElementById("releaseModal");
-        const delBtn = document.getElementById("btnDelete");
-        store.activeId = id;
-
-        if(id) {
-          const r = store.releases.find(x => x.id === id);
-          document.getElementById("modalHeadText").textContent = "Sürümü Düzenle";
-          document.getElementById("mVersion").value = r.version;
-          document.getElementById("mTitle").value = r.title;
-          document.getElementById("mDate").value = r.date;
-          document.getElementById("mStatus").value = r.status;
-          document.getElementById("mType").value = r.type || "New Feature";
-          document.getElementById("mText").value = r.text;
-          delBtn.style.display = "block";
-        } else {
-          document.getElementById("modalHeadText").textContent = "Yayın Oluştur";
-          document.getElementById("mVersion").value = "";
-          document.getElementById("mTitle").value = "";
-          document.getElementById("mDate").value = new Date().toISOString().split('T')[0];
-          document.getElementById("mStatus").value = "Published";
-          document.getElementById("mType").value = "New Feature";
-          document.getElementById("mText").value = "";
-          delBtn.style.display = "none";
-        }
-        modal.classList.add("active");
-      }
-
-      function editRow(id) { openModal(id); }
-
-      function renderPortal() {
-        const feed = document.getElementById("portalFeed");
-        feed.innerHTML = "";
-        
-        const activePubs = store.releases.filter(x => x.status === "Published");
-        if(!activePubs.length) {
-          feed.innerHTML = `<p style="color:var(--text-muted); text-align:center;">Yayınlanmış sürüm bulunmuyor.</p>`;
-          return;
-        }
-
-        activePubs.forEach(r => {
-          let tCls = "tag-feature";
-          if(r.type === "Improvement") tCls = "tag-improvement";
-          if(r.type === "Fix") tCls = "tag-fix";
-
-          const div = document.createElement("div");
-          div.className = "portal-item";
-          div.innerHTML = `
-            <div class="portal-item-title">${r.version} — ${r.title}</div>
-            <div class="portal-item-meta">${r.date} tarihinde yayınlandı.</div>
-            <p style="font-size:15px; color:#e2e8f0;">${r.text}</p>
-            <div class="tag-section">
-              <span class="tag-lbl ${tCls}">${r.type || 'New Feature'}</span>
+    <section class="portal" id="portalView" aria-live="polite">
+      <div class="pn-header">
+        <div class="pn-header-inner">
+          <div class="pn-brand">
+            <div class="pn-logo-circle">A</div>
+            <div>
+              <div class="pn-brand-name" id="portalTitleText">aous Güncellemeleri</div>
+              <div class="pn-brand-sub" id="portalSubtitleText">aouspython.com</div>
             </div>
-          `;
-          feed.appendChild(div);
-        });
-      }
+          </div>
+          <div class="pn-header-actions">
+            <button class="ghost-button" id="backToAdmin" type="button">← لوحة الإدارة</button>
+            <button class="follow-button" type="button">تابع التحديثات</button>
+            <button class="icon-button" id="portalTemaToggle" type="button" aria-label="Temayı değiştir">◐</button>
+          </div>
+        </div>
+      </div>
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // Sidebar geçişleri
-        document.querySelectorAll(".sidebar-item").forEach(item => {
-          item.addEventListener("click", () => {
-            document.querySelectorAll(".sidebar-item").forEach(x => x.classList.remove("active"));
-            item.classList.add("active");
-            
-            const target = item.dataset.target;
-            document.getElementById("publicationsView").classList.toggle("active", target === "publications");
-            document.getElementById("newspageView").classList.toggle("active", target === "newspage");
-          });
-        });
+      <div class="pn-layout">
+        <div class="pn-feed" id="pn-feed-dynamic"></div>
+        <aside class="pn-sidebar">
+          <div class="pn-search-wrap">
+            <input type="search" id="portalSearch" class="pn-search" placeholder="بحث...">
+            <span class="pn-search-icon">🔍</span>
+          </div>
+          <div class="pn-categories" id="categoryList"></div>
+        </aside>
+      </div>
 
-        // Filtre dinleyicileri
-        document.getElementById("adminSearch").addEventListener("input", initTable);
-        document.getElementById("typeFilter").addEventListener("change", initTable);
-        document.getElementById("statusFilter").addEventListener("change", initTable);
+      <div style="display:none">
+        <div id="timeline"></div>
+      </div>
 
-        // Modal tetikleyiciler
-        document.getElementById("newReleaseBtn").addEventListener("click", () => openModal(null));
-        document.getElementById("closeModal").addEventListener("click", () => document.getElementById("releaseModal").classList.remove("active"));
-        document.getElementById("btnCancel").addEventListener("click", () => document.getElementById("releaseModal").classList.remove("active"));
+      <footer class="portal-footer">
+        <a href="#">خلاصات RSS</a>
+        <span>مدعوم من Release Hub.</span>
+      </footer>
+    </section>
 
-        // Ayarlar Bağlama
-        document.getElementById("setPortalTitle").value = store.settings.title;
-        document.getElementById("setPortalDesc").value = store.settings.desc;
+    <dialog class="release-modal" id="releaseModal">
+      <form class="modal-content" id="releaseForm">
+        <header class="modal-header">
+          <div><h2 id="modalTitle">إصدار جديد</h2><p>تحرير معلومات وملاحظات الإصدار.</p></div>
+          <button class="icon-button" value="cancel" type="button" id="closeModal" aria-label="إغلاق">✕</button>
+        </header>
+        <div class="modal-grid">
+          <label><span>رقم الإصدار</span><input id="versionInput" type="text" placeholder="v1.1.0" required></label>
+          <label><span>تاريخ النشر</span><input id="dateInput" type="date" required></label>
+          <label><span>الحالة</span><select id="releaseDurum"><option>Draft</option><option>Published</option><option>Archived</option></select></label>
+          <label><span>الكاتب</span><input id="authorInput" type="text" value="Avs"></label>
+        </div>
+        <label class="full-label"><span>العنوان</span><input id="titleInput" type="text" placeholder="عنوان الإصدار الجديد" required></label>
+        <div class="editor-shell">
+          <div class="editor-toolbar" id="modalEditorToolbar" aria-label="أدوات النص">
+            <button type="button" data-command="formatBlock" data-value="h2" title="عنوان"><b>H</b></button>
+            <button type="button" data-command="bold" title="غامق"><b>B</b></button>
+            <button type="button" data-command="italic" title="مائل"><i>I</i></button>
+            <button type="button" data-command="underline" title="تسطير" style="text-decoration:underline;">U</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <button type="button" data-command="justifyLeft" title="محاذاة يسار">⬅</button>
+            <button type="button" data-command="justifyCenter" title="توسيط">☰</button>
+            <button type="button" data-command="justifyRight" title="محاذاة يمين">➡</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <button type="button" data-command="insertOrderedList" title="قائمة مرقمة">⠿</button>
+            <button type="button" data-command="insertUnorderedList" title="قائمة نقطية">• قائمة</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <label class="upload-button" title="إدراج صورة">🖼 صورة<input id="imageInput" type="file" accept="image/*"></label>
+            <button type="button" id="modalInsertVideoBtn" title="رابط فيديو">📹</button>
+            <button type="button" id="modalInsertMoreBtn" title="إدراج">+</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <button type="button" data-command="formatBlock" data-value="pre" title="كود"><code style="font-family:monospace;">&lt;/&gt;</code></button>
+            <button type="button" id="modalInsertLinkBtn" title="رابط">🔗</button>
+            <button type="button" id="modalInsertTableBtn" title="جدول">⊞</button>
+            <button type="button" id="modalInsertHrBtn" title="فاصل">≡</button>
+          </div>
+          <div class="rich-editor" id="summaryEditor" contenteditable="true" aria-label="ملخص الإصدار" data-placeholder="اكتب ملاحظات الإصدار هنا..."></div>
+        </div>
+        <div id="itemsList" style="display:none;"></div>
+        <footer class="modal-actions">
+          <button class="danger-button" id="deleteReleaseBtn" type="button">حذف</button>
+          <div><button class="secondary-button" id="cancelModal" type="button">إلغاء</button><button class="primary-button" id="saveReleaseBtn" type="button">حفظ</button></div>
+        </footer>
+      </form>
+    </dialog>
 
-        const syncSettings = () => {
-          store.settings.title = document.getElementById("setPortalTitle").value;
-          store.settings.desc = document.getElementById("setPortalDesc").value;
-          pushLocal();
-        };
-        document.getElementById("setPortalTitle").addEventListener("input", syncSettings);
-        document.getElementById("setPortalDesc").addEventListener("input", syncSettings);
+    <script>
+var currentFlowStatus = "draft";
+const storageKey = "release-notes-platform-v1";
+const databaseName = "release-notes-platform-local-db";
+const databaseVersion = 1;
+const databaseStore = "appState";
+const databaseRecordId = "main";
+const useSupabaseSync = true;
+let databaseSaveQueue = Promise.resolve();
+const serverDatabaseEnabled = false;
+let serverSaveQueue = Promise.resolve();
 
-        // Kaydetme işlemi
-        document.getElementById("btnSave").addEventListener("click", () => {
-          const ver = document.getElementById("mVersion").value.trim();
-          const ttl = document.getElementById("mTitle").value.trim();
-          if(!ver || !ttl) return alert("Lütfen gerekli alanları doldurun.");
+const SUPABASE_URL = "https://qfydsdxbbzjyhesjoar.supabase.co";
+const SUPABASE_KEY = "sb_publishable_MH0J_lbsFNsRuLdF1XuIqg_IBHw1Oa1";
+const SB = (path, opts={}) => fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+  headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": opts.prefer||"return=representation", ...(opts.headers||{}) },
+  method: opts.method||"GET", body: opts.body||undefined
+}).catch(e => ({ json: ()=>[] }));
 
-          const data = {
-            id: store.activeId || crypto.randomUUID(),
-            version: ver,
-            title: ttl,
-            date: document.getElementById("mDate").value,
-            status: document.getElementById("mStatus").value,
-            type: document.getElementById("mType").value,
-            author: "Avs",
-            text: document.getElementById("mText").value
-          };
+async function loadFromSupabase() {
+  if (!useSupabaseSync) return;
+  try {
+    const [relRes, setRes] = await Promise.all([ SB("releases?order=created_at.desc"), SB("settings") ]);
+    const releases = await relRes.json();
+    const settingsRows = await setRes.json();
+    if (Array.isArray(releases) && releases.length) {
+      state.data.releases = releases.map(r => ({ ...r, items: (() => { try { return JSON.parse(r.items||"[]"); } catch(e){ return []; } })() }));
+    }
+    if (Array.isArray(settingsRows) && settingsRows.length) {
+      const s = {}; settingsRows.forEach(r => s[r.key] = r.value==="true"?true:r.value==="false"?false:r.value);
+      state.data.settings = { ...state.data.settings, ...s };
+    }
+    renderAll(); setTema(state.data.settings.theme);
+  } catch(e) { console.warn("Supabase load error", e); }
+}
+async function saveReleaseToSupabase(release) {
+  if (!useSupabaseSync) return;
+  try {
+    const payload = { ...release, items: JSON.stringify(release.items||[]) };
+    await SB("releases", { method:"POST", prefer:"resolution=merge-duplicates", body: JSON.stringify(payload) });
+  } catch(e) { console.warn("Supabase save error", e); }
+}
+async function deleteReleaseFromSupabase(id) {
+  if (!useSupabaseSync) return;
+  try { await SB(`releases?id=eq.${encodeURIComponent(id)}`, { method:"DELETE" }); }
+  catch(e) { console.warn("Supabase delete error", e); }
+}
+async function saveSettingsToSupabase(settings) {
+  if (!useSupabaseSync) return;
+  try {
+    const rows = Object.entries(settings).map(([key,value])=>({key,value:String(value)}));
+    await SB("settings", { method:"POST", prefer:"resolution=merge-duplicates", body: JSON.stringify(rows) });
+  } catch(e) { console.warn("Supabase settings error", e); }
+}
 
-          if(store.activeId) {
-            const idx = store.releases.findIndex(x => x.id === store.activeId);
-            if(idx !== -1) store.releases[idx] = data;
-          } else {
-            store.releases.push(data);
-          }
+const seedReleases = [
+  {
+    id: crypto.randomUUID(),
+    version: "v1.1.0",
+    title: "A Few Things You Should Know",
+    date: new Date().toISOString().slice(0, 10),
+    status: "Draft",
+    author: "Avs",
+    summary: "<p>Bu sürümde release notes deneyimini daha hızlı, okunabilir ve yönetilebilir hale getiren yeni alanlar eklendi.</p>",
+    items: [
+      { type: "ميزة جديدة", text: "Rich text editör ve görsel ekleme desteği eklendi." },
+      { type: "Improvement", text: "Portal arama ve kategori filtreleme akışı iyileştirildi." },
+    ],
+  },
+  {
+    id: crypto.randomUUID(),
+    version: "v1.0.0",
+    title: "We're Starting a Changelog",
+    date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString().slice(0, 10),
+    status: "Published",
+    author: "Avs",
+    summary: "<p>Bugün ürün newspage alanımızı duyuruyoruz. Kullanıcılarınız en yeni özellikleri, iyileştirmeleri ve hata düzeltmelerini tek bir modern portaldan takip edebilir.</p>",
+    items: [
+      { type: "ميزة جديدة", text: "Yeni sürüm oluşturma ve yayınlama akışı hazırlandı." },
+      { type: "Fix", text: "Yayınlanan sürümlerin portal zaman çizelgesinde düzgün sıralanması sağlandı." },
+    ],
+  },
+];
 
-          pushLocal();
-          initTable();
-          document.getElementById("releaseModal").classList.remove("active");
-        });
+const state = { data: loadData(), editingId: null, portalCategory: "all" };
 
-        // Silme işlemi
-        document.getElementById("btnDelete").addEventListener("click", () => {
-          if(!store.activeId) return;
-          if(confirm("Bu sürümü kalıcı olarak silmek istiyor musunuz?")) {
-            store.releases = store.releases.filter(x => x.id !== store.activeId);
-            pushLocal();
-            initTable();
-            document.getElementById("releaseModal").classList.remove("active");
-          }
-        });
+const els = {
+  app: document.getElementById("app"),
+  sidebar: document.querySelector(".sidebar"),
+  navItems: document.querySelectorAll(".nav-item"),
+  releaseTable: document.getElementById("releaseTable"),
+  releaseModal: document.getElementById("releaseModal"),
+  releaseForm: document.getElementById("releaseForm"),
+  modalTitle: document.getElementById("modalTitle"),
+  versionInput: document.getElementById("versionInput"),
+  dateInput: document.getElementById("dateInput"),
+  releaseDurum: document.getElementById("releaseDurum"),
+  authorInput: document.getElementById("authorInput"),
+  titleInput: document.getElementById("titleInput"),
+  summaryEditor: document.getElementById("summaryEditor"),
+  itemsList: document.getElementById("itemsList"),
+  deleteReleaseBtn: document.getElementById("deleteReleaseBtn"),
+  statusFilter: document.getElementById("statusFilter"),
+  typeFilter: document.getElementById("typeFilter"),
+  adminSearch: document.getElementById("adminSearch"),
+  portalView: document.getElementById("portalView"),
+  timeline: document.getElementById("timeline"),
+  categoryList: document.getElementById("categoryList"),
+  portalSearch: document.getElementById("portalSearch"),
+  portalEnabled: document.getElementById("portalEnabled"),
+  basicDomain: document.getElementById("basicDomain"),
+  customDomain: document.getElementById("customDomain"),
+  portalTitle: document.getElementById("portalTitle"),
+  portalSubtitle: document.getElementById("portalSubtitle"),
+  emailEnabled: document.getElementById("emailEnabled"),
+  portalTitleText: document.getElementById("portalTitleText"),
+  portalSubtitleText: document.getElementById("portalSubtitleText"),
+};
 
-        // Portalı Aç / Kapat
-        document.getElementById("btnViewLive").addEventListener("click", () => {
-          document.getElementById("pTitle").textContent = store.settings.title;
-          document.getElementById("pDesc").textContent = store.settings.desc;
-          renderPortal();
-          document.getElementById("app-wrapper").style.display = "none";
-          document.getElementById("public-portal-view").classList.add("active");
-          document.getElementById("backToAdmin").style.display = "block";
-        });
+function stripHtml(html) { const div = document.createElement("div"); div.innerHTML = html || ""; return div.textContent || div.innerText || ""; }
+let _saveTimer;
 
-        document.getElementById("backToAdmin").addEventListener("click", () => {
-          document.getElementById("public-portal-view").classList.remove("active");
-          document.getElementById("backToAdmin").style.display = "none";
-          document.getElementById("app-wrapper").style.display = "flex";
-        });
+function cloneJson(value) { return JSON.parse(JSON.stringify(value)); }
+function defaultData() {
+  return {
+    releases: cloneJson(seedReleases),
+    settings: {
+      portalEnabled: true,
+      emailEnabled: false,
+      basicDomain: "aous",
+      customDomain: "",
+      portalTitle: "aous Güncellemeleri",
+      portalSubtitle: "aouspython.com",
+      theme: "light",
+    },
+  };
+}
 
-        initTable();
-      });
+function normalizeRelease(release) {
+  if (!release || typeof release !== "object") return null;
+  return {
+    id: release.id || crypto.randomUUID(),
+    version: release.version || "",
+    title: release.title || "",
+    date: release.date || new Date().toISOString().slice(0, 10),
+    status: release.status || "Draft",
+    author: release.author || "Avs",
+    summary: release.summary || "<p></p>",
+    emailOnPublish: Boolean(release.emailOnPublish),
+    items: Array.isArray(release.items) ? release.items.map((item) => ({
+      type: item?.type || "New Feature",
+      text: item?.text || "",
+    })).filter((item) => item.text) : [],
+  };
+}
+
+function normalizeData(data) {
+  const fallback = defaultData();
+  if (!data || typeof data !== "object") return fallback;
+  return {
+    releases: Array.isArray(data.releases) ? data.releases.map(normalizeRelease).filter(Boolean) : fallback.releases,
+    settings: { ...fallback.settings, ...(data.settings || {}) },
+  };
+}
+
+function persistLocalStorage(data) {
+  try { localStorage.setItem(storageKey, JSON.stringify(normalizeData(data))); } catch (error) { console.warn("Local storage save error", error); }
+}
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) return normalizeData(JSON.parse(saved));
+  } catch (error) { console.warn("Local storage load error", error); }
+  return defaultData();
+}
+
+function openLocalDatabase() {
+  return new Promise((resolve, reject) => {
+    if (!window.indexedDB) { reject(new Error("IndexedDB is not supported.")); return; }
+    const request = indexedDB.open(databaseName, databaseVersion);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(databaseStore)) { db.createObjectStore(databaseStore, { keyPath: "id" }); }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error("Database open failed."));
+  });
+}
+
+async function readDatabaseRecord() {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(databaseStore, "readonly");
+    const store = tx.objectStore(databaseStore);
+    const request = store.get(databaseRecordId);
+    let result = null;
+    request.onsuccess = () => { result = request.result?.data || null; };
+    tx.oncomplete = () => { db.close(); resolve(result ? normalizeData(result) : null); };
+    tx.onerror = () => { db.close(); reject(tx.error || new Error("Database read failed.")); };
+  });
+}
+
+async function writeDatabaseRecord(data) {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(databaseStore, "readwrite");
+    const store = tx.objectStore(databaseStore);
+    store.put({ id: databaseRecordId, data: normalizeData(data), updatedAt: new Date().toISOString() });
+    tx.oncomplete = () => { db.close(); resolve(); };
+    tx.onerror = () => { db.close(); reject(tx.error || new Error("Database write failed.")); };
+  });
+}
+
+async function hydrateFromLocalDatabase() {
+  try {
+    const databaseData = await readDatabaseRecord();
+    if (databaseData) {
+      state.data = databaseData; persistLocalStorage(state.data);
+      setTema(state.data.settings.theme, false); renderAll(); return;
+    }
+    await writeDatabaseRecord(state.data); persistLocalStorage(state.data);
+  } catch (error) { console.warn("Local database load error", error); }
+}
+
+function showSaveIndicator(status) {
+  const ind = document.getElementById("saveIndicator");
+  if (!ind) return;
+  clearTimeout(_saveTimer);
+  ind.style.opacity = "1";
+  if (status === "saving") {
+    ind.style.color = "var(--primary)";
+    ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Kaydediliyor...`;
+    return;
+  }
+  if (status === "error") {
+    ind.style.color = "var(--red)";
+    ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/><line x1="16" y1="8" x2="8" y2="16"/></svg> Kayıt hatası`;
+    _saveTimer = setTimeout(() => { ind.style.opacity = "0"; }, 3000);
+    return;
+  }
+  ind.style.color = "var(--muted)";
+  ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Kaydedildi`;
+  _saveTimer = setTimeout(() => { ind.style.opacity = "0"; }, 2000);
+}
+
+function saveData() {
+  const snapshot = normalizeData(state.data);
+  state.data = snapshot; persistLocalStorage(snapshot);
+  showSaveIndicator("saving");
+  databaseSaveQueue = databaseSaveQueue
+    .catch(() => {})
+    .then(() => writeDatabaseRecord(snapshot))
+    .then(() => showSaveIndicator("saved"))
+    .catch((error) => { console.warn("Local database save error", error); showSaveIndicator("error"); });
+}
+
+function setTema(theme, persist = true) {
+  state.data.settings.theme = theme; document.documentElement.dataset.theme = theme;
+  if (persist) saveData();
+}
+
+function formatDate(dateString) { return new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(new Date(dateString)); }
+function chipClass(type) { if (type === "ميزة جديدة" || type === "New Feature") return "feature"; if (type === "Improvement") return "improvement"; return "fix"; }
+
+function matchesFilters(release) {
+  const status = els.statusFilter.value;
+  const type = els.typeFilter.value;
+  const query = els.adminSearch.value.trim().toLowerCase();
+  const haystack = [release.version, release.title, release.status, release.author, stripHtml(release.summary), ...release.items.map((item) => `${item.type} ${item.text}`)].join(" ").toLowerCase();
+  
+  const statusMap = { "all": "all", "مسودة": "Draft", "منصول": "Published", "منشور": "Published", "مؤرشف": "Archived", "Draft": "Draft", "Published": "Published", "Archived": "Archived" };
+  const targetStatus = statusMap[status] || status;
+  const currentStatus = statusMap[release.status] || release.status;
+
+  return (status === "all" || currentStatus === targetStatus) && (type === "all" || release.items.some((item) => item.type === type)) && (!query || haystack.includes(query));
+}
+
+function renderTable() {
+  const releases = [...state.data.releases].sort((a, b) => new Date(b.date) - new Date(a.date)).filter(matchesFilters);
+  els.releaseTable.innerHTML = `<div class="table-head"><span>العنوان</span><span>Yayın Zamanı</span><span>الحالة</span><span>الكاتب</span><span>Bölümler</span><span></span></div>`;
+  if (!releases.length) { els.releaseTable.insertAdjacentHTML("beforeend", '<div class="empty-state">Henüz sürüm yok.</div>'); return; }
+  releases.forEach((release) => {
+    const chips = [...new Set(release.items.map((item) => item.type))].map((type) => `<span class="chip ${chipClass(type)}">${type}</span>`).join("");
+    const cleanSummary = stripHtml(release.summary);
+    const row = document.createElement("div");
+    row.className = "release-row";
+    row.innerHTML = `<div><p class="release-title">${release.version} · ${release.title}</p><p class="release-desc">${cleanSummary.slice(0, 112)}${cleanSummary.length > 112 ? "..." : ""}</p><div class="chips">${chips}</div></div><span>${formatDate(release.date)}</span><span class="status ${release.status}">${release.status}</span><span>${release.author || "Avs"}</span><span>${release.items.length} بند</span><div class="row-actions"><button type="button" aria-label="تعديل" data-edit="${release.id}">✎</button></div>`;
+    els.releaseTable.appendChild(row);
+  });
+}
+
+function openModal(release = null) {
+  state.editingId = release?.id || null;
+  els.modalTitle.textContent = release ? "تعديل الإصدار" : "إصدار جديد";
+  els.deleteReleaseBtn.style.display = release ? "inline-block" : "none";
+  els.versionInput.value = release?.version || "";
+  els.dateInput.value = release?.date || new Date().toISOString().slice(0, 10);
+  els.releaseDurum.value = release?.status || "Draft";
+  els.authorInput.value = release?.author || "Avs";
+  els.titleInput.value = release?.title || "";
+  els.summaryEditor.innerHTML = release?.summary || "<p></p>";
+  els.itemsList.innerHTML = "";
+  (release?.items?.length ? release.items : [{ type: "ميزة جديدة", text: "" }]).forEach(addItemRow);
+  els.releaseModal.showModal();
+}
+function closeModal() { els.releaseModal.close(); }
+function addItemRow(item = { type: "ميزة جديدة", text: "" }) {
+  const row = document.createElement("div");
+  row.className = "item-row";
+  row.innerHTML = `<select class="item-type"><option ${item.type === "ميزة جديدة" || item.type === "New Feature" ? "selected" : ""}>New Feature</option><option ${item.type === "Improvement" ? "selected" : ""}>Improvement</option><option ${item.type === "Fix" ? "selected" : ""}>Fix</option></select><textarea class="item-text" placeholder="ما الذي تغير في هذا البند؟">${item.text || ""}</textarea><button class="remove-item" type="button" aria-label="Kalemi sil">×</button>`;
+  els.itemsList.appendChild(row);
+}
+function collectItems() { return [...els.itemsList.querySelectorAll(".item-row")].map((row) => ({ type: row.querySelector(".item-type").value, text: row.querySelector(".item-text").value.trim() })).filter((item) => item.text); }
+
+function saveRelease(event) {
+  event.preventDefault();
+  const release = { id: state.editingId || crypto.randomUUID(), version: els.versionInput.value.trim(), title: els.titleInput.value.trim(), date: els.dateInput.value, status: els.releaseDurum.value, author: els.authorInput.value.trim() || "Avs", summary: els.summaryEditor.innerHTML.trim() || "<p></p>", items: collectItems().length ? collectItems() : [{ type: "New Feature", text: els.titleInput.value.trim() || "—" }] };
+  state.data.releases = state.editingId ? state.data.releases.map((item) => (item.id === state.editingId ? release : item)) : [release, ...state.data.releases];
+  saveData(); renderAll(); closeModal();
+  if (useSupabaseSync) { state.data.releases.forEach(r => saveReleaseToSupabase(r)); }
+}
+function deleteRelease() { if (!state.editingId) return; const id = state.editingId; state.data.releases = state.data.releases.filter((release) => release.id !== id); saveData(); renderAll(); closeModal(); deleteReleaseFromSupabase(id); }
+
+function renderSettings() {
+  const settings = state.data.settings;
+  els.portalEnabled.checked = settings.portalEnabled;
+  els.emailEnabled.checked = settings.emailEnabled;
+  els.basicDomain.value = settings.basicDomain;
+  els.customDomain.value = settings.customDomain;
+  els.portalTitle.value = settings.portalTitle;
+  els.portalSubtitle.value = settings.portalSubtitle;
+  els.portalTitleText.textContent = settings.portalTitle;
+  els.portalSubtitleText.textContent = settings.portalSubtitle;
+}
+function saveSettings() {
+  state.data.settings = { ...state.data.settings, portalEnabled: els.portalEnabled.checked, emailEnabled: els.emailEnabled.checked, basicDomain: els.basicDomain.value.trim(), customDomain: els.customDomain.value.trim(), portalTitle: els.portalTitle.value.trim() || "aous Güncellemeleri", portalSubtitle: els.portalSubtitle.value.trim() || "aouspython.com" };
+  saveData(); renderSettings(); renderTimeline();
+  saveSettingsToSupabase(state.data.settings);
+}
+function renderCategories() {
+  const categories = [["all", "Tüm Yayınlar"], ["ميزة جديدة", "Yeni Özellik"], ["Improvement", "İyileştirme"], ["Fix", "Düzeltme"]];
+  els.categoryList.innerHTML = categories.map(([value, label]) => `<button class="pn-cat ${state.portalCategory === value ? "active" : ""}" type="button" data-category="${value}">${label}</button>`).join("");
+}
+
+function renderTimeline() {
+  renderCategories();
+  const query = els.portalSearch.value.trim().toLowerCase();
+  const dynamicFeed = document.getElementById("pn-feed-dynamic");
+  if (!dynamicFeed) return;
+
+  const releases = state.data.releases.filter((release) => release.status === "Published" || release.status === "منشور")
+    .filter((release) => state.portalCategory === "all" || release.items.some((item) => item.type === state.portalCategory || (state.portalCategory === "ميزة جديدة" && item.type === "New Feature")))
+    .filter((release) => !query || [release.version, release.title, stripHtml(release.summary), ...release.items.map((item) => item.text)].join(" ").toLowerCase().includes(query))
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  if (!state.data.settings.portalEnabled) { dynamicFeed.innerHTML = '<div class="empty-state">البوابة مغلقة حالياً.</div>'; return; }
+  if (!releases.length) { dynamicFeed.innerHTML = '<div class="empty-state">لم يتم العثور على إصدار منشور.</div>'; return; }
+
+  dynamicFeed.innerHTML = releases.map((release, index) => {
+    const chips = [...new Set(release.items.map((item) => item.type))].map((type) => {
+        let label = type === "ميزة جديدة" || type === "New Feature" ? "YENİ" : type === "Improvement" ? "İYİLEŞTİRME" : "DÜZELTME";
+        let cls = type === "ميزة جديدة" || type === "New Feature" ? "pn-chip-new" : type === "Improvement" ? "pn-chip-improvement" : "pn-chip-fix";
+        return `<span class="pn-chip ${cls}">${label}</span>`;
+    }).join("");
+
+    return `
+      <article class="pn-entry">
+        <a class="pn-back" href="#">← رجوع</a>
+        <div class="pn-entry-social">
+          <a href="#" class="pn-social-btn" title="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+        </div>
+        <div class="pn-entry-main">
+          <h2 class="pn-entry-title">${release.version} - ${release.title} <span class="pn-detail-link">عرض التفاصيل →</span></h2>
+          <div class="pn-entry-date">${formatDate(release.date)}</div>
+          <div class="pn-chips">${chips}</div>
+          <div class="entry-body">${release.summary}</div>
+          <div class="release-section-list" style="margin-top:15px;">
+            ${release.items.map(item => `
+              <div class="pn-section">
+                <div class="pn-section-title">${item.type}</div>
+                <ul><li>${item.text}</li></ul>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderAll() { renderTable(); renderSettings(); renderTimeline(); }
+function switchView(view) {
+  document.querySelectorAll(".panel-view").forEach((panel) => panel.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach((item) => item.classList.toggle("active", item.dataset.view === view));
+  const target = document.getElementById(`${view}View`);
+  if (target) target.classList.add("active");
+  els.sidebar?.classList?.remove("open");
+  try { renderAll(); } catch(e) {}
+}
+function openPortal() { els.app?.classList?.add("portal-open"); els.portalView?.classList?.add("active"); renderTimeline(); }
+function closePortal() { els.app?.classList?.remove("portal-open"); els.portalView?.classList?.remove("active"); }
+
+function insertSectionHeader(title) {
+  const editor = document.getElementById("flowContentEditor");
+  if (!editor) return;
+  editor.focus();
+  const html = `<div class="pn-section-header-block">${title}</div><p><br></p>`;
+  document.execCommand("insertHTML", false, html);
+  document.getElementById("sectionHeaderMenu").parentNode.classList.remove("open");
+}
+
+function setFlowStatus(status) {
+  currentFlowStatus = status;
+  const draftBtn = document.getElementById("chooseDraftBtn");
+  const publishBtn = document.getElementById("choosePublishBtn");
+  const hint = document.getElementById("flowStatusHint");
+  if(status === 'publish') {
+    publishBtn.className = "status-btn-active-publish";
+    draftBtn.className = "";
+    draftBtn.style.cssText = "flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:14px;cursor:pointer;";
+    hint.textContent = "الآن: سيتم النشر مباشرة";
+  } else {
+    draftBtn.className = "status-btn-active-draft";
+    publishBtn.className = "";
+    publishBtn.style.cssText = "flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:14px;cursor:pointer;";
+    hint.textContent = "الآن: سيتم الحفظ كمسودة";
+  }
+}
+
+function bindEvents() {
+  els.navItems.forEach((item) => item.addEventListener("click", () => switchView(item.dataset.view)));
+  document.getElementById("mobileMenu")?.addEventListener("click", () => els.sidebar?.classList?.toggle("open"));
+  document.getElementById("newReleaseBtn")?.addEventListener("click", () => openPublicationFlow());
+  document.getElementById("closeModal")?.addEventListener("click", closeModal);
+  document.getElementById("cancelModal")?.addEventListener("click", closeModal);
+  els.releaseForm?.addEventListener("submit", saveRelease);
+  document.getElementById("saveReleaseBtn")?.addEventListener("click", (e) => saveRelease(e));
+  els.deleteReleaseBtn?.addEventListener("click", deleteRelease);
+  [els.statusFilter, els.typeFilter, els.adminSearch].forEach((el) => el.addEventListener("input", renderTable));
+  [els.portalEnabled, els.emailEnabled, els.basicDomain, els.customDomain, els.portalTitle, els.portalSubtitle].forEach((el) => el.addEventListener("input", saveSettings));
+  document.getElementById("viewOnlineBtn")?.addEventListener("click", openPortal);
+  document.getElementById("openPortal")?.addEventListener("click", openPortal);
+  document.getElementById("backToAdmin")?.addEventListener("click", closePortal);
+  els.portalSearch?.addEventListener("input", renderTimeline);
+  document.getElementById("themeToggle")?.addEventListener("click", () => setTema(state.data.settings.theme === "dark" ? "light" : "dark"));
+  document.getElementById("portalTemaToggle")?.addEventListener("click", () => setTema(state.data.settings.theme === "dark" ? "light" : "dark"));
+  els.releaseTable?.addEventListener("click", (event) => { const editId = event.target.dataset.edit; if (editId) openModal(state.data.releases.find((release) => release.id === editId)); });
+  els.itemsList?.addEventListener("click", (event) => { if (event.target.classList.contains("remove-item")) event.target.closest(".item-row").remove(); });
+  
+  document.getElementById("sectionHeaderBtn")?.addEventListener("click", function(e) {
+     e.stopPropagation();
+     this.parentNode.classList.toggle("open");
+  });
+  document.addEventListener("click", () => {
+     document.getElementById("sectionHeaderMenu")?.parentNode.classList.remove("open");
+  });
+
+  document.getElementById("continueToOptions")?.addEventListener("click", continuePublicationFlow);
+  document.getElementById("backToStep1Btn")?.addEventListener("click", () => showPublicationStep(1));
+  document.getElementById("backToPublications")?.addEventListener("click", () => switchView("publications"));
+  
+  document.getElementById("saveFlowBtn")?.addEventListener("click", () => {
+     const flow = getFlowEls();
+     const release = {
+       id: crypto.randomUUID(),
+       version: "v1.0." + (state.data.releases.length + 1),
+       title: flow.title.value.trim(),
+       date: new Date().toISOString().slice(0, 10),
+       status: currentFlowStatus === "publish" ? "Published" : "Draft",
+       author: "Avs",
+       summary: flow.content.innerHTML,
+       items: [{type: "New Feature", text: flow.excerpt.value}]
+     };
+     state.data.releases = [release, ...state.data.releases];
+     saveData();
+     if(useSupabaseSync) saveReleaseToSupabase(release);
+     flow.summary.innerHTML = `<div class="summary-preview"><h2>${release.version} · ${release.title}</h2>${release.summary}</div>`;
+     showPublicationStep(3);
+  });
+  document.getElementById("editFlowAgain")?.addEventListener("click", () => showPublicationStep(1));
+  document.getElementById("finishFlowBtn")?.addEventListener("click", () => switchView("publications"));
+
+  document.getElementById("labelButton")?.addEventListener("click", (e) => {
+     e.stopPropagation();
+     document.getElementById("labelMenu").classList.toggle("open");
+  });
+  document.querySelectorAll("#labelMenu button").forEach(btn => {
+     btn.addEventListener("click", () => {
+        const lbl = btn.dataset.label;
+        const chip = document.createElement("button");
+        chip.className = `chip ${chipClass(lbl)}`;
+        chip.textContent = lbl + " x";
+        chip.onclick = () => chip.remove();
+        document.getElementById("flowLabels").appendChild(chip);
+        document.getElementById("labelMenu").classList.remove("open");
+     });
+  });
+
+  document.querySelectorAll("#flowToolbar button[data-flow-command]").forEach(btn => {
+     btn.addEventListener("click", () => {
+        document.execCommand(btn.dataset.flowUncommand || btn.dataset.flowCommand, false, btn.dataset.value || null);
+     });
+  });
+}
+
+function getFlowEls() {
+  return {
+    title: document.getElementById("flowTitleInput"),
+    content: document.getElementById("flowContentEditor"),
+    dateText: document.getElementById("flowDateText"),
+    optionsTitle2: document.getElementById("optionsTitle"),
+    excerpt: document.getElementById("flowExcerptInput"),
+    email: document.getElementById("flowEmailToggle"),
+    summary: document.getElementById("flowSummaryCard"),
+  };
+}
+
+function resetPublicationFlow() {
+  const flow = getFlowEls();
+  flow.title.value = "بدون عنوان";
+  flow.content.innerHTML = "";
+  flow.excerpt.value = "";
+  currentFlowStatus = 'draft';
+  showPublicationStep(1);
+}
+
+function openPublicationFlow() {
+  resetPublicationFlow();
+  switchView("publicationEditor");
+}
+
+function showPublicationStep(step) {
+  document.querySelectorAll(".publication-step").forEach((panel) => panel.classList.toggle("active", panel.dataset.editorStep === String(step)));
+  document.querySelectorAll("[data-step-indicator]").forEach((item) => item.classList.toggle("active", item.dataset.stepIndicator === String(step)));
+}
+
+function continuePublicationFlow() {
+  const flow = getFlowEls();
+  flow.optionsTitle2.textContent = flow.title.value.trim() || "بدون عنوان";
+  flow.dateText.textContent = new Intl.DateTimeFormat("tr-TR", { dateStyle: "long" }).format(new Date());
+  if (!flow.excerpt.value.trim()) {
+     const text = stripHtml(flow.content.innerHTML).trim();
+     flow.excerpt.value = text.length > 180 ? text.slice(0, 180) + "..." : text || "İçerik yok.";
+  }
+  showPublicationStep(2);
+}
+
+els.categoryList?.addEventListener("click", (event) => { const button = event.target.closest("button[data-category]"); if (!button) return; state.portalCategory = button.dataset.category; renderTimeline(); });
+
+setTema(state.data.settings.theme, false);
+bindEvents();
+renderAll();
+loadFromSupabase().catch(() => hydrateFromLocalDatabase());
     </script>
-  </body>
+</body>
 </html>

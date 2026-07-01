@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "uri": "mongodb+srv://admin:AvsAdmin12345@cluster0.ethalgb.mongodb.net/?appName=Cluster0",
+  "database": "release_notes_platform",
+  "collection": "app_state",
+  "document_id": "main"
+}

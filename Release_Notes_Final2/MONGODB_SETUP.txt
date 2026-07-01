@@ -1,0 +1,33 @@
+MongoDB baglantisi nasil acilir?
+
+1. MongoDB Atlas'ta bir cluster olustur.
+2. Database Access bolumunden bir kullanici olustur.
+3. Network Access bolumunden kendi IP adresine izin ver.
+   Test icin 0.0.0.0/0 kullanilabilir ama guvenlik icin onerilmez.
+4. Connect > Drivers menusunden connection string'i kopyala.
+   Ornek:
+   mongodb+srv://kullanici:sifre@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+
+5. Bu klasordeki mongo_config.json dosyasini ac.
+6. enabled degerini true yap.
+7. uri alanina MongoDB connection string'ini yapistir.
+8. database ve collection alanlarini istersen degistir.
+
+Ornek mongo_config.json:
+
+{
+  "enabled": true,
+  "uri": "mongodb+srv://kullanici:sifre@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority",
+  "database": "release_notes_platform",
+  "collection": "app_state",
+  "document_id": "main"
+}
+
+9. Bu bilgisayarda bir kez install_mongodb_requirements.bat dosyasini calistir.
+10. Sonra start.bat dosyasina cift tikla.
+
+Onemli:
+- index.html dosyasini direkt acma. Her zaman start.bat ile ac.
+- MongoDB aktifse veriler release_notes.db yerine MongoDB'ye yazilir.
+- Ayni MongoDB connection string'i baska bilgisayarda da kullanilirsa tum bilgisayarlar ayni veriyi gorur.
+- MongoDB sifresini herkese gonderme. Klasoru baskasina gondereceksen o kisinin kendi MongoDB kullanicisi olmasi daha guvenlidir.

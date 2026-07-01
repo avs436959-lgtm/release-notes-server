@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///C:/Users/Aplus/Downloads/Release%20Notes%20Platform.html -->
+<html lang="ar" dir="rtl" data-theme="dark" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes Platform</title>
+    <style>
+:root {
+  color-scheme: light;
+  --bg: #eef2f8;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --nav: #07182b;
+  --nav-active: #102945;
+  --text: #13073d;
+  --muted: #71809a;
+  --line: #dbe3f0;
+  --primary: #1265f4;
+  --pink: #e3007a;
+  --yellow: #ffd832;
+  --green: #27b36a;
+  --red: #ff3d38;
+  --shadow: 0 18px 45px rgba(27, 44, 76, 0.12);
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1421;
+  --surface: #141c2b;
+  --surface-soft: #101827;
+  --nav: #07111f;
+  --nav-active: #182842;
+  --text: #f3f6ff;
+  --muted: #9ca9bd;
+  --line: #29364d;
+  --primary: #4f8dff;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.app-shell { min-height: 100vh; display: grid; grid-template-columns: 296px minmax(0, 1fr); }
+.sidebar {
+  background: var(--nav);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+}
+.brand {
+  height: 86px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  background: conic-gradient(from 40deg, #7b18ff, #1f6fff 35%, #05c3ff 56%, transparent 57%, transparent 64%, #7b18ff 65%), radial-gradient(circle at center, var(--nav) 0 43%, transparent 44%);
+}
+.brand small { display: block; color: #9fb2ca; margin-top: 2px; }
+.side-nav { padding: 20px 0; }
+.nav-item, .portal-link {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  background: transparent;
+  color: #edf4ff;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 30px;
+  font-weight: 700;
+  text-align: left;
+}
+.nav-item.active, .nav-item:hover, .portal-link:hover { background: var(--nav-active); }
+.icon { width: 18px; text-align: center; }
+.sidebar-footer { margin-top: auto; padding: 16px 0 28px; border-top: 1px solid rgba(255, 255, 255, 0.13); }
+.workspace { min-width: 0; }
+.topbar {
+  height: 86px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+.project-name { color: #3f5576; }
+.topbar-actions { display: flex; align-items: center; gap: 14px; }
+.icon-button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 8px;
+  position: relative;
+}
+.icon-button:hover { background: var(--surface-soft); }
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  display: grid;
+  place-items: center;
+}
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #cce322;
+  color: #fff;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.panel-view { display: none; padding: 78px clamp(24px, 7vw, 96px); }
+.panel-view.active { display: block; }
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 38px;
+}
+h1 { margin: 0; font-size: clamp(32px, 4vw, 40px); font-weight: 500; }
+p { color: var(--muted); }
+.primary-button, .secondary-button, .danger-button, .ghost-button, .follow-button {
+  border: 0;
+  border-radius: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  font-weight: 800;
+}
+.primary-button {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(18, 101, 244, 0.28);
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.secondary-button { background: var(--surface-soft); color: var(--text); border: 1px solid var(--line); }
+.danger-button { background: rgba(255, 61, 56, 0.11); color: var(--red); }
+.filters {
+  display: grid;
+  grid-template-columns: 196px 196px minmax(260px, 1fr);
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 48px;
+}
+label span { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+input, select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0 16px;
+  outline: none;
+}
+input:focus, select:focus, .rich-editor:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(18, 101, 244, 0.12);
+}
+.table-card, .settings-row, .settings-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.release-table { overflow: hidden; }
+.table-head, .release-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.7fr) 150px 120px 120px 180px 52px;
+  gap: 18px;
+  align-items: center;
+  padding: 24px;
+}
+.table-head { font-weight: 700; border-bottom: 1px solid var(--line); }
+.release-row { border-bottom: 1px solid var(--line); }
+.release-row:last-child { border-bottom: 0; }
+.release-title { font-weight: 800; margin: 0 0 6px; }
+.release-desc { margin: 0 0 12px; color: var(--muted); line-height: 1.45; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border-radius: 999px;
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.chip.feature { background: var(--red); }
+.chip.improvement { background: var(--yellow); color: #111; }
+.chip.fix { background: #7468f2; }
+.status { display: inline-flex; align-items: center; gap: 8px; }
+.status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #ff9f00; }
+.status.Published::before { background: var(--green); }
+.status.Archived::before { background: var(--muted); }
+.row-actions { display: flex; justify-content: flex-start; gap: 4px; }
+.row-actions button {
+  border: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+}
+.row-actions button:hover { background: var(--surface-soft); }
+.empty-state { padding: 52px 24px; text-align: center; color: var(--muted); }
+.settings-stack { max-width: 860px; display: grid; gap: 18px; }
+.settings-row, .settings-box { padding: 34px 32px; }
+.settings-row { display: grid; grid-template-columns: 42px 1fr auto; gap: 18px; align-items: center; }
+.settings-row h3, .settings-box h3 { margin: 0 0 4px; }
+.settings-row p, .settings-box p { margin: 0; }
+.settings-icon { width: 42px; height: 42px; border-radius: 8px; background: #453f70; color: #fff; display: grid; place-items: center; font-weight: 900; }
+.settings-icon.blue { background: #079beb; }
+.settings-icon.pink { background: var(--pink); }
+.settings-box header { display: grid; grid-template-columns: 42px 1fr auto; gap: 18px; align-items: center; margin-bottom: 34px; }
+.switch input { display: none; }
+.switch span { width: 62px; height: 28px; border-radius: 999px; background: var(--line); display: block; position: relative; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04); }
+.switch span::after { content: ""; width: 22px; height: 22px; border-radius: 50%; background: #fff; position: absolute; top: 3px; left: 4px; transition: 0.2s ease; }
+.switch input:checked + span { background: var(--primary); }
+.switch input:checked + span::after { transform: translateX(32px); }
+.form-grid { display: grid; gap: 18px; }
+.domain-input { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.notice { margin-top: 28px; background: #fff1bd; color: #583f02; border: 1px solid #f4ce6c; border-radius: 8px; padding: 18px 24px; line-height: 1.55; }
+.portal { display: none; min-height: 100vh; background: var(--surface); color: var(--text); }
+.portal.active { display: block; }
+.app-shell.portal-open { display: none; }
+.portal-header { max-width: 1040px; margin: 0 auto; padding: 26px 24px; display: flex; justify-content: flex-end; gap: 14px; }
+.ghost-button { margin-right: auto; color: var(--text); background: var(--surface-soft); border: 1px solid var(--line); }
+.follow-button { background: var(--pink); color: #fff; border-radius: 999px; text-transform: uppercase; font-size: 13px; }
+.portal-hero { text-align: center; padding: 66px 24px 58px; }
+.portal-hero h1 { font-size: clamp(32px, 5vw, 42px); }
+.portal-hero p { font-size: 22px; font-weight: 800; margin: 12px 0 0; }
+.portal-layout { max-width: 940px; margin: 0 auto; padding: 0 24px 70px; display: grid; grid-template-columns: minmax(0, 1fr) 226px; gap: 58px; align-items: start; }
+.timeline { border-left: 2px solid var(--line); padding-left: 32px; }
+.timeline-entry { position: relative; display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 26px; margin-bottom: 46px; }
+.timeline-entry::before { content: ""; position: absolute; left: -42px; top: 4px; width: 15px; height: 15px; background: var(--surface); border: 6px solid #303030; border-radius: 50%; }
+.entry-time { color: var(--text); text-align: right; line-height: 1.45; font-size: 14px; }
+.entry-content h2 { margin: 0 0 8px; font-size: 24px; }
+.entry-meta { margin: 0 0 14px; color: var(--muted); }
+.entry-body { color: #4b5870; line-height: 1.55; }
+[data-theme="dark"] .entry-body { color: #c7d0df; }
+.entry-body img, .rich-editor img { max-width: 100%; border-radius: 8px; margin: 10px 0; }
+.notes-list { display: grid; gap: 12px; margin-top: 18px; }
+.note-item { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--surface-soft); }
+.note-item strong { display: block; margin-bottom: 5px; }
+.portal-filter { position: sticky; top: 24px; }
+.portal-search { position: relative; display: block; margin-bottom: 16px; }
+.portal-search input { padding-right: 42px; }
+.portal-search span { position: absolute; right: 14px; top: 13px; color: var(--muted); }
+.category-list { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.category-list button { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--text); min-height: 43px; text-align: left; padding: 0 16px; }
+.category-list button:last-child { border-bottom: 0; }
+.category-list button.active { border-left: 3px solid var(--pink); padding-left: 13px; }
+.portal-footer { text-align: center; display: grid; gap: 48px; padding: 30px 24px 82px; color: var(--muted); }
+.portal-footer a { color: var(--text); text-decoration: none; }
+.release-modal { width: min(980px, calc(100vw - 32px)); border: 0; border-radius: 8px; padding: 0; background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.release-modal::backdrop { background: rgba(3, 10, 22, 0.6); }
+.modal-content { padding: 28px; }
+.modal-header, .modal-actions, .items-editor header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.modal-header h2, .items-editor h3 { margin: 0; }
+.modal-header p { margin: 6px 0 0; }
+.modal-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 24px 0 14px; }
+.full-label { display: block; margin-bottom: 14px; }
+.editor-shell { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.editor-toolbar { min-height: 50px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); background: var(--surface-soft); }
+.editor-toolbar button, .upload-button { min-height: 34px; border: 0; border-radius: 8px; padding: 0 12px; background: transparent; color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
+.editor-toolbar button:hover, .upload-button:hover { background: var(--surface); }
+.upload-button input { display: none; }
+
+.rich-editor:empty::before { content: attr(data-placeholder); color: #969bb3; pointer-events: none; }
+
+.rich-editor { min-height: 160px; padding: 18px; outline: none; line-height: 1.6; }
+.items-editor { margin-top: 24px; }
+.items-editor header { margin-bottom: 14px; }
+#itemsList { display: grid; gap: 12px; }
+.item-row { display: grid; grid-template-columns: 170px minmax(0, 1fr) 40px; gap: 12px; align-items: start; border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: var(--surface-soft); }
+.item-row textarea { min-height: 88px; resize: vertical; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); padding: 12px; }
+.remove-item { width: 40px; height: 40px; border: 0; border-radius: 8px; background: rgba(255, 61, 56, 0.1); color: var(--red); }
+.modal-actions { margin-top: 28px; }
+.modal-actions > div { display: flex; gap: 10px; }
+.mobile-menu { display: none; }
+@media (max-width: 980px) { .app-shell { grid-template-columns: 1fr; } .sidebar { position: fixed; inset: 0 auto 0 0; width: 286px; z-index: 10; transform: translateX(-100%); transition: transform 0.2s ease; } .sidebar.open { transform: translateX(0); } .mobile-menu { display: inline-grid; place-items: center; width: 38px; height: 38px; margin-right: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); } .filters, .portal-layout, .modal-grid, .table-head, .release-row { grid-template-columns: 1fr; } .table-head { display: none; } .release-row { gap: 10px; } .portal-filter { position: static; order: -1; } .timeline-entry { grid-template-columns: 1fr; gap: 8px; } .entry-time { text-align: left; } }
+@media (max-width: 640px) { .topbar { padding: 0 16px; } .user-name { display: none; } .panel-view { padding: 36px 16px; } .page-heading, .settings-box header, .settings-row, .modal-header, .modal-actions { display: grid; } .primary-button, .secondary-button, .danger-button, .ghost-button, .follow-button { width: 100%; } .portal-header { display: grid; } .item-row { grid-template-columns: 1fr; } }
+
+.publication-editor { padding-top: 28px; }
+.editor-top-actions { max-width: 1024px; margin: 0 auto 18px; }
+.publication-steps { max-width: 720px; margin: 0 auto 84px; display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: center; gap: 16px; }
+.publication-steps i { height: 1px; background: #cfd6e4; display: block; }
+.step-pill { display: inline-flex; align-items: center; gap: 12px; color: var(--text); }
+.step-pill b { width: 32px; height: 32px; border-radius: 8px; background: #dde1ef; color: #777f99; display: grid; place-items: center; }
+.step-pill.active b { background: #443f70; color: #fff; }
+.publication-step { display: none; max-width: 1024px; margin: 0 auto; }
+.publication-step.active { display: block; }
+.editor-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--text); }
+.publication-title-input { width: min(720px, 100%); min-height: 58px; border: 0; background: transparent; padding: 0; font-size: clamp(34px, 5vw, 40px); font-weight: 800; color: var(--text); box-shadow: none; }
+.publication-title-input:focus { box-shadow: none; border: 0; }
+.editor-labels { display: flex; gap: 18px; align-items: center; margin: 24px 0 26px; }
+.label-button { border: 0; background: transparent; color: var(--text); font-weight: 800; text-transform: uppercase; }
+.flow-editor-card { position: relative; background: var(--surface); border: 1px solid #cbd7ea; min-height: 346px; }
+.flow-toolbar .tb-sep { width:1px; height:18px; background:var(--line); margin:0 2px; display:inline-block; }
+.flow-toolbar { min-height: 48px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 8px 18px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.flow-toolbar button, .flow-toolbar .upload-button { min-height: 32px; border: 0; background: transparent; color: var(--text); border-radius: 8px; padding: 0 10px; font-weight: 700; }
+.flow-toolbar button:hover, .flow-toolbar .upload-button:hover { background: var(--surface-soft); }
+.flow-editor { min-height: 296px; padding: 70px 72px; outline: 0; line-height: 1.65; color: var(--text); }
+.flow-editor:empty::before { content: attr(data-placeholder); color: #969bb3; }
+.flow-editor img { max-width: 100%; border-radius: 8px; }
+.featured-image-tab { position: absolute; right: -47px; top: 63px; width: 48px; min-height: 194px; border: 1px dashed #bdc9df; border-left: 0; border-radius: 0 8px 8px 0; display: grid; place-items: center; color: var(--text); font-size: 12px; font-weight: 800; text-transform: uppercase; writing-mode: vertical-rl; background: var(--bg); }
+.featured-image-tab input { display: none; }
+.wide-action { width: 100%; margin-top: 18px; }
+.options-card, .summary-card { background: var(--surface); border: 1px solid #d5dfed; padding: 52px 56px; box-shadow: var(--shadow); margin-top: 36px; }
+.option-line { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; margin-bottom: 24px; color: var(--text); }
+.option-line p { margin: 0; color: var(--text); }
+.option-icon { width: 22px; color: #37305f; font-weight: 800; }
+.option-line.stacked { grid-template-columns: 22px minmax(0, 1fr); }
+.option-line.stacked .text-link { grid-column: 2; justify-self: start; margin-top: 14px; }
+.text-link { border: 0; background: transparent; color: #006bff; padding: 0; text-decoration: underline; }
+.excerpt-input { display: none; width: 100%; min-height: 86px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); color: var(--text); padding: 14px; resize: vertical; margin: -4px 0 22px 34px; max-width: calc(100% - 34px); }
+.excerpt-input.visible { display: block; }
+.options-card hr { border: 0; border-top: 1px solid var(--line); margin: 34px 0; }
+.toggle-line { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 20px 0; color: var(--text); }
+.toggle-line > div { display: flex; align-items: center; gap: 12px; }
+.toggle-line.muted { color: #969bb3; }
+.summary-card h2 { margin: 0 0 10px; font-size: 28px; }
+.summary-card p { margin: 8px 0; }
+.summary-preview { border: 1px solid var(--line); background: var(--surface-soft); border-radius: 8px; padding: 18px; margin-top: 20px; line-height: 1.6; }
+.summary-actions { margin-top: 18px; display: flex; gap: 12px; justify-content: flex-end; }
+@media (max-width: 980px) { .publication-steps { margin-bottom: 42px; grid-template-columns: 1fr; justify-items: start; } .publication-steps i { display: none; } .featured-image-tab { position: static; writing-mode: horizontal-tb; width: 100%; min-height: 46px; border: 1px dashed #bdc9df; border-radius: 0; } .flow-editor { padding: 34px 24px; } .options-card, .summary-card { padding: 28px 22px; } }
+@media (max-width: 640px) { .editor-meta-row, .toggle-line, .summary-actions { display: grid; } }
+
+.flow-labels { display: flex; flex-wrap: wrap; gap: 8px; }
+.label-picker, .more-tools { position: relative; display: inline-flex; }
+.label-button { min-height: 34px; padding: 0 10px; border-radius: 8px; }
+.label-menu, .more-tools-menu {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 190px;
+  background: var(--surface);
+  border: 2px solid #29204f;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+}
+.label-menu.open, .more-tools-menu.open { display: grid; gap: 4px; }
+.label-menu button, .more-tools-menu button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 0 10px;
+}
+.label-menu button:hover, .more-tools-menu button:hover { background: var(--surface-soft); }
+.more-tools-menu { min-width: 304px; }
+.more-tools-menu button { display: grid; grid-template-columns: 26px 1fr; align-items: center; gap: 8px; }
+.more-tools-button { min-width: 36px; font-weight: 900; }
+.release-section-list { display: grid; gap: 16px; margin-top: 18px; }
+.release-section { border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); overflow: hidden; }
+.release-section h3 { margin: 0; padding: 12px 14px; font-size: 14px; text-transform: uppercase; letter-spacing: 0; border-bottom: 1px solid var(--line); }
+.release-section.feature h3 { color: var(--red); }
+.release-section.improvement h3 { color: #8a6700; }
+.release-section.fix h3 { color: #6256df; }
+.release-section .note-item { border: 0; border-radius: 0; border-bottom: 1px solid var(--line); background: transparent; }
+.release-section .note-item:last-child { border-bottom: 0; }
+.image-status { margin-left: auto; color: var(--muted); font-size: 13px; }
+
+.flow-labels .chip { border: 0; cursor: pointer; }
+.flow-labels .chip:hover { filter: brightness(0.96); }
+
+
+/* Portal logo alanı */
+.portal-logo-area {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: center;
+  padding: 40px 24px 20px;
+}
+.portal-logo-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: conic-gradient(from 40deg, #7b18ff, #1f6fff 35%, #05c3ff 56%, transparent 57%, transparent 64%, #7b18ff 65%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Bölüm başlıkları */
+.entry-section-header {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface-soft);
+  border-left: 4px solid var(--primary);
+  padding: 8px 14px;
+  margin: 18px 0 10px;
+  border-radius: 0 6px 6px 0;
+}
+/* Liste maddeleri */
+.entry-body ul {
+  margin: 0 0 10px 0;
+  padding-left: 22px;
+  line-height: 1.8;
+}
+.entry-body ul li {
+  margin-bottom: 6px;
+}
+/* Sosyal ikon */
+.portal-social-icons {
+  margin-bottom: 10px;
+}
+.social-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  color: var(--text);
+  text-align: center;
+  line-height: 32px;
+  font-size: 16px;
+  text-decoration: none;
+  margin-right: 6px;
+}
+/* Chip renkleri */
+.chip { display:inline-block; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:800; letter-spacing:.5px; }
+.chip.feature { background:#ff3d38; color:#fff; }
+.chip.improvement { background:#f59e0b; color:#fff; }
+.chip.fix { background:#6256df; color:#fff; }
+
+
+/* ===== YENİ PORTAL TASARIMI ===== */
+.pn-header { background: var(--surface); border-bottom: 1px solid var(--line); padding: 0; }
+.pn-header-inner { max-width: 1100px; margin: 0 auto; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.pn-brand { display: flex; align-items: center; gap: 14px; }
+.pn-logo-circle { width: 48px; height: 48px; border-radius: 50%; background: conic-gradient(from 40deg, #7b18ff, #1f6fff 35%, #05c3ff 56%, transparent 57%, transparent 64%, #7b18ff 65%); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #fff; flex-shrink: 0; }
+.pn-brand-name { font-size: 20px; font-weight: 800; color: var(--text); }
+.pn-brand-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.pn-header-actions { display: flex; align-items: center; gap: 10px; }
+.pn-layout { max-width: 1100px; margin: 0 auto; padding: 40px 28px 80px; display: grid; grid-template-columns: minmax(0,1fr) 240px; gap: 48px; align-items: start; }
+.pn-feed { display: grid; gap: 0; }
+.pn-entry { position: relative; border-bottom: 1px solid var(--line); padding: 36px 0 36px 52px; }
+.pn-entry:last-child { border-bottom: 0; }
+.pn-back { display: inline-block; margin-bottom: 10px; font-size: 13px; color: var(--primary); text-decoration: none; }
+.pn-back:hover { text-decoration: underline; }
+.pn-entry-social { position: absolute; left: 0; top: 44px; display: flex; flex-direction: column; gap: 8px; }
+.pn-social-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-soft); border: 1px solid var(--line); color: var(--muted); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.15s; }
+.pn-social-btn:hover { background: var(--line); }
+.pn-entry-main { }
+.pn-entry-title { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--text); }
+.pn-entry-date { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.pn-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.pn-chip { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; }
+.pn-chip-new { background: #e3007a; color: #fff; }
+.pn-chip-improvement { background: #f59e0b; color: #fff; }
+.pn-chip-fix { background: #6256df; color: #fff; }
+.pn-chip-announcement { background: #0ea5e9; color: #fff; }
+.pn-chip-maintenance { background: #64748b; color: #fff; }
+.pn-section { border: 1px solid var(--line); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.pn-section-title { padding: 10px 16px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; color: var(--primary); border-bottom: 1px solid var(--line); background: var(--surface-soft); }
+.pn-section ul { margin: 0; padding: 14px 18px 14px 32px; line-height: 1.8; color: var(--text); }
+.pn-section ul li { margin-bottom: 4px; font-size: 14px; }
+.pn-entry-body { font-size: 14px; color: var(--muted); line-height: 1.7; margin-top: 10px; }
+.pn-sidebar { position: sticky; top: 24px; }
+.pn-search-wrap { position: relative; margin-bottom: 14px; }
+.pn-search { width: 100%; padding: 9px 36px 9px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); font-size: 14px; }
+.pn-search:focus { outline: none; border-color: var(--primary); }
+.pn-search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; }
+.pn-categories { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.pn-cat { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--text); min-height: 42px; text-align: left; padding: 0 16px; font-size: 14px; cursor: pointer; transition: background 0.1s; }
+.pn-cat:last-child { border-bottom: 0; }
+.pn-cat:hover { background: var(--surface-soft); }
+.pn-cat.active { border-left: 3px solid var(--pink); padding-left: 13px; color: var(--pink); font-weight: 700; background: var(--surface-soft); }
+@media (max-width: 780px) { .pn-layout { grid-template-columns: 1fr; } .pn-header-inner { flex-direction: column; align-items: flex-start; } .pn-entry { padding-left: 16px; } .pn-entry-social { display: none; } }
+
+
+/* Editördeki ve haber sayfasındaki görseller */
+.flow-editor img,
+.pn-entry-body img,
+.entry-body img,
+.summary-card img {
+  max-width: 100% !important;
+  max-height: 260px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+  margin: 10px 0;
+  border: 1px solid var(--line);
+}
+
+/* Durum buton seçili hali */
+.status-btn-active-draft { border-color: var(--primary) !important; background: var(--primary) !important; color: #fff !important; }
+.status-btn-active-publish { border-color: var(--green) !important; background: var(--green) !important; color: #fff !important; }
+
+/* Detail link */
+.pn-detail-link { font-size:13px; color:var(--primary); font-weight:600; margin-left:8px; opacity:0.85; }
+.pn-entry-title:hover .pn-detail-link { opacity:1; text-decoration:underline; }
+
+/* Bölüm başlığı picker */
+.section-header-picker { position:relative; display:inline-block; }
+.section-header-btn { background:var(--surface-soft); border:1px solid var(--line); border-radius:6px; padding:4px 10px; font-size:13px; color:var(--primary); font-weight:600; cursor:pointer; }
+.section-header-menu { display:none; position:absolute; top:110%; left:0; background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:999; min-width:220px; overflow:hidden; }
+.section-header-menu button { display:block; width:100%; text-align:left; padding:10px 16px; border:none; background:none; color:var(--text); font-size:13px; cursor:pointer; border-bottom:1px solid var(--line); }
+.section-header-menu button:last-child { border-bottom:none; }
+.section-header-menu button:hover { background:var(--surface-soft); }
+.section-header-picker.open .section-header-menu { display:block; }
+
+/* flow-editor bölüm başlığı */
+.flow-editor .pn-section-header-block { background:var(--surface-soft); border-left:4px solid var(--primary); padding:8px 14px; margin:14px 0 8px; border-radius:0 6px 6px 0; font-weight:800; font-size:14px; color:var(--primary); }
+
+</style>
+  </head>
+  <body>
+    <div class="app-shell" id="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div><strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Sürüm Notları Uygulaması</font></font></strong><small><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Sürüm Merkezi</font></font></small></div>
+        </div>
+        <nav class="side-nav" aria-label="Ana menü">
+          <button class="nav-item active" data-view="publications" type="button"><span class="icon"></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">المنشورات</font></font></button>
+          <button class="nav-item" data-view="newspage" type="button"><span class="icon"></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">صفحة الأخبار</font></font></button>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="portal-link" id="openPortal" type="button"><span class="icon"></span>فتح البوابة</button>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Menüyü aç"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">☰</font></font></button>
+            <span class="project-name"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">المستخدم</font></font></span>
+          </div>
+          <div class="topbar-actions">
+            <span id="saveIndicator" style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px;transition:opacity 0.4s;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              تم الحفظ
+            </span>
+            <button class="primary-button" id="themeToggle" type="button" aria-label="Temayı değiştir">السمة</button>
+            <span class="avatar">A</span><span class="user-name">المستخدم</span>
+          </div>
+        </header>
+
+        <section class="panel-view active" id="publicationsView">
+          <div class="page-heading">
+            <div><h1><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">المنشورات</font></font></h1><p><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">أنشئ إصدارات المنتج وعدّلها وانشرها وأرشفتها.</font></font></p></div>
+            <button class="primary-button" id="newReleaseBtn" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">نشر جديد</font></font></button>
+          </div>
+          <div class="filters">
+            <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">الحالة</font></font></span><select id="statusFilter"><option value="all"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">جميع الحالات</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">مسودة</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">منشور</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">مؤرشف</font></font></option></select></label>
+            <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">النوع</font></font></span><select id="typeFilter"><option value="all"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">جميع الأنواع</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">New Feature</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Improvement</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Fix</font></font></option></select></label>
+            <label class="search-box"><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">بحث</font></font></span><input id="adminSearch" type="search" placeholder="ابحث عن إصدار، عنوان أو محتوى..."></label>
+          </div>
+          <div class="table-card"><div class="release-table" id="releaseTable"><div class="table-head"><span>العنوان</span><span>Yayın Zamanı</span><span>الحالة</span><span>الكاتب</span><span>Bölümler</span><span></span></div><div class="release-row"><div><p class="release-title">v1.0.2 · Basliksiz</p><p class="release-desc">Henuz icerik eklenmedi.</p><div class="chips"><span class="chip feature">New Feature</span></div></div><span>23 Haziran 2026</span><span class="status Draft">مسودة</span><span>Avs</span><span>1 بند</span><div class="row-actions"><button type="button" aria-label="تعديل" data-edit="8643f709-1c9d-4a4f-9919-f5da1ae3abef">✎</button></div></div><div class="release-row"><div><p class="release-title">v1.0.1 · Basliksiz</p><p class="release-desc">Henuz icerik eklenmedi.</p><div class="chips"><span class="chip feature">New Feature</span></div></div><span>23 Haziran 2026</span><span class="status Draft">مسودة</span><span>Avs</span><span>1 بند</span><div class="row-actions"><button type="button" aria-label="تعديل" data-edit="ac0c0f1e-008d-4690-9835-0bbb7662105e">✎</button></div></div><div class="release-row"><div><p class="release-title">v1.1.0 · A Few Things You Should Know</p><p class="release-desc">Bu sürümde release notes deneyimini daha hızlı, okunabilir ve yönetilebilir hale getiren yeni alanlar eklendi.</p><div class="chips"><span class="chip feature">New Feature</span><span class="chip improvement">Improvement</span></div></div><span>22 Haziran 2026</span><span class="status Draft">مسودة</span><span>Avs</span><span>2 بند</span><div class="row-actions"><button type="button" aria-label="تعديل" data-edit="6e7db40e-cfee-4597-a062-a1dfe3e3660d">✎</button></div></div><div class="release-row"><div><p class="release-title">v1.0.0 · We're Starting a Changelog</p><p class="release-desc">Bugün ürün newspage alanımızı duyuruyoruz. Kullanıcılarınız en yeni özellikleri, iyileştirmeleri ve hata düzeltm...</p><div class="chips"><span class="chip feature">New Feature</span><span class="chip fix">Fix</span></div></div><span>21 Haziran 2026</span><span class="status Published">منشور</span><span>Avs</span><span>2 بند</span><div class="row-actions"><button type="button" aria-label="تعديل" data-edit="80a12568-c14a-4721-b7e1-2d2d7fc436af">✎</button></div></div></div></div>
+        </section>
+        <section class="panel-view publication-editor" id="publicationEditorView">
+          <div class="editor-top-actions">
+            <button class="ghost-button" id="backToPublications" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">العودة إلى المنشورات</font></font></button>
+          </div>
+          <div class="publication-steps" aria-label="Yayın adımları">
+            <div class="step-pill active" data-step-indicator="1"><b><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">1</font></font></b><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">المحتوى</font></font></span></div><i></i>
+            <div class="step-pill" data-step-indicator="2"><b><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">2</font></font></b><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">الخيارات</font></font></span></div><i></i>
+            <div class="step-pill" data-step-indicator="3"><b><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">3</font></font></b><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">الملخص</font></font></span></div>
+          </div>
+          <section class="publication-step active" data-editor-step="1">
+            <div class="editor-meta-row"><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">تم التحديث للتو.</font></font></span><span class="status Draft"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">مسودة</font></font></span></div>
+            <input class="publication-title-input" id="flowTitleInput" type="text" value="Untitled" aria-label="Başlık">
+            <div class="editor-labels"><div class="flow-labels" id="flowLabels"><button class="chip feature" type="button" data-label-chip="ميزة جديدة" title="إزالة التصنيف"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ميزة جديدة x</font></font></button></div><div class="label-picker"><button class="label-button" id="labelButton" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">إضافة تصنيف</font></font></button><div class="label-menu" id="labelMenu"><button type="button" data-label="ميزة جديدة"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">New Feature</font></font></button><button type="button" data-label="Improvement"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Improvement</font></font></button><button type="button" data-label="Fix"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Fix</font></font></button></div></div></div>
+            <div class="flow-editor-card">
+              <div class="flow-toolbar" id="flowToolbar" aria-label="أدوات المحتوى">
+                <button type="button" data-flow-command="formatBlock" data-value="h2" title="عنوان"><b>H</b></button>
+                <button type="button" data-flow-command="bold" title="غامق"><b>B</b></button>
+                <button type="button" data-flow-command="italic" title="مائل"><i>I</i></button>
+                <button type="button" id="flowColorBtn" title="لون النص" style="text-decoration:underline;text-decoration-color:#e3007a;">A</button>
+                <button type="button" id="flowMoreBtn" title="المزيد">···</button>
+                <span class="tb-sep"></span>
+                <button type="button" data-flow-command="justifyLeft" title="محاذاة يسار">&#8676;</button>
+                <button type="button" data-flow-command="justifyCenter" title="توسيط">&#8801;</button>
+                <button type="button" data-flow-command="justifyRight" title="محاذاة يمين">&#8677;</button>
+                <span class="tb-sep"></span>
+                <button type="button" data-flow-command="insertOrderedList" title="قائمة مرقمة">&#8942;1</button>
+                <button type="button" data-flow-command="insertUnorderedList" title="قائمة نقطية">&#8942;•</button>
+                <span class="tb-sep"></span>
+                <label class="upload-button" title="إدراج صورة">🖼<input id="flowImageInput" type="file" accept="image/*"></label>
+                <button type="button" id="flowVideoBtn" title="رابط فيديو">📹</button>
+                <div class="section-header-picker">
+                  <button class="section-header-btn" id="sectionHeaderBtn" type="button">+ عنوان القسم</button>
+                  <div class="section-header-menu" id="sectionHeaderMenu">
+                    <button type="button" onclick="insertSectionHeader('🌙 إضافات جديدة')">🌙 إضافات جديدة</button>
+                    <button type="button" onclick="insertSectionHeader('🔧 إصلاح الأخطاء')">🔧 إصلاح الأخطاء</button>
+                    <button type="button" onclick="insertSectionHeader('⚡ تحسينات الأداء')">⚡ تحسينات الأداء</button>
+                    <button type="button" onclick="insertSectionHeader('🔍 ميزات جديدة')">🔍 ميزات جديدة</button>
+                    <button type="button" onclick="insertSectionHeader('📢 إعلانات')">📢 إعلانات</button>
+                    <button type="button" onclick="insertSectionHeader('🛠 الصيانة والبنية التحتية')">🛠 الصيانة والبنية التحتية</button>
+                  </div>
+                </div>
+                <span class="tb-sep"></span>
+                <button type="button" data-flow-command="formatBlock" data-value="pre" title="كود"><code>&lt;/&gt;</code></button>
+                <button type="button" id="flowLinkBtn" title="رابط">🔗</button>
+                <button type="button" id="flowTableBtn" title="جدول">⊞</button>
+                <button type="button" id="flowHrBtn" title="فاصل أفقي">&#8803;</button>
+              </div>
+              <div class="flow-editor" id="flowContentEditor" contenteditable="true" data-placeholder="اكتب هنا المستجدات..."></div>
+              <label class="featured-image-tab"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">صورة الغلاف</font></font><input id="featuredImageInput" type="file" accept="image/*"></label>
+            </div>
+            <button class="primary-button wide-action" id="continueToOptions" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">متابعة</font></font></button>
+          </section>
+          <section class="publication-step" data-editor-step="2">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+              <button class="ghost-button" id="backToStep1Btn" type="button">← العودة إلى المحتوى</button>
+            </div>
+            <h1 id="optionsTitle">Başlıksız</h1>
+            <div class="options-card">
+              <div class="option-line">
+                <span class="option-icon">A</span>
+                <p><strong>Avs</strong> تم تعيينه كاتباً لهذا المنشور.</p>
+              </div>
+              <div class="option-line">
+                <span class="option-icon">D</span>
+                <p>تاريخ ووقت النشر: <strong id="flowDateText"></strong></p>
+              </div>
+              <div class="option-line stacked">
+                <span class="option-icon">Ö</span>
+                <p>تم إنشاء نص الملخص تلقائياً من المحتوى:</p>
+                <button class="text-link" id="customExcerptBtn" type="button">كتابة ملخص مخصص</button>
+              </div>
+              <textarea class="excerpt-input" id="flowExcerptInput" placeholder="ملخص مخصص"></textarea>
+              <hr>
+
+              <!-- Durum Seçimi -->
+              <div style="padding:14px 0 6px;">
+                <p style="margin:0 0 10px;font-weight:700;font-size:14px;">حالة النشر</p>
+                <div style="display:flex;gap:10px;">
+                  <button type="button" id="chooseDraftBtn" onclick="setFlowStatus('draft')"
+                    style="flex:1;padding:12px;border-radius:10px;border:2px solid var(--primary);background:var(--primary);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">
+                    📝 حفظ كمسودة
+                  </button>
+                  <button type="button" id="choosePublishBtn" onclick="setFlowStatus('publish')"
+                    style="flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:14px;cursor:pointer;">
+                    🚀 نشر
+                  </button>
+                </div>
+                <p id="flowStatusHint" style="margin:10px 0 0;font-size:12px;color:var(--muted);">الآن: سيتم الحفظ كمسودة</p>
+              </div>
+
+              <div class="toggle-line muted">
+                <div><span class="option-icon">M</span>إرسال بريد إلكتروني للمشتركين</div>
+                <label class="switch"><input id="flowEmailToggle" type="checkbox"><span></span></label>
+              </div>
+            </div>
+            <button class="primary-button wide-action" id="saveFlowBtn" type="button">حفظ</button>
+          </section>
+          <section class="publication-step" data-editor-step="3">
+            <h1><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">الملخص</font></font></h1>
+            <div class="summary-card" id="flowSummaryCard"></div>
+            <div class="summary-actions"><button class="secondary-button" id="editFlowAgain" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">تعديل المحتوى</font></font></button><button class="primary-button" id="finishFlowBtn" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">العودة إلى المنشورات</font></font></button></div>
+          </section>
+        </section>
+
+
+        <section class="panel-view" id="newspageView">
+          <div class="page-heading compact">
+            <div><h1><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">صفحة الأخبار</font></font></h1><p><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">تحرير عرض البوابة وإعدادات البث.</font></font></p></div>
+            <button class="primary-button" id="viewOnlineBtn" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">←— عرض عبر الإنترنت</font></font></button>
+          </div>
+          <div class="settings-stack">
+            <article class="settings-row">
+              <div class="settings-icon"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">â»</font></font></div>
+              <div><h3><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">مفعّل</font></font></h3><p><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">افتح أو أغلق بوابة ملاحظات الإصدار.</font></font></p></div>
+              <label class="switch"><input id="portalEnabled" type="checkbox" checked=""><span></span></label>
+            </article>
+            <article class="settings-box">
+              <header>
+                <div class="settings-icon blue"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ðŸ”—</font></font></div>
+                <div><h3><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">النطاق الأساسي والمخصص</font></font></h3><p><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">قم بتكوين عنوان البوابة ونطاق العلامة التجارية.</font></font></p></div>
+              </header>
+              <div class="form-grid">
+                <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">النطاق الأساسي</font></font></span><div class="domain-input"><input id="basicDomain" type="text" value="aous"><b><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">.release.news</font></font></b></div></label>
+                <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">النطاق المخصص</font></font></span><input id="customDomain" type="text" placeholder="updates.acme.com"></label>
+                <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">عنوان البوابة</font></font></span><input id="portalTitle" type="text" value="aous Güncellemeleri"></label>
+                <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">اسم الموقع</font></font></span><input id="portalSubtitle" type="text" value="aouspython.com"></label>
+              </div>
+              <div class="notice"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">يتم إنشاء الشهادة تلقائياً عند الوصول الأولي. يتطلب تكوين النطاق المخصص التحقق من DNS في بيئة الإنتاج.</font></font></div>
+            </article>
+            <article class="settings-box">
+              <header>
+                <div class="settings-icon pink"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">âœ‰</font></font></div>
+                <div><h3><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">إشعارات البريد الإلكتروني</font></font></h3><p><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">أرسل بريداً إلكترونياً للمشتركين عند نشر إصدار جديد.</font></font></p></div>
+                <label class="switch"><input id="emailEnabled" type="checkbox"><span></span></label>
+              </header>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <section class="portal" id="portalView" aria-live="polite">
+
+      <!-- Üst başlık alanı -->
+      <div class="pn-header">
+        <div class="pn-header-inner">
+          <div class="pn-brand">
+            <div class="pn-logo-circle">A</div>
+            <div>
+              <div class="pn-brand-name" id="portalTitleText">aous Güncellemeleri</div>
+              <div class="pn-brand-sub" id="portalSubtitleText">aouspython.com</div>
+            </div>
+          </div>
+          <div class="pn-header-actions">
+            <button class="ghost-button" id="backToAdmin" type="button">← لوحة الإدارة</button>
+            <button class="follow-button" type="button">تابع التحديثات</button>
+            <button class="icon-button" id="portalTemaToggle" type="button" aria-label="Temayı değiştir">◐</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ana içerik -->
+      <div class="pn-layout">
+
+        <!-- Sol: İçerik listesi -->
+        <div class="pn-feed" id="pn-feed-dynamic">
+
+          <!-- Sürüm 1 -->
+          <article class="pn-entry">
+            <a class="pn-back" href="#">← رجوع</a>
+            <div class="pn-entry-social">
+              <a href="#" class="pn-social-btn" title="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+            </div>
+            <div class="pn-entry-main">
+              <h2 class="pn-entry-title" onclick="pnOpenDetail(0)" style="cursor:pointer;">v1.2.0 - Karanlık Mod ve Performans İyileştirmeleri <span class="pn-detail-link">عرض التفاصيل →</span></h2>
+              <div class="pn-entry-date">25 Haziran 2026 saat 10:00</div>
+              <div class="pn-chips">
+                <span class="pn-chip pn-chip-new">YENİ</span>
+                <span class="pn-chip pn-chip-improvement">İYİLEŞTİRME</span>
+              </div>
+              <div class="pn-section">
+                <div class="pn-section-title">🌙 Yeni Eklemeler</div>
+                <ul>
+                  <li><strong>Karanlık mod</strong> tüm sayfalara eklendi. Sağ üst köşedeki tema butonundan açıp kapatabilirsiniz.</li>
+                  <li>Kullanıcı profil sayfasına özelleştirme seçenekleri getirildi; profil fotoğrafı ve biyografi eklenebiliyor.</li>
+                  <li>Yeni bildirim merkezi eklendi — sistem bildirimleri artık tek bir yerden yönetilebiliyor.</li>
+                </ul>
+              </div>
+              <div class="pn-section">
+                <div class="pn-section-title">⚡ Performans İyileştirmeleri</div>
+                <ul>
+                  <li>Sayfa yükleme süreleri <strong>%40 oranında</strong> azaltıldı.</li>
+                  <li>Mobil görünüm yeniden tasarlandı, daha akıcı kaydırma deneyimi sunuluyor.</li>
+                  <li>Resim optimizasyonu iyileştirildi, büyük görseller artık daha hızlı yükleniyor.</li>
+                </ul>
+              </div>
+              <p class="pn-entry-body">Bu iyileştirmeler sayesinde uygulama çok daha hızlı ve kullanışlı hale geldi. Geri bildirimlerinizi bekliyoruz!</p>
+            </div>
+          </article>
+
+          <!-- Sürüm 2 -->
+          <article class="pn-entry">
+            <a class="pn-back" href="#">← رجوع</a>
+            <div class="pn-entry-social">
+              <a href="#" class="pn-social-btn" title="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+            </div>
+            <div class="pn-entry-main">
+              <h2 class="pn-entry-title" onclick="pnOpenDetail(1)" style="cursor:pointer;">v1.1.0 - Gelişmiş Arama ve Bildirim Sistemi <span class="pn-detail-link">عرض التفاصيل →</span></h2>
+              <div class="pn-entry-date">20 Haziran 2026 saat 09:30</div>
+              <div class="pn-chips">
+                <span class="pn-chip pn-chip-new">YENİ</span>
+                <span class="pn-chip pn-chip-fix">DÜZELTME</span>
+              </div>
+              <div class="pn-section">
+                <div class="pn-section-title">🔍 Yeni Özellikler</div>
+                <ul>
+                  <li><strong>Gelişmiş arama</strong>: başlık, içerik ve etikete göre anlık filtreleme yapılabiliyor.</li>
+                  <li><strong>E-posta bildirim sistemi</strong> devreye alındı — yeni sürüm yayınlandığında aboneler otomatik bilgilendiriliyor.</li>
+                  <li>Kategori bazlı filtreleme sistemi iyileştirildi, daha hızlı çalışıyor.</li>
+                </ul>
+              </div>
+              <div class="pn-section">
+                <div class="pn-section-title">🔧 Hata Düzeltmeleri</div>
+                <ul>
+                  <li>Kategori filtresi bazı durumlarda yanlış sonuç gösteriyordu — <strong>düzeltildi</strong>.</li>
+                  <li>Tarayıcı geçmişinde geri tuşunun çalışmaması sorunu giderildi.</li>
+                  <li>Mobilde arama kutusu klavyenin üstüne geliyordu, artık düzgün konumlanıyor.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Sürüm 3 -->
+          <article class="pn-entry">
+            <a class="pn-back" href="#">← رجوع</a>
+            <div class="pn-entry-social">
+              <a href="#" class="pn-social-btn" title="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+            </div>
+            <div class="pn-entry-main">
+              <h2 class="pn-entry-title" onclick="pnOpenDetail(2)" style="cursor:pointer;">v1.0.0 - Başlangıç Sürümü 🎉 <span class="pn-detail-link">عرض التفاصيل →</span></h2>
+              <div class="pn-entry-date">15 Haziran 2026 saat 08:00</div>
+              <div class="pn-chips">
+                <span class="pn-chip pn-chip-new">YENİ</span>
+              </div>
+              <div class="pn-section">
+                <div class="pn-section-title">🚀 İlk Sürüm</div>
+                <ul>
+                  <li>Sürüm notları portalı yayına alındı.</li>
+                  <li>Yayın oluşturma, düzenleme ve arşivleme akışı hazırlandı.</li>
+                  <li>Kategori bazlı filtreleme ve arama özelliği eklendi.</li>
+                  <li>Karanlık / aydınlık tema desteği eklendi.</li>
+                </ul>
+              </div>
+              <p class="pn-entry-body">Takipte kalın, çok daha fazlası geliyor! 💪</p>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Sağ: Filtre paneli -->
+        <aside class="pn-sidebar">
+          <div class="pn-search-wrap">
+            <input type="search" id="portalSearch" class="pn-search" placeholder="بحث...">
+            <span class="pn-search-icon">🔍</span>
+          </div>
+          <div class="pn-categories" id="categoryList">
+            <button class="pn-cat active" type="button" data-category="all">Tüm Yayınlar</button>
+            <button class="pn-cat" type="button" data-category="ميزة جديدة">Yeni Özellik</button>
+            <button class="pn-cat" type="button" data-category="Improvement">İyileştirme</button>
+            <button class="pn-cat" type="button" data-category="Fix">Düzeltme</button>
+            <button class="pn-cat" type="button" data-category="Announcement">Duyuru</button>
+            <button class="pn-cat" type="button" data-category="Maintenance">Bakım</button>
+          </div>
+        </aside>
+
+      </div>
+
+      <div style="display:none">
+        <div id="timeline"></div>
+      </div>
+
+      <footer class="portal-footer">
+        <a href="#">خلاصات RSS</a>
+        <span>مدعوم من Release Hub.</span>
+      </footer>
+    </section>
+
+    <dialog class="release-modal" id="releaseModal">
+      <form class="modal-content" id="releaseForm">
+        <header class="modal-header">
+          <div><h2 id="modalTitle"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">إصدار جديد</font></font></h2><p><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">تحرير معلومات وملاحظات الإصدار.</font></font></p></div>
+          <button class="icon-button" value="cancel" type="button" id="closeModal" aria-label="إغلاق"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">✕</font></font></button>
+        </header>
+        <div class="modal-grid">
+          <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">رقم الإصدار</font></font></span><input id="versionInput" type="text" placeholder="v1.1.0" required=""></label>
+          <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">تاريخ النشر</font></font></span><input id="dateInput" type="date" required=""></label>
+          <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">الحالة</font></font></span><select id="releaseDurum"><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">مسودة</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">منشور</font></font></option><option><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">مؤرشف</font></font></option></select></label>
+          <label><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">الكاتب</font></font></span><input id="authorInput" type="text" value="Avs"></label>
+        </div>
+        <label class="full-label"><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">العنوان</font></font></span><input id="titleInput" type="text" placeholder="عنوان الإصدار الجديد" required=""></label>
+        <div class="editor-shell">
+          <div class="editor-toolbar" id="modalEditorToolbar" aria-label="أدوات النص">
+            <button type="button" data-command="formatBlock" data-value="h2" title="عنوان"><b>H</b></button>
+            <button type="button" data-command="bold" title="غامق"><b>B</b></button>
+            <button type="button" data-command="italic" title="مائل"><i>I</i></button>
+            <button type="button" data-command="underline" title="تسطير" style="text-decoration:underline;">U</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <button type="button" data-command="justifyLeft" title="محاذاة يسار">⬅</button>
+            <button type="button" data-command="justifyCenter" title="توسيط">☰</button>
+            <button type="button" data-command="justifyRight" title="محاذاة يمين">➡</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <button type="button" data-command="insertOrderedList" title="قائمة مرقمة">⠿</button>
+            <button type="button" data-command="insertUnorderedList" title="قائمة نقطية">• قائمة</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <label class="upload-button" title="إدراج صورة">🖼 صورة<input id="imageInput" type="file" accept="image/*"></label>
+            <button type="button" id="modalInsertVideoBtn" title="رابط فيديو">📹</button>
+            <button type="button" id="modalInsertMoreBtn" title="إدراج">+</button>
+            <span style="width:1px;background:var(--line);height:18px;margin:0 2px;display:inline-block;"></span>
+            <button type="button" data-command="formatBlock" data-value="pre" title="كود"><code style="font-family:monospace;">&lt;/&gt;</code></button>
+            <button type="button" id="modalInsertLinkBtn" title="رابط">🔗</button>
+            <button type="button" id="modalInsertTableBtn" title="جدول">⊞</button>
+            <button type="button" id="modalInsertHrBtn" title="فاصل">≡</button>
+          </div>
+          <div class="rich-editor" id="summaryEditor" contenteditable="true" aria-label="ملخص الإصدار" data-placeholder="اكتب ملاحظات الإصدار هنا..." data-placeholder="اكتب ملاحظات الإصدار هنا..."></div>
+        </div>
+        <div id="itemsList" style="display:none;"></div>
+        <footer class="modal-actions">
+          <button class="danger-button" id="deleteReleaseBtn" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">حذف</font></font></button>
+          <div><button class="secondary-button" id="cancelModal" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">إلغاء</font></font></button><button class="primary-button" id="saveReleaseBtn" type="button"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">حفظ</font></font></button></div>
+        </footer>
+      </form>
+    </dialog>
+    <script>
+﻿var currentFlowStatus = "draft";
+const storageKey = "release-notes-platform-v1";
+const databaseName = "release-notes-platform-local-db";
+const databaseVersion = 1;
+const databaseStore = "appState";
+const databaseRecordId = "main";
+const useSupabaseSync = false;
+let databaseSaveQueue = Promise.resolve();
+const serverDatabaseEnabled = location.protocol !== "file:";
+let serverSaveQueue = Promise.resolve();
+
+function apiUrl(path) { return path; }
+
+// ===== SUPABASE =====
+const SUPABASE_URL = "https://qfydsdxbbzjyhesjoar.supabase.co";
+const SUPABASE_KEY = "sb_publishable_MH0J_lbsFNsRuLdF1XuIqg_IBHw1Oa1";
+const SB = (path, opts={}) => fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+  headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": opts.prefer||"return=representation", ...(opts.headers||{}) },
+  method: opts.method||"GET", body: opts.body||undefined
+}).catch(e => ({ json: ()=>[] }));
+
+async function loadFromSupabase() {
+  if (!useSupabaseSync) return;
+  try {
+    const [relRes, setRes] = await Promise.all([ SB("releases?order=created_at.desc"), SB("settings") ]);
+    const releases = await relRes.json();
+    const settingsRows = await setRes.json();
+    if (Array.isArray(releases) && releases.length) {
+      state.data.releases = releases.map(r => ({ ...r, items: (() => { try { return JSON.parse(r.items||"[]"); } catch(e){ return []; } })() }));
+    }
+    if (Array.isArray(settingsRows) && settingsRows.length) {
+      const s = {}; settingsRows.forEach(r => s[r.key] = r.value==="true"?true:r.value==="false"?false:r.value);
+      state.data.settings = { ...state.data.settings, ...s };
+    }
+    renderAll(); setTema(state.data.settings.theme);
+  } catch(e) { console.warn("Supabase load error", e); }
+}
+async function saveReleaseToSupabase(release) {
+  if (!useSupabaseSync) return;
+  try {
+    const payload = { ...release, items: JSON.stringify(release.items||[]) };
+    await SB("releases", { method:"POST", prefer:"resolution=merge-duplicates", body: JSON.stringify(payload) });
+  } catch(e) { console.warn("Supabase save error", e); }
+}
+async function deleteReleaseFromSupabase(id) {
+  if (!useSupabaseSync) return;
+  try { await SB(`releases?id=eq.${encodeURIComponent(id)}`, { method:"DELETE" }); }
+  catch(e) { console.warn("Supabase delete error", e); }
+}
+async function saveSettingsToSupabase(settings) {
+  if (!useSupabaseSync) return;
+  try {
+    const rows = Object.entries(settings).map(([key,value])=>({key,value:String(value)}));
+    await SB("settings", { method:"POST", prefer:"resolution=merge-duplicates", body: JSON.stringify(rows) });
+  } catch(e) { console.warn("Supabase settings error", e); }
+}
+
+const seedReleases = [
+  {
+    id: crypto.randomUUID(),
+    version: "v1.1.0",
+    title: "A Few Things You Should Know",
+    date: new Date().toISOString().slice(0, 10),
+    status: "Draft",
+    author: "Avs",
+    summary: "<p>Bu sürümde release notes deneyimini daha hızlı, okunabilir ve yönetilebilir hale getiren yeni alanlar eklendi.</p>",
+    items: [
+      { type: "ميزة جديدة", text: "Rich text editör ve görsel ekleme desteği eklendi." },
+      { type: "Improvement", text: "Portal arama ve kategori filtreleme akışı iyileştirildi." },
+    ],
+  },
+  {
+    id: crypto.randomUUID(),
+    version: "v1.0.0",
+    title: "We're Starting a Changelog",
+    date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString().slice(0, 10),
+    status: "Published",
+    author: "Avs",
+    summary: "<p>Bugün ürün newspage alanımızı duyuruyoruz. Kullanıcılarınız en yeni özellikleri, iyileştirmeleri ve hata düzeltmelerini tek bir modern portaldan takip edebilir.</p>",
+    items: [
+      { type: "ميزة جديدة", text: "Yeni sürüm oluşturma ve yayınlama akışı hazırlandı." },
+      { type: "Fix", text: "Yayınlanan sürümlerin portal zaman çizelgesinde düzgün sıralanması sağlandı." },
+    ],
+  },
+];
+
+const state = { data: loadData(), editingId: null, portalCategory: "all" };
+
+const els = {
+  app: document.getElementById("app"),
+  sidebar: document.querySelector(".sidebar"),
+  navItems: document.querySelectorAll(".nav-item"),
+  releaseTable: document.getElementById("releaseTable"),
+  releaseModal: document.getElementById("releaseModal"),
+  releaseForm: document.getElementById("releaseForm"),
+  modalTitle: document.getElementById("modalTitle"),
+  versionInput: document.getElementById("versionInput"),
+  dateInput: document.getElementById("dateInput"),
+  releaseDurum: document.getElementById("releaseDurum"),
+  authorInput: document.getElementById("authorInput"),
+  titleInput: document.getElementById("titleInput"),
+  summaryEditor: document.getElementById("summaryEditor"),
+  itemsList: document.getElementById("itemsList"),
+  deleteReleaseBtn: document.getElementById("deleteReleaseBtn"),
+  statusFilter: document.getElementById("statusFilter"),
+  typeFilter: document.getElementById("typeFilter"),
+  adminSearch: document.getElementById("adminSearch"),
+  portalView: document.getElementById("portalView"),
+  timeline: document.getElementById("timeline"),
+  categoryList: document.getElementById("categoryList"),
+  portalSearch: document.getElementById("portalSearch"),
+  portalEnabled: document.getElementById("portalEnabled"),
+  basicDomain: document.getElementById("basicDomain"),
+  customDomain: document.getElementById("customDomain"),
+  portalTitle: document.getElementById("portalTitle"),
+  portalSubtitle: document.getElementById("portalSubtitle"),
+  emailEnabled: document.getElementById("emailEnabled"),
+  portalTitleText: document.getElementById("portalTitleText"),
+  portalSubtitleText: document.getElementById("portalSubtitleText"),
+};
+
+function loadData() {
+  const saved = localStorage.getItem(storageKey);
+  if (saved) return JSON.parse(saved);
+  return {
+    releases: seedReleases,
+    settings: {
+      portalEnabled: true,
+      emailEnabled: false,
+      basicDomain: "aous",
+      customDomain: "",
+      portalTitle: "aous Güncellemeleri",
+      portalSubtitle: "aouspython.com",
+      theme: "light",
+    },
+  };
+}
+let _saveTimer;
+function saveData() {
+  localStorage.setItem(storageKey, JSON.stringify(state.data));
+  // Notion gibi "Kaydediliyor..." → "Kaydedildi ✓"
+  const ind = document.getElementById("saveIndicator");
+  if (!ind) return;
+  clearTimeout(_saveTimer);
+  ind.style.opacity = "1";
+  ind.style.color = "var(--primary)";
+  ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> جارٍ الحفظ...`;
+  _saveTimer = setTimeout(() => {
+    ind.style.color = "var(--muted)";
+    ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> تم الحفظ`;
+    setTimeout(() => { ind.style.opacity = "0"; }, 2000);
+  }, 800);
+}
+function stripHtml(html) { const div = document.createElement("div"); div.innerHTML = html || ""; return div.textContent || div.innerText || ""; }
+function setTema(theme) { state.data.settings.theme = theme; document.documentElement.dataset.theme = theme; saveData(); }
+
+// ===== LOCAL DATABASE =====
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function defaultData() {
+  return {
+    releases: cloneJson(seedReleases),
+    settings: {
+      portalEnabled: true,
+      emailEnabled: false,
+      basicDomain: "aous",
+      customDomain: "",
+      portalTitle: "aous Guncellemeleri",
+      portalSubtitle: "aouspython.com",
+      theme: "light",
+    },
+  };
+}
+
+function normalizeRelease(release) {
+  if (!release || typeof release !== "object") return null;
+  return {
+    id: release.id || crypto.randomUUID(),
+    version: release.version || "",
+    title: release.title || "",
+    date: release.date || new Date().toISOString().slice(0, 10),
+    status: release.status || "Draft",
+    author: release.author || "Avs",
+    summary: release.summary || "<p></p>",
+    emailOnPublish: Boolean(release.emailOnPublish),
+    items: Array.isArray(release.items) ? release.items.map((item) => ({
+      type: item?.type || "New Feature",
+      text: item?.text || "",
+    })).filter((item) => item.text) : [],
+  };
+}
+
+function normalizeData(data) {
+  const fallback = defaultData();
+  if (!data || typeof data !== "object") return fallback;
+  return {
+    releases: Array.isArray(data.releases) ? data.releases.map(normalizeRelease).filter(Boolean) : fallback.releases,
+    settings: { ...fallback.settings, ...(data.settings || {}) },
+  };
+}
+
+function persistLocalStorage(data) {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(normalizeData(data)));
+  } catch (error) {
+    console.warn("Local storage save error", error);
+  }
+}
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) return normalizeData(JSON.parse(saved));
+  } catch (error) {
+    console.warn("Local storage load error", error);
+  }
+  return defaultData();
+}
+
+function openLocalDatabase() {
+  return new Promise((resolve, reject) => {
+    if (!window.indexedDB) {
+      reject(new Error("IndexedDB is not supported in this browser."));
+      return;
+    }
+    const request = indexedDB.open(databaseName, databaseVersion);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(databaseStore)) {
+        db.createObjectStore(databaseStore, { keyPath: "id" });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error("Database open failed."));
+  });
+}
+
+async function readDatabaseRecord() {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(databaseStore, "readonly");
+    const store = tx.objectStore(databaseStore);
+    const request = store.get(databaseRecordId);
+    let result = null;
+    request.onsuccess = () => { result = request.result?.data || null; };
+    tx.oncomplete = () => { db.close(); resolve(result ? normalizeData(result) : null); };
+    tx.onerror = () => { db.close(); reject(tx.error || new Error("Database read failed.")); };
+  });
+}
+
+async function writeDatabaseRecord(data) {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(databaseStore, "readwrite");
+    const store = tx.objectStore(databaseStore);
+    store.put({
+      id: databaseRecordId,
+      data: normalizeData(data),
+      updatedAt: new Date().toISOString(),
+    });
+    tx.oncomplete = () => { db.close(); resolve(); };
+    tx.onerror = () => { db.close(); reject(tx.error || new Error("Database write failed.")); };
+  });
+}
+
+async function hydrateFromLocalDatabase() {
+  try {
+    const databaseData = await readDatabaseRecord();
+    if (databaseData) {
+      state.data = databaseData;
+      persistLocalStorage(state.data);
+      setTema(state.data.settings.theme, false);
+      renderAll();
+      return;
+    }
+    await writeDatabaseRecord(state.data);
+    persistLocalStorage(state.data);
+  } catch (error) {
+    console.warn("Local database load error", error);
+  }
+}
+
+async function readServerDatabase() {
+  if (!serverDatabaseEnabled) return null;
+  const response = await fetch("/api/state", { cache: "no-store" });
+  if (!response.ok) throw new Error(`Server database read failed: ${response.status}`);
+  const json = await response.json();
+  if (json._not_found) return null;
+  return normalizeData(json);
+}
+
+async function writeServerDatabase(data) {
+  if (!serverDatabaseEnabled) return;
+  const response = await fetch("/api/state", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(normalizeData(data)),
+  });
+  if (!response.ok) throw new Error(`Server database write failed: ${response.status}`);
+}
+
+async function hydrateFromServerDatabase() {
+  if (!serverDatabaseEnabled) return false;
+  try {
+    const response = await fetch("/api/state", { cache: "no-store" });
+    if (!response.ok) return false;
+    const json = await response.json();
+
+    if (json._not_found) {
+      // Sunucuda hic kayit yok — seed veriyle baslat ve sunucuya kaydet
+      await writeServerDatabase(state.data);
+    } else {
+      // Sunucudan gelen veri tek gercek kaynak — localStorage'a bakma
+      state.data = normalizeData(json);
+    }
+
+    persistLocalStorage(state.data);
+    setTema(state.data.settings.theme, false);
+    renderAll();
+    return true;
+  } catch (error) {
+    console.warn("Server database load error", error);
+    return false;
+  }
+}
+
+function showSaveIndicator(status) {
+  const ind = document.getElementById("saveIndicator");
+  if (!ind) return;
+  clearTimeout(_saveTimer);
+  ind.style.opacity = "1";
+  if (status === "saving") {
+    ind.style.color = "var(--primary)";
+    ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Kaydediliyor...`;
+    return;
+  }
+  if (status === "error") {
+    ind.style.color = "var(--red)";
+    ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/><line x1="16" y1="8" x2="8" y2="16"/></svg> Kayit hatasi`;
+    _saveTimer = setTimeout(() => { ind.style.opacity = "0"; }, 3000);
+    return;
+  }
+  ind.style.color = "var(--muted)";
+  ind.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Kaydedildi`;
+  _saveTimer = setTimeout(() => { ind.style.opacity = "0"; }, 2000);
+}
+
+function saveData() {
+  const snapshot = normalizeData(state.data);
+  state.data = snapshot;
+  persistLocalStorage(snapshot);
+  showSaveIndicator("saving");
+  if (serverDatabaseEnabled) {
+    serverSaveQueue = serverSaveQueue
+      .catch(() => {})
+      .then(() => writeServerDatabase(snapshot))
+      .then(() => showSaveIndicator("saved"))
+      .catch((error) => {
+        console.warn("Server database save error", error);
+        showSaveIndicator("error");
+      });
+    return;
+  }
+  databaseSaveQueue = databaseSaveQueue
+    .catch(() => {})
+    .then(() => writeDatabaseRecord(snapshot))
+    .then(() => showSaveIndicator("saved"))
+    .catch((error) => {
+      console.warn("Local database save error", error);
+      showSaveIndicator("error");
+    });
+}
+
+function setTema(theme, persist = true) {
+  state.data.settings.theme = theme;
+  document.documentElement.dataset.theme = theme;
+  if (persist) saveData();
+}
+function formatDate(dateString) { return new Intl.DateTimeFormat("ar-SA", { day: "numeric", month: "long", year: "numeric" }).format(new Date(dateString)); }
+function chipClass(type) { if (type === "ميزة جديدة") return "feature"; if (type === "Improvement") return "improvement"; return "fix"; }
+
+function matchesFilters(release) {
+  const status = els.statusFilter.value;
+  const type = els.typeFilter.value;
+  const query = els.adminSearch.value.trim().toLowerCase();
+  const haystack = [release.version, release.title, release.status, release.author, stripHtml(release.summary), ...release.items.map((item) => `${item.type} ${item.text}`)].join(" ").toLowerCase();
+  return (status === "all" || release.status === status) && (type === "all" || release.items.some((item) => item.type === type)) && (!query || haystack.includes(query));
+}
+
+function renderTable() {
+  const releases = [...state.data.releases].sort((a, b) => new Date(b.date) - new Date(a.date)).filter(matchesFilters);
+  els.releaseTable.innerHTML = `<div class="table-head"><span>العنوان</span><span>Yayın Zamanı</span><span>الحالة</span><span>الكاتب</span><span>Bölümler</span><span></span></div>`;
+  if (!releases.length) { els.releaseTable.insertAdjacentHTML("beforeend", '<div class="empty-state">Henüz bu filtrelere uyan bir sürüm yok.</div>'); return; }
+  releases.forEach((release) => {
+    const chips = [...new Set(release.items.map((item) => item.type))].map((type) => `<span class="chip ${chipClass(type)}">${type}</span>`).join("");
+    const cleanSummary = stripHtml(release.summary);
+    const row = document.createElement("div");
+    row.className = "release-row";
+    row.innerHTML = `<div><p class="release-title">${release.version} · ${release.title}</p><p class="release-desc">${cleanSummary.slice(0, 112)}${cleanSummary.length > 112 ? "..." : ""}</p><div class="chips">${chips}</div></div><span>${formatDate(release.date)}</span><span class="status ${release.status}">${release.status}</span><span>${release.author || "Avs"}</span><span>${release.items.length} بند</span><div class="row-actions"><button type="button" aria-label="تعديل" data-edit="${release.id}">✎</button></div>`;
+    els.releaseTable.appendChild(row);
+  });
+}
+
+function openModal(release = null) {
+  state.editingId = release?.id || null;
+  els.modalTitle.textContent = release ? "تعديل الإصدار" : "إصدار جديد";
+  els.deleteReleaseBtn.style.display = release ? "inline-block" : "none";
+  els.versionInput.value = release?.version || "";
+  els.dateInput.value = release?.date || new Date().toISOString().slice(0, 10);
+  els.releaseDurum.value = release?.status || "Draft";
+  els.authorInput.value = release?.author || "Avs";
+  els.titleInput.value = release?.title || "";
+  els.summaryEditor.innerHTML = release?.summary || "<p></p>";
+  els.itemsList.innerHTML = "";
+  (release?.items?.length ? release.items : [{ type: "ميزة جديدة", text: "" }]).forEach(addItemRow);
+  els.releaseModal.showModal();
+}
+function closeModal() { els.releaseModal.close(); }
+function addItemRow(item = { type: "ميزة جديدة", text: "" }) {
+  const row = document.createElement("div");
+  row.className = "item-row";
+  row.innerHTML = `<select class="item-type"><option ${item.type === "ميزة جديدة" ? "selected" : ""}>New Feature</option><option ${item.type === "Improvement" ? "selected" : ""}>Improvement</option><option ${item.type === "Fix" ? "selected" : ""}>Fix</option></select><textarea class="item-text" placeholder="ما الذي تغير في هذا البند؟">${item.text || ""}</textarea><button class="remove-item" type="button" aria-label="Kalemi sil">×</button>`;
+  els.itemsList.appendChild(row);
+}
+function collectItems() { return [...els.itemsList.querySelectorAll(".item-row")].map((row) => ({ type: row.querySelector(".item-type").value, text: row.querySelector(".item-text").value.trim() })).filter((item) => item.text); }
+
+function saveRelease(event) {
+  event.preventDefault();
+  const release = { id: state.editingId || crypto.randomUUID(), version: els.versionInput.value.trim(), title: els.titleInput.value.trim(), date: els.dateInput.value, status: els.releaseDurum.value, author: els.authorInput.value.trim() || "Avs", summary: els.summaryEditor.innerHTML.trim() || "<p></p>", items: collectItems().length ? collectItems() : [{ type: "New Feature", text: els.titleInput.value.trim() || "—" }] };
+  state.data.releases = state.editingId ? state.data.releases.map((item) => (item.id === state.editingId ? release : item)) : [release, ...state.data.releases];
+  saveData(); renderAll(); closeModal();
+  saveReleaseToSupabase(release);
+}
+function deleteRelease() { if (!state.editingId) return; const id = state.editingId; state.data.releases = state.data.releases.filter((release) => release.id !== id); saveData(); renderAll(); closeModal(); deleteReleaseFromSupabase(id); }
+
+function renderSettings() {
+  const settings = state.data.settings;
+  els.portalEnabled.checked = settings.portalEnabled;
+  els.emailEnabled.checked = settings.emailEnabled;
+  els.basicDomain.value = settings.basicDomain;
+  els.customDomain.value = settings.customDomain;
+  els.portalTitle.value = settings.portalTitle;
+  els.portalSubtitle.value = settings.portalSubtitle;
+  els.portalTitleText.textContent = settings.portalTitle;
+  els.portalSubtitleText.textContent = settings.portalSubtitle;
+}
+function saveSettings() {
+  state.data.settings = { ...state.data.settings, portalEnabled: els.portalEnabled.checked, emailEnabled: els.emailEnabled.checked, basicDomain: els.basicDomain.value.trim(), customDomain: els.customDomain.value.trim(), portalTitle: els.portalTitle.value.trim() || "aous Güncellemeleri", portalSubtitle: els.portalSubtitle.value.trim() || "aouspython.com" };
+  saveData(); renderSettings(); renderTimeline();
+  saveSettingsToSupabase(state.data.settings);
+}
+function renderCategories() {
+  const categories = [["all", "جميع المنشورات"], ["ميزة جديدة", "New Features"], ["Improvement", "Improvements"], ["Fix", "Fixes"]];
+  els.categoryList.innerHTML = categories.map(([value, label]) => `<button class="${state.portalCategory === value ? "active" : ""}" type="button" data-category="${value}">${label}</button>`).join("");
+}
+function oldRenderTimeline() {
+  renderCategories();
+  const query = els.portalSearch.value.trim().toLowerCase();
+  const releases = state.data.releases.filter((release) => release.status === "Published" || release.status === "منشور" || release.status === "Yayinlandi").filter((release) => state.portalCategory === "all" || release.items.some((item) => item.type === state.portalCategory)).filter((release) => !query || [release.version, release.title, stripHtml(release.summary), ...release.items.map((item) => item.text)].join(" ").toLowerCase().includes(query)).sort((a, b) => new Date(b.date) - new Date(a.date));
+  if (!state.data.settings.portalEnabled) { els.timeline.innerHTML = '<div class="empty-state">البوابة مغلقة حالياً.</div>'; return; }
+  if (!releases.length) { els.timeline.innerHTML = '<div class="empty-state">لم يتم العثور على إصدار منشور.</div>'; return; }
+  els.timeline.innerHTML = releases.map((release) => `<article class="timeline-entry"><time class="entry-time">${formatDate(release.date)}</time><div class="entry-content"><h2>${release.version} · ${release.title}</h2><p class="entry-meta">${release.author || "Avs"} بواسطة</p><div class="entry-body">${release.summary}</div><div class="chips">${[...new Set(release.items.map((item) => item.type))].map((type) => `<span class="chip ${chipClass(type)}">${type}</span>`).join("")}</div><div class="notes-list">${release.items.map((item) => `<div class="note-item"><strong>${item.type}</strong><span>${item.text}</span></div>`).join("")}</div></div></article>`).join("");
+}
+function renderAll() { renderTable(); renderSettings(); renderTimeline(); }
+function switchView(view) {
+  document.querySelectorAll(".panel-view").forEach((panel) => panel.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach((item) => item.classList.toggle("active", item.dataset.view === view));
+  const target = document.getElementById(`${view}View`);
+  if (target) target.classList.add("active");
+  els.sidebar?.classList?.remove("open");
+  // Her view degisiminde renderAll cagir - portal ve publications guncellenir
+  try { renderAll(); } catch(e) {}
+}
+function openPortal() { els.app?.classList?.add("portal-open"); els.portalView?.classList?.add("active"); renderTimeline(); }
+function closePortal() { els.app?.classList?.remove("portal-open"); els.portalView?.classList?.remove("active"); }
+
+function bindEvents() {
+  els.navItems.forEach((item) => item.addEventListener("click", () => switchView(item.dataset.view)));
+  document.getElementById("mobileMenu")?.addEventListener("click", () => els.sidebar?.classList?.toggle("open"));
+  document.getElementById("newReleaseBtn")?.addEventListener("click", () => openPublicationFlow());
+  document.getElementById("closeModal")?.addEventListener("click", closeModal);
+  document.getElementById("cancelModal")?.addEventListener("click", closeModal);
+  document.getElementById("addItemBtn")?.addEventListener("click", () => addItemRow());
+  els.releaseForm?.addEventListener("submit", saveRelease);
+  document.getElementById("saveReleaseBtn")?.addEventListener("click", (e) => saveRelease(e));
+  els.deleteReleaseBtn?.addEventListener("click", deleteRelease);
+  [els.statusFilter, els.typeFilter, els.adminSearch].forEach((el) => el.addEventListener("input", renderTable));
+  [els.portalEnabled, els.emailEnabled, els.basicDomain, els.customDomain, els.portalTitle, els.portalSubtitle].forEach((el) => el.addEventListener("input", saveSettings));
+  document.getElementById("viewOnlineBtn")?.addEventListener("click", openPortal);
+  document.getElementById("openPortal")?.addEventListener("click", openPortal);
+  document.getElementById("backToAdmin")?.addEventListener("click", closePortal);
+  els.portalSearch?.addEventListener("input", renderTimeline);
+  document.getElementById("themeToggle")?.addEventListener("click", () => setTema(state.data.settings.theme === "dark" ? "light" : "dark"));
+  document.getElementById("portalTemaToggle")?.addEventListener("click", () => setTema(state.data.settings.theme === "dark" ? "light" : "dark"));
+  els.releaseTable?.addEventListener("click", (event) => { const editId = event.target.dataset.edit; if (editId) openModal(state.data.releases.find((release) => release.id === editId)); });
+  els.itemsList?.addEventListener("click", (event) => { if (event.target.classList.contains("remove-item")) event.target.closest(".item-row").remove(); });
+  document.addEventListener("mousedown", (event) => {
+    if (event.target.closest("#modalEditorToolbar button, #modalEditorToolbar label")) event.preventDefault();
+  });
+  document.addEventListener("click", (event) => {
+    // Modal toolbar — data-command butonları
+    const cmdBtn = event.target.closest("#modalEditorToolbar button[data-command]");
+    if (cmdBtn) { document.execCommand(cmdBtn.dataset.command, false, cmdBtn.dataset.value || null); els.summaryEditor.focus(); return; }
+    // Modal toolbar — özel butonlar
+    const btn = event.target.closest("#modalEditorToolbar button");
+    if (!btn) return;
+    const id = btn.id;
+    if (id === "modalInsertLinkBtn") {
+      const url = prompt("أدخل الرابط:");
+      if (url) { els.summaryEditor.focus(); document.execCommand("createLink", false, url); }
+    } else if (id === "modalInsertVideoBtn") {
+      const url = prompt("أدخل رابط الفيديو (YouTube, Vimeo...):");
+      if (url) {
+        const iframe = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;"><iframe src="${url.replace("watch?v=","embed/")}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:8px;" allowfullscreen></iframe></div>`;
+        els.summaryEditor.focus(); document.execCommand("insertHTML", false, iframe);
+      }
+    } else if (id === "modalInsertTableBtn") {
+      const rows = prompt("عدد الصفوف:", "3"); const cols = prompt("عدد الأعمدة:", "3");
+      if (rows && cols) {
+        let t = '<table style="border-collapse:collapse;width:100%;margin:10px 0;">';
+        for(let r=0;r<parseInt(rows);r++){t+='<tr>';for(let c=0;c<parseInt(cols);c++){t+=`<td style="border:1px solid var(--line);padding:8px 12px;min-width:60px;">${r===0?'<b>عنوان</b>':'&nbsp;'}</td>`;}t+='</tr>';}
+        t+='</table>'; els.summaryEditor.focus(); document.execCommand("insertHTML", false, t);
+      }
+    } else if (id === "modalInsertHrBtn") {
+      els.summaryEditor.focus(); document.execCommand("insertHTML", false, '<hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">');
+    } else if (id === "modalInsertMoreBtn") {
+      els.summaryEditor.focus(); document.execCommand("insertHTML", false, '<p><br></p>');
+    }
+  });
+  document.getElementById("imageInput")?.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = document.createElement("img");
+      img.src = reader.result;
+      img.alt = "صورة";
+      img.style.cssText = "max-width:100%;border-radius:8px;display:block;margin:10px 0;";
+      const wrapper = document.createElement("div");
+      wrapper.appendChild(img);
+      const p = document.createElement("p");
+      p.innerHTML = "<br>";
+      els.summaryEditor.focus();
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        range.collapse(false);
+        range.insertNode(p);
+        range.insertNode(wrapper);
+        const newRange = document.createRange();
+        newRange.setStart(p, 0);
+        newRange.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(newRange);
+      } else {
+        els.summaryEditor.appendChild(wrapper);
+        els.summaryEditor.appendChild(p);
+      }
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  });
+  els.categoryList?.addEventListener("click", (event) => { const button = event.target.closest("button[data-category]"); if (!button) return; state.portalCategory = button.dataset.category; renderTimeline(); });
+}
+
+setTema(state.data.settings.theme, false);
+bindEvents();
+
+// Sunucu varsa: once sunucudan yukle, localStorage'a bakma (farkli tarayicilar ayni veriyi gorur)
+// Sunucu yoksa: localStorage / IndexedDB'den yukle
+if (serverDatabaseEnabled) {
+  hydrateFromServerDatabase().then(() => {
+    if (useSupabaseSync) loadFromSupabase();
+  });
+} else {
+  renderAll();
+  hydrateFromLocalDatabase();
+}
+
+// Sayfa/server kapanmadan once veriyi aninda kaydet
+window.addEventListener("beforeunload", function() {
+  if (!serverDatabaseEnabled) return;
+  try {
+    const snapshot = JSON.stringify(normalizeData(state.data));
+    navigator.sendBeacon(apiUrl("/api/state"), new Blob([snapshot], { type: "application/json" }));
+  } catch(e) {}
+});
+
+// ===== حفظ الملف مع البيانات المدمجة =====
+
+function getFlowEls() {
+  return {
+    title: document.getElementById("flowTitleInput"),
+    content: document.getElementById("flowContentEditor"),
+    dateText: document.getElementById("flowDateText"),
+    optionsTitle2: document.getElementById("optionsTitle"),
+    excerpt: document.getElementById("flowExcerptInput"),
+    email: document.getElementById("flowEmailToggle"),
+    summary: document.getElementById("flowSummaryCard"),
+  };
+}
+
+function resetPublicationFlow() {
+  const flow = getFlowEls();
+  state.flowDraft = null;
+  flow.title.value = "بدون عنوان";
+  flow.content.innerHTML = "";
+  flow.excerpt.value = "";
+  flow.excerpt.classList.remove("visible");
+  if (flow.email) flow.email.checked = false;
+  currentFlowStatus = 'draft';
+  showPublicationStep(1);
+}
+
+function openPublicationFlow() {
+  resetPublicationFlow();
+  switchView("publicationEditor");
+  setTimeout(() => getFlowEls().title.focus(), 0);
+}
+
+function showPublicationStep(step) {
+  document.querySelectorAll(".publication-step").forEach((panel) => panel.classList.toggle("active", panel.dataset.editorStep === String(step)));
+  document.querySelectorAll("[data-step-indicator]").forEach((item) => item.classList.toggle("active", item.dataset.stepIndicator === String(step)));
+}
+
+function flowDateLabel() {
+return new Intl.DateTimeFormat("ar-SA", { dateStyle: "long" }).format(new Date());
+}
+
+function buildAutoExcerpt() {
+  const text = stripHtml(getFlowEls().content.innerHTML).trim();
+  if (!text) return "لم يُضف محتوى بعد.";
+  return text.length > 180 ? `${text.slice(0, 180)}...` : text;
+}
+
+function continuePublicationFlow() {
+  const flow = getFlowEls();
+  flow.optionsTitle2.textContent = flow.title.value.trim() || "بدون عنوان";
+  flow.dateText.textContent = flowDateLabel();
+  if (!flow.excerpt.value.trim()) flow.excerpt.value = buildAutoExcerpt();
+  showPublicationStep(2);
+}
+
+function nextVersionNumber() {
+  const patchNumbers = state.data.releases
+    .map((release) => /^v1\.0\.(\d+)$/.exec(release.version))
+    .filter(Boolean)
+    .map((match) => Number(match[1]));
+  const next = patchNumbers.length ? Math.max(...patchNumbers) + 1 : state.data.releases.length + 1;
+  return `v1.0.${next}`;
+}
+
+function savePublicationFlow() {
+  const flow = getFlowEls();
+  const title = flow.title.value.trim() || "بدون عنوان";
+  const contentHtml = flow.content.innerHTML.trim() || `<p>${flow.excerpt.value.trim() || "سيتم إضافة محتوى المنشور قريباً."}</p>`;
+  const excerpt = flow.excerpt.value.trim() || buildAutoExcerpt();
+  const chosenStatus = (typeof currentFlowStatus !== 'undefined' && currentFlowStatus === 'publish') ? "Published" : "Draft";
+  const release = {
+    id: crypto.randomUUID(),
+    version: nextVersionNumber(),
+    title,
+    date: new Date().toISOString().slice(0, 10),
+    status: chosenStatus,
+    author: "Avs",
+    summary: contentHtml,
+    emailOnPublish: flow.email ? flow.email.checked : false,
+    items: [{ type: "ميزة جديدة", text: excerpt }],
+  };
+  state.data.releases.unshift(release);
+  state.flowDraft = release;
+  saveData();
+  renderAll();
+  renderFlowSummary(release);
+  showPublicationStep(3);
+}
+
+function renderFlowSummary(release) {
+  const flow = getFlowEls();
+  flow.summary.innerHTML = `<h2>${release.version} - ${release.title}</h2><p><strong>Durum:</strong> ${release.status}</p><p><strong>Yazar:</strong> ${release.author}</p><p><strong>Yayın tarihi:</strong> ${formatDate(release.date)}</p><div class="chips"><span class="chip feature">New</span></div><div class="summary-preview">${release.summary}</div>`;
+}
+
+function insertImageIntoFlow(input, featured = false) {
+  const file = input.files?.[0];
+  if (!file) return;
+  const flow = getFlowEls();
+  const reader = new FileReader();
+  reader.onload = () => {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'margin:10px 0;';
+    const img = document.createElement('img');
+    img.src = reader.result;
+    img.alt = 'Görsel';
+    img.style.cssText = 'max-width:100%;max-height:260px;width:auto;height:auto;object-fit:contain;border-radius:8px;display:block;border:1px solid var(--line);';
+    wrapper.appendChild(img);
+    flow.content.focus();
+    if (featured) {
+      flow.content.insertBefore(wrapper, flow.content.firstChild);
+    } else {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        range.collapse(false);
+        range.insertNode(wrapper);
+        range.setStartAfter(wrapper);
+        range.setEndAfter(wrapper);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        flow.content.appendChild(wrapper);
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+  input.value = "";
+}
+
+function bindPublicationFlowEvents() {
+  document.getElementById("backToStep1Btn")?.addEventListener("click", () => showPublicationStep(1));
+  document.getElementById("backToPublications")?.addEventListener("click", () => switchView("publications"));
+  document.getElementById("continueToOptions")?.addEventListener("click", continuePublicationFlow);
+  document.getElementById("saveFlowBtn")?.addEventListener("click", () => savePublicationFlow());
+  document.getElementById("finishFlowBtn")?.addEventListener("click", () => switchView("publications"));
+  document.getElementById("editFlowAgain")?.addEventListener("click", () => showPublicationStep(1));
+  document.getElementById("customExcerptBtn")?.addEventListener("click", () => getFlowEls().excerpt.classList.toggle("visible"));
+  document.getElementById("flowToolbar")?.addEventListener("mousedown", (event) => {
+    // Buton tıklandığında focus kaybını engelle
+    if (event.target.closest("button, label")) event.preventDefault();
+  });
+  document.getElementById("flowToolbar")?.addEventListener("click", (event) => {
+    const flow = getFlowEls();
+    if (!flow.content) return;
+    const button = event.target.closest("button[data-flow-command]");
+    if (button) {
+      flow.content.focus();
+      document.execCommand(button.dataset.flowCommand, false, button.dataset.value || null);
+      return;
+    }
+    const btn = event.target.closest("button");
+    if (!btn) return;
+    if (btn.id === "flowLinkBtn") {
+      const url = prompt("أدخل الرابط:");
+      if (url) { flow.content.focus(); document.execCommand("createLink", false, url); }
+    } else if (btn.id === "flowVideoBtn") {
+      const url = prompt("أدخل رابط الفيديو (YouTube, Vimeo...):");
+      if (url) {
+        const iframe = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;"><iframe src="${url.replace("watch?v=","embed/")}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:8px;" allowfullscreen></iframe></div>`;
+        flow.content.focus(); document.execCommand("insertHTML", false, iframe);
+      }
+    } else if (btn.id === "flowTableBtn") {
+      const rows = prompt("عدد الصفوف:", "3"); const cols = prompt("عدد الأعمدة:", "3");
+      if (rows && cols) {
+        let t = '<table style="border-collapse:collapse;width:100%;margin:10px 0;">';
+        for(let r=0;r<parseInt(rows);r++){t+='<tr>';for(let c=0;c<parseInt(cols);c++){t+=`<td style="border:1px solid var(--line);padding:8px 12px;min-width:60px;">${r===0?'<b>عنوان</b>':'&nbsp;'}</td>`;}t+='</tr>';}
+        t+='</table>'; flow.content.focus(); document.execCommand("insertHTML", false, t);
+      }
+    } else if (btn.id === "flowHrBtn") {
+      flow.content.focus(); document.execCommand("insertHTML", false, '<hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">');
+    } else if (btn.id === "flowColorBtn") {
+      const color = prompt("أدخل لون النص:", "#e3007a");
+      if (color) { flow.content.focus(); document.execCommand("foreColor", false, color); }
+    } else if (btn.id === "flowMoreBtn") {
+      flow.content.focus(); document.execCommand("strikeThrough", false, null);
+    }
+  });
+  document.getElementById("flowImageInput")?.addEventListener("change", (event) => insertImageIntoFlow(event.target));
+  document.getElementById("featuredImageInput")?.addEventListener("change", (event) => insertImageIntoFlow(event.target, true));
+}
+
+bindPublicationFlowEvents();
+
+function selectedFlowLabels() {
+  return [...document.querySelectorAll("#flowLabels [data-label-chip]")].map((chip) => chip.dataset.labelChip);
+}
+
+function renderFlowLabels(labels = selectedFlowLabels()) {
+  const host = document.getElementById("flowLabels");
+  const unique = [...new Set(labels.length ? labels : ["ميزة جديدة"] )];
+  host.innerHTML = unique.map((label) => `<button class="chip ${chipClass(label)}" type="button" data-label-chip="${label}" title="Etiketi kaldir">${label} x</button>`).join("");
+}
+
+function toggleFlowLabel(label) {
+  const labels = selectedFlowLabels();
+  const exists = labels.includes(label);
+  const next = exists ? labels.filter((item) => item !== label) : [...labels, label];
+  renderFlowLabels(next.length ? next : ["ميزة جديدة"]);
+}
+
+function groupedNotesHtml(items) {
+  const groups = [
+    ["ميزة جديدة", "New Features", "feature"],
+    ["Improvement", "Improvements", "improvement"],
+    ["Fix", "Fixes / Bug Fixes", "fix"],
+  ];
+  return `<div class="release-section-list">${groups.map(([type, title, className]) => {
+    const rows = items.filter((item) => item.type === type);
+    if (!rows.length) return "";
+    return `<section class="release-section ${className}"><h3>${title}</h3>${rows.map((item) => `<div class="note-item"><span>${item.text}</span></div>`).join("")}</section>`;
+  }).join("")}</div>`;
+}
+
+function groupByType(items) {
+    // Hatayı çözmek ve butonun çalışmasını sağlamak için geçici grup fonksiyonu
+    return { "Sürüm Notları": items };
+}
+function renderTimeline() {
+
+  renderCategories();
+  const query = els.portalSearch.value.trim().toLowerCase();
+  const releases = state.data.releases
+    .filter((release) => release.status === "Published" || release.status === "منشور" || release.status === "Yayinlandi")
+    .filter((release) => state.portalCategory === "all" || release.items.some((item) => item.type === state.portalCategory))
+    .filter((release) => !query || [release.version, release.title, stripHtml(release.summary), ...release.items.map((item) => item.text)].join(" ").toLowerCase().includes(query))
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  // pn-feed-dynamic guncelle (her zaman)
+  const feed = document.getElementById("pn-feed-dynamic");
+  if (feed) {
+    if (!releases.length) {
+      feed.innerHTML = '<div class="empty-state" style="padding:40px;text-align:center;color:var(--muted);">Henüz yayınlanmış sürüm yok.</div>';
+    } else {
+      window._pnDynamicReleases = releases;
+      feed.innerHTML = releases.map((release, idx) => {
+        const visibleItems = state.portalCategory === "all" ? release.items : release.items.filter((item) => item.type === state.portalCategory);
+        const chips = [...new Set(visibleItems.map(i => i.type))].map(type => {
+          const cls = type === "ميزة جديدة" ? "pn-chip-new" : type === "Improvement" ? "pn-chip-improvement" : type === "Fix" ? "pn-chip-fix" : type === "Announcement" ? "pn-chip-announcement" : "pn-chip-maintenance";
+          return `<span class="pn-chip ${cls}">${type}</span>`;
+        }).join("");
+        const sectionsHtml = '';
+        return `<article class="pn-entry">
+          <a class="pn-back" href="#" onclick="return false;">← رجوع</a>
+          <div class="pn-entry-social">
+            <a href="#" class="pn-social-btn" title="Paylaş" onclick="return false;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+          </div>
+          <div class="pn-entry-main">
+            <h2 class="pn-entry-title" onclick="pnOpenDetailDynamic(${idx})" style="cursor:pointer;">${release.version} - ${release.title} <span class="pn-detail-link">عرض التفاصيل →</span></h2>
+            <div class="pn-entry-date">${formatDate(release.date)} · ${release.author || "Avs"} بواسطة</div>
+            <div class="pn-chips" style="margin-bottom:14px;">${chips}</div>
+            <div class="pn-entry-body">${release.summary}</div>
+            ${sectionsHtml}
+          </div>
+        </article>`;
+      }).join("");
+    }
+  }
+
+  // Gizli timeline (eski kod icin)
+  if (!state.data.settings.portalEnabled) { els.timeline.innerHTML = '<div class="empty-state">Portal su anda kapali.</div>'; return; }
+  if (!releases.length) { els.timeline.innerHTML = '<div class="empty-state">Yayinlanmis surum bulunamadi.</div>'; return; }
+  els.timeline.innerHTML = releases.map((release) => {
+    const visibleItems = state.portalCategory === "all" ? release.items : release.items.filter((item) => item.type === state.portalCategory);
+    return `<article class="timeline-entry"><time class="entry-time">${formatDate(release.date)}</time><div class="entry-content"><h2>${release.version} - ${release.title}</h2><p class="entry-meta">${release.author || "Avs"} tarafindan</p><div class="entry-body">${release.summary}</div><div class="chips">${[...new Set(visibleItems.map((item) => item.type))].map((type) => `<span class="chip ${chipClass(type)}">${type}</span>`).join("")}</div>${groupedNotesHtml(visibleItems)}</div></article>`;
+  }).join("");
+}
+
+function enhancePublicationFlowOverrides() {
+  const oldReset = resetPublicationFlow;
+  resetPublicationFlow = function () {
+    oldReset();
+    renderFlowLabels(["ميزة جديدة"]);
+    document.getElementById("labelMenu")?.classList.remove("open");
+    document.getElementById("moreToolsMenu")?.classList.remove("open");
+  };
+
+  savePublicationFlow = function () {
+    const flow = getFlowEls();
+    const title = flow.title.value.trim() || "بدون عنوان";
+    const contentHtml = flow.content.innerHTML.trim() || `<p>${flow.excerpt.value.trim() || "سيتم إضافة محتوى المنشور قريباً."}</p>`;
+    const excerpt = flow.excerpt.value.trim() || buildAutoExcerpt();
+    const labels = selectedFlowLabels();
+    const release = {
+      id: crypto.randomUUID(),
+      version: nextVersionNumber(),
+      title,
+      date: new Date().toISOString().slice(0, 10),
+      status: (typeof currentFlowStatus !== 'undefined' && currentFlowStatus === 'publish') ? "Published" : "Draft",
+      author: "Avs",
+      summary: contentHtml,
+      emailOnPublish: flow.email ? flow.email.checked : false,
+      items: labels.map((type) => ({ type, text: excerpt })),
+    };
+    state.data.releases.unshift(release);
+    state.flowDraft = release;
+    saveData();
+    saveReleaseToSupabase(release);
+    renderAll();
+    renderFlowSummary(release);
+    showPublicationStep(3);
+  };
+}
+
+enhancePublicationFlowOverrides();
+
+function bindFlowPolishEvents() {
+  document.getElementById("labelButton")?.addEventListener("click", () => document.getElementById("labelMenu").classList.toggle("open"));
+  document.getElementById("labelMenu")?.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-label]");
+    if (!button) return;
+    toggleFlowLabel(button.dataset.label);
+  });
+  document.getElementById("flowLabels")?.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-label-chip]");
+    if (!chip) return;
+    toggleFlowLabel(chip.dataset.labelChip);
+  });
+  document.getElementById("moreToolsButton")?.addEventListener("click", () => document.getElementById("moreToolsMenu").classList.toggle("open"));
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".label-picker")) document.getElementById("labelMenu")?.classList.remove("open");
+    if (!event.target.closest(".more-tools")) document.getElementById("moreToolsMenu")?.classList.remove("open");
+  });
+}
+
+bindFlowPolishEvents();
+
+
+</script><div id="goog-gt-tt" class="VIpgJd-yAWNEb-L7lbkb skiptranslate" style="border-radius: 12px; margin: 0 0 0 -23px; padding: 0; font-family: &#39;Google Sans&#39;, Arial, sans-serif;" data-id=""><div id="goog-gt-vt" class="VIpgJd-yAWNEb-hvhgNd"><div class="VIpgJd-yAWNEb-hvhgNd-Ud7fr"><img src="./Release Notes Platform_files/24px.svg" width="24" height="24" alt=""><div class=" VIpgJd-yAWNEb-hvhgNd-IuizWc-i3jM8c " dir="ltr">Orijinal metin</div></div><div class="VIpgJd-yAWNEb-hvhgNd-k77Iif"><div id="goog-gt-original-text" class="VIpgJd-yAWNEb-nVMfcd-fmcmS VIpgJd-yAWNEb-hvhgNd-axAV1"></div></div><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid ltr"><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid-B7I4Od ltr" dir="ltr"><div class="VIpgJd-yAWNEb-hvhgNd-UTujCb">Bu çeviriyi değerlendirin</div><div class="VIpgJd-yAWNEb-hvhgNd-eO9mKe">Geri bildiriminiz, Google Çeviri'yi iyileştirmek için kullanılacaktır</div></div><div class="VIpgJd-yAWNEb-hvhgNd-xgov5 ltr"><button id="goog-gt-thumbUpButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="İyi çeviri" aria-label="İyi çeviri" aria-pressed="false"><span id="goog-gt-thumbUpIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7H2v13h16c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM7 18H4V9h3v9zm14-7l-3 7H9V8l4.34-4.34L12 9h9v2z"></path></svg></span><span id="goog-gt-thumbUpIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7v13h11c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM5 7H1v13h4V7z"></path></svg></span></button><button id="goog-gt-thumbDownButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="Kötü çeviri" aria-label="Kötü çeviri" aria-pressed="false"><span id="goog-gt-thumbDownIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7h5V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zM17 6h3v9h-3V6zM3 13l3-7h9v10l-4.34 4.34L12 15H3v-2z"></path></svg></span><span id="goog-gt-thumbDownIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zm16 0h4V4h-4v13z"></path></svg></span></button></div></div><div id="goog-gt-votingHiddenPane" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><form id="goog-gt-votingForm" action="file://translate.googleapis.com/translate_voting?client=te_lib" method="post" target="votingFrame" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><input type="text" name="sl" id="goog-gt-votingInputSrcLang"><input type="text" name="tl" id="goog-gt-votingInputTrgLang"><input type="text" name="query" id="goog-gt-votingInputSrcText"><input type="text" name="gtrans" id="goog-gt-votingInputTrgText"><input type="text" name="vote" id="goog-gt-votingInputVote"></form><iframe name="votingFrame" frameborder="0" src="./Release Notes Platform_files/saved_resource.html"></iframe></div></div></div>
+  
+
+
+
+
+
+<!-- Portal Detay Modal -->
+<div id="pnDetailModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);overflow-y:auto;" onclick="if(event.target===this)pnCloseDetail()">
+  <div id="pnDetailBox" style="max-width:780px;margin:48px auto;background:var(--surface);border-radius:16px;padding:48px 52px;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <button onclick="pnCloseDetail()" style="position:absolute;top:18px;right:22px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);">✕</button>
+    <a href="#" onclick="pnCloseDetail();return false;" style="font-size:13px;color:var(--primary);text-decoration:none;display:inline-block;margin-bottom:18px;">← رجوع</a>
+    <div id="pnDetailContent"></div>
+  </div>
+</div>
+
+
+<script>
+// ===== DURUM SEÇİMİ =====
+function setFlowStatus(status) {
+  currentFlowStatus = status;
+  var dBtn = document.getElementById('chooseDraftBtn');
+  var pBtn = document.getElementById('choosePublishBtn');
+  var hint = document.getElementById('flowStatusHint');
+  if (status === 'draft') {
+    dBtn.className = ''; dBtn.style.cssText = 'flex:1;padding:12px;border-radius:10px;border:2px solid var(--primary);background:var(--primary);color:#fff;font-weight:700;font-size:14px;cursor:pointer;';
+    pBtn.className = ''; pBtn.style.cssText = 'flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:14px;cursor:pointer;';
+    hint.textContent = 'الآن: سيتم الحفظ كمسودة';
+  } else {
+    dBtn.className = ''; dBtn.style.cssText = 'flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:14px;cursor:pointer;';
+    pBtn.className = ''; pBtn.style.cssText = 'flex:1;padding:12px;border-radius:10px;border:2px solid #27b36a;background:#27b36a;color:#fff;font-weight:700;font-size:14px;cursor:pointer;';
+    hint.textContent = 'الآن: سيتم النشر فوراً ✅';
+  }
+}
+
+// groupByType yardimci fonksiyon
+function groupByType(items) {
+  return items.reduce((acc, item) => {
+    if (!acc[item.type]) acc[item.type] = [];
+    acc[item.type].push(item);
+    return acc;
+  }, {});
+}
+
+// Dinamik detay modal
+function pnOpenDetailDynamic(idx) {
+  var releases = window._pnDynamicReleases || [];
+  var e = releases[idx];
+  if (!e) return;
+  var visibleItems = e.items || [];
+  var chips = [...new Set(visibleItems.map(i => i.type))].map(type => {
+    var cls = type === "ميزة جديدة" ? "pn-chip-new" : type === "Improvement" ? "pn-chip-improvement" : type === "Fix" ? "pn-chip-fix" : type === "Announcement" ? "pn-chip-announcement" : "pn-chip-maintenance";
+    return '<span class="pn-chip ' + cls + '">' + type + '</span>';
+  }).join('');
+  var sections = groupByType(visibleItems);
+  var sectionsHtml = Object.entries(sections).map(function([type, items]) {
+    var icon = type === "ميزة جديدة" ? "🌙" : type === "Fix" ? "🔧" : type === "Improvement" ? "⚡" : type === "Announcement" ? "📢" : "🛠";
+    return '<div class="pn-section"><div class="pn-section-title">' + icon + ' ' + type + '</div><ul style="margin:0;padding:14px 18px 14px 32px;line-height:1.8;">' + items.map(function(i){return '<li style="margin-bottom:4px;font-size:14px;">' + i.text + '</li>';}).join('') + '</ul></div>';
+  }).join('');
+  document.getElementById('pnDetailContent').innerHTML =
+    '<h2 style="margin:0 0 6px;font-size:24px;font-weight:800;">' + e.version + ' - ' + e.title + '</h2>' +
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:6px;">' + (e.date || '') + '</div>' +
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:14px;">' + (e.author || 'Avs') + ' بواسطة</div>' +
+    '<div class="pn-chips" style="margin-bottom:18px;">' + chips + '</div>' +
+    '<div class="pn-entry-body" style="margin-bottom:16px;">' + (e.summary || '') + '</div>' +
+    sectionsHtml;
+  document.getElementById('pnDetailModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+// ===== PORTAL DETAY MODAL =====
+var pnEntries = [
+  {
+    title: "v1.2.0 - Karanlık Mod ve Performans İyileştirmeleri",
+    date: "25 Haziran 2026 saat 10:00",
+    author: "Avs بواسطة",
+    chips: ['<span class="pn-chip pn-chip-new">YENİ</span>','<span class="pn-chip pn-chip-improvement">İYİLEŞTİRME</span>'],
+    sections: [
+      { title: "🌙 Yeni Eklemeler", items: ["<strong>Karanlık mod</strong> tüm sayfalara eklendi.", "Profil sayfasına özelleştirme seçenekleri getirildi.", "Yeni bildirim merkezi eklendi."] },
+      { title: "⚡ Performans İyileştirmeleri", items: ["Sayfa yükleme süreleri <strong>%40</strong> azaltıldı.", "Mobil görünüm yeniden tasarlandı.", "Resim optimizasyonu iyileştirildi."] }
+    ]
+  },
+  {
+    title: "v1.1.0 - Gelişmiş Arama ve Bildirim Sistemi",
+    date: "20 Haziran 2026 saat 09:30",
+    author: "Avs بواسطة",
+    chips: ['<span class="pn-chip pn-chip-new">YENİ</span>','<span class="pn-chip pn-chip-fix">DÜZELTME</span>'],
+    sections: [
+      { title: "🔍 Yeni Özellikler", items: ["<strong>Gelişmiş arama</strong>: başlık, içerik ve etikete göre filtreleme.", "E-posta bildirim sistemi devreye alındı.", "Kategori filtreleme hızlandırıldı."] },
+      { title: "🔧 Hata Düzeltmeleri", items: ["Kategori filtresi yanlış sonuç veriyordu — düzeltildi.", "Geri tuşunun çalışmaması sorunu giderildi.", "Mobilde arama kutusu konumlandırma düzeltildi."] }
+    ]
+  },
+  {
+    title: "v1.0.0 - Başlangıç Sürümü 🎉",
+    date: "15 Haziran 2026 saat 08:00",
+    author: "Avs بواسطة",
+    chips: ['<span class="pn-chip pn-chip-new">YENİ</span>'],
+    sections: [
+      { title: "🚀 İlk Sürüm", items: ["Sürüm notları portalı yayına alındı.", "Yayın oluşturma, düzenleme ve arşivleme akışı hazırlandı.", "Kategori bazlı filtreleme ve arama eklendi.", "Karanlık / aydınlık tema desteği eklendi."] }
+    ]
+  }
+];
+
+function pnOpenDetail(idx) {
+  var e = pnEntries[idx];
+  var sectionsHtml = e.sections.map(function(s){
+    return '<div class="pn-section" style="margin-bottom:14px;"><div class="pn-section-title">'+s.title+'</div><ul style="margin:0;padding:14px 18px 14px 32px;line-height:1.8;">'+s.items.map(function(i){return '<li style="margin-bottom:4px;font-size:14px;">'+i+'</li>';}).join('')+'</ul></div>';
+  }).join('');
+  document.getElementById('pnDetailContent').innerHTML =
+    '<h2 style="margin:0 0 6px;font-size:24px;font-weight:800;">'+e.title+'</h2>'+
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:6px;">'+e.date+'</div>'+
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:14px;">'+e.author+'</div>'+
+    '<div class="pn-chips" style="margin-bottom:18px;">'+e.chips.join('')+'</div>'+
+    sectionsHtml;
+  document.getElementById('pnDetailModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function pnCloseDetail() {
+  document.getElementById('pnDetailModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') pnCloseDetail(); });
+
+// ===== قسم رأس الإدراج =====
+function insertSectionHeader(text) {
+  var editor = document.getElementById('flowContentEditor');
+  if (!editor) return;
+  editor.focus();
+  var div = document.createElement('div');
+  div.className = 'pn-section-header-block';
+  div.contentEditable = 'false';
+  div.textContent = text;
+  // paragraph after header so user can type
+  var p = document.createElement('p');
+  p.innerHTML = '<br>';
+  var sel = window.getSelection();
+  if (sel && sel.rangeCount) {
+    var range = sel.getRangeAt(0);
+    range.collapse(false);
+    range.insertNode(p);
+    range.insertNode(div);
+    // place cursor inside the paragraph
+    var newRange = document.createRange();
+    newRange.setStart(p, 0);
+    newRange.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(newRange);
+  } else {
+    editor.appendChild(div);
+    editor.appendChild(p);
+    var newRange = document.createRange();
+    newRange.setStart(p, 0);
+    newRange.collapse(true);
+    sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(newRange);
+  }
+  // إغلاق القائمة المنسدلة
+  document.getElementById('sectionHeaderBtn').closest('.section-header-picker').classList.remove('open');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.getElementById('sectionHeaderBtn');
+  if (btn) {
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      btn.closest('.section-header-picker').classList.toggle('open');
+    });
+  }
+  document.addEventListener('click', function(){
+    var p = document.querySelector('.section-header-picker');
+    if (p) p.classList.remove('open');
+  });
+});
+</script>
+
+</body></html>

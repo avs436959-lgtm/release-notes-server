@@ -1,0 +1,85 @@
+{
+  "releases": [
+    {
+      "id": "8643f709-1c9d-4a4f-9919-f5da1ae3abef",
+      "version": "v1.0.2",
+      "title": "Basliksiz",
+      "date": "2026-06-23",
+      "status": "Draft",
+      "author": "Avs",
+      "summary": "<p>Henuz icerik eklenmedi.</p>",
+      "emailOnPublish": false,
+      "items": [
+        {
+          "type": "New Feature",
+          "text": "Henuz icerik eklenmedi."
+        }
+      ]
+    },
+    {
+      "id": "ac0c0f1e-008d-4690-9835-0bbb7662105e",
+      "version": "v1.0.1",
+      "title": "Basliksiz",
+      "date": "2026-06-23",
+      "status": "Draft",
+      "author": "Avs",
+      "summary": "<p>Henuz icerik eklenmedi.</p>",
+      "emailOnPublish": false,
+      "items": [
+        {
+          "type": "New Feature",
+          "text": "Henuz icerik eklenmedi."
+        }
+      ]
+    },
+    {
+      "id": "6e7db40e-cfee-4597-a062-a1dfe3e3660d",
+      "version": "v1.1.0",
+      "title": "A Few Things You Should Know",
+      "date": "2026-06-22",
+      "status": "Draft",
+      "author": "Avs",
+      "summary": "<p>Bu surumde release notes deneyimini daha hizli, okunabilir ve yonetilebilir hale getiren yeni alanlar eklendi.</p>",
+      "emailOnPublish": false,
+      "items": [
+        {
+          "type": "New Feature",
+          "text": "Yeni surum olusturma ve yayinlama akisi hazirlandi."
+        },
+        {
+          "type": "Improvement",
+          "text": "Portal arama ve kategori filtreleme akisi iyilestirildi."
+        }
+      ]
+    },
+    {
+      "id": "80a12568-c14a-4721-b7e1-2d2d7fc436af",
+      "version": "v1.0.0",
+      "title": "We're Starting a Changelog",
+      "date": "2026-06-21",
+      "status": "Published",
+      "author": "Avs",
+      "summary": "<p>Bugun urun newspage alanini duyuruyoruz. Kullanicilar en yeni ozellikleri, iyilestirmeleri ve hata duzeltmelerini tek bir modern portaldan takip edebilir.</p>",
+      "emailOnPublish": false,
+      "items": [
+        {
+          "type": "New Feature",
+          "text": "Surum notlari portali yayina alindi."
+        },
+        {
+          "type": "Fix",
+          "text": "Yayinlanan surumlerin portal zaman cizelgesinde duzgun siralanmasi saglandi."
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "portalEnabled": true,
+    "emailEnabled": false,
+    "basicDomain": "aous",
+    "customDomain": "",
+    "portalTitle": "aous Guncellemeleri",
+    "portalSubtitle": "aouspython.com",
+    "theme": "light"
+  }
+}

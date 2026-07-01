@@ -164,7 +164,7 @@ def find_available_port(start: int) -> int:
 def main() -> None:
     with connect_db():
         pass  # tabloyu olustur
-    port = find_available_port(DEFAULT_PORT)
+    port = find_available_port(PORT)
     url = f"http://{HOST}:{port}/"
     httpd = ThreadingHTTPServer((HOST, port), ReleaseNotesHandler)
     print(f"\nRelease Notes Platform")
